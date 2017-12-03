@@ -11,6 +11,7 @@ paypal.configure({
   client_secret:
     "EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM"
 });
+var serverUrl = 'https://expresscheckout-demo.herokuapp.com/'
 
 var create_payment_json = {
   intent: "sale",
@@ -18,8 +19,8 @@ var create_payment_json = {
     payment_method: "paypal"
   },
   redirect_urls: {
-    return_url: "http://localhost:3000/api/success",
-    cancel_url: "http://localhost:3000/api/cancel"
+    return_url: serverUrl+"/api/success",
+    cancel_url: serverUrl+"/api/cancel"
   },
   transactions: [
     {
