@@ -1,0 +1,113 @@
+<div id='editor'></div>
+
+          <script>
+            var editor = ace.edit('editor');
+            editor.setTheme("ace/theme/monokai");
+            editor.getSession().setMode('ace/mode/html');
+            editor.setShowPrintMargin(false);
+            editor.setValue(stripIndent(code()),-1);
+            editor.clearSelection();
+            editor.moveCursorTo(0,0);
+            editor.setReadOnly(true);
+            function stripIndent(str) {
+                var match = str.match(/^[ \t]*(?=\S)/gm);
+            
+                if (!match) {
+                    return str;
+                }
+            
+                var indent = Math.min.apply(Math, match.map(function (x) {
+                    return x.length;
+                })); // eslint-disable-line
+                var re = new RegExp('^[ \\t]{' + indent + '}', 'gm');
+            
+                return indent > 0 ? str.replace(re, '') : str;
+            }
+            function code() {
+                return   "<script src=\"https://www.paypalobjects.com/api/checkout.js\"><\/script>\r\n" +
+                "<!-- Render the radio fields and button containers -->\r\n" +
+                "<label>\r\n" +
+                "    <input type=\"radio\" name=\"payment-option\" value=\"paypal\" checked>\r\n" +
+                "    <img src=\"/demo/checkout/static/img/paypal-mark.jpg\" alt=\"Pay with Paypal\">\r\n" +
+                "</label>\r\n" +
+                "<label>\r\n" +
+                "    <input type=\"radio\" name=\"payment-option\" value=\"card\">\r\n" +
+                "    <img src=\"/demo/checkout/static/img/card-mark.png\" alt=\"Accepting Visa, Mastercard, Discover and American Express\">\r\n" +
+                "</label>\r\n" +
+                "<div id=\"paypal-button-container\"></div>\r\n" +
+                "<div id=\"card-button-container\" style=\"display:'none'\"><button>Continue</button></div>\r\n" +
+                "<script>\r\n" +
+                "    // Helper functions\r\n" +
+                "    function getElements(el) {\r\n" +
+                "        return Array.prototype.slice.call(document.querySelectorAll(el));\r\n" +
+                "    }\r\n" +
+                "    function hideElement(el) {\r\n" +
+                "        document.body.querySelector(el).style.display = 'none';\r\n" +
+                "    }\r\n" +
+                "    function showElement(el) {\r\n" +
+                "        document.body.querySelector(el).style.display = 'block';\r\n" +
+                "    }\r\n" +
+                "    // Listen for changes to the radio fields\r\n" +
+                "    getElements('input[name=payment-option]').forEach(function(el) {\r\n" +
+                "        el.addEventListener('change', function(event) {\r\n" +
+                "            // If PayPal is selected, show the PayPal button\r\n" +
+                "            if (event.target.value === 'paypal') {\r\n" +
+                "                hideElement('#card-button-container');\r\n" +
+                "                showElement('#paypal-button-container');\r\n" +
+                "            }\r\n" +
+                "            // If Card is selected, show the standard continue button\r\n" +
+                "            if (event.target.value === 'card') {\r\n" +
+                "                showElement('#card-button-container');\r\n" +
+                "                hideElement('#paypal-button-container');\r\n" +
+                "            }\r\n" +
+                "        });\r\n" +
+                "    });\r\n" +
+                "    // Hide Non-PayPal button by default\r\n" +
+                "    hideElement('#card-button-container');\r\n" +
+                "    // Render the PayPal button\r\n" +
+                "    paypal.Button.render({\r\n" +
+                "        // Set your environment\r\n" +
+                "        env: 'sandbox', // sandbox | production\r\n" +
+                "        // Specify the style of the button\r\n" +
+                "       "+  loadStyles()+
+                "        // PayPal Client IDs - replace with your own\r\n" +
+                "        // Create a PayPal app: https://developer.paypal.com/developer/applications/create\r\n" +
+                "        client: {\r\n" +
+                "            sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',\r\n" +
+                "            production: '<insert production client id>'\r\n" +
+                "        },\r\n" +
+                "        // Wait for the PayPal button to be clicked\r\n" +
+                "        payment: function(data, actions) {\r\n" +
+                "            return actions.payment.create({\r\n" +
+                "                payment: {\r\n" +
+                "                    transactions: [\r\n" +
+                "                        {\r\n" +
+                "                            amount: { total: '0.01', currency: 'USD' }\r\n" +
+                "                        }\r\n" +
+                "                    ]\r\n" +
+                "                }\r\n" +
+                "            });\r\n" +
+                "        },\r\n" +
+                "        onAuthorize: function(data, actions) {\r\n" +
+                "            return actions.payment.execute().then(function() {\r\n" +
+                "                window.alert('Payment Complete!');\r\n" +
+                "            });\r\n" +
+                "        }\r\n" +
+                "    }, '#paypal-button-container');\r\n" +
+                "<\/script>\r\n";
+            }
+
+
+         function loadStyles(){
+
+            var obj = checkoutObj.style;
+
+            var finalStr = " style: {\r\n" ;
+            var keys = Object.keys(obj);
+            for (let x of Object.keys(checkoutObj.style)) {
+               finalStr+= "            "+ x+":"+ "'"+checkoutObj.style[x]+"',\r\n";
+            }
+            finalStr+="        },\r\n";
+            return finalStr;
+         }   
+        </script>

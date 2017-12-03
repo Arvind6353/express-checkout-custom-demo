@@ -1,0 +1,19 @@
+<% include partials/header.ejs %>
+
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+    </div>
+    <div class="col-sm-8 text-left" style="margin-top:50px"> 
+    <h3>Payment Details : </h3><br/>
+     <ul class="list-group">
+        <li class="list-group-item">Payment ID : <%= res.id %></li>
+        <li class="list-group-item">Payment Method : <%=  res.payer.payment_method %></li>
+        <li class="list-group-item">Payment State : <%=  res.state %></li>
+        <li class="list-group-item">Payer Name : <%=  res.payer.payer_info.first_name%>  <%= res.payer.payer_info.last_name %></li>
+        <li class="list-group-item">Payer Email : <%=  res.payer.payer_info.email %></li>
+        <li class="list-group-item">Amount Paid : <%=  res.transactions[0].amount.total %> <%=res.transactions[0].amount.currency %></li>
+     </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<% include partials/header.ejs %>
+
+    <div class="container-fluid ">
+        
+        <div class="row">
+            <div class="col-lg-7 col-md-4 col-sm-12 portfolio-item c1 text-center">
+                    <% include partials/customizeform.ejs %>
+            </div>
+
+            <div class="col-lg-5 col-md-3 col-sm-12 portfolio-item c1 text-center">
+                <div id="column-middle1" style="margin-top:14.5%;height:100%">
+                    <legend>View the checkout experience</legend>
+                    
+                    <div class="alert alert-info">
+                            <strong>Experience Client Checkout Flow</strong>
+                    </div>
+                    
+                    <div class="row" style="margin-top:10%">
+                        <div id="paypal-button-container"></div>
+                        <br/>
+                        <div id="paypal-button-container-err"></div>
+                        <button type="button" class="btn btn-primary btn-md openBtn"  id="viewSC">View Source Code</button>
+                    </div>
+
+                </div>
+            </div>
+
+         <script>
+                $(document).ready(function(){
+                $('.openBtn').on('click',function(){
+                    $('.modal-body').load('client/editor/experience.html',function(){
+                        $('#myModal').modal({show:true});
+                    });
+                });
+            })
+        </script>   
+            
+        </div> <!-- end of row -->
+        <% include partials/sourcecode.ejs %>
+        
+    </div> <!-- end of container -->
+<script>
+    function createCheckoutExp(chkObj){
+
+      var obj = {
+            payment: function (data, actions) {
+                document.getElementById("paypal-button-container-err").innerHTML = "";
+                return actions.payment.create({
+                    payment: {
+                        transactions: [{
+                            amount: {
+                                total: '0.01',
+                                currency: 'USD'
+                            }
+                        }]
+                    },
+                    experience: {
+                        input_fields: {
+                            no_shipping: 1
+                        },
+                        presentation: {
+                            brand_name: 'Custom Brand'
+                        }
+                    }
+                });
+            },
+    
+            onAuthorize: function (data, actions) {
+                return actions.payment.execute().then(function () {
+                    window.alert('Payment Complete!');
+                });
+            },
+            onCancel: function () {
+                window.alert("You have cancelled");
+                return;
+            },
+            onError: function (err) {
+                $("#viewSC").hide();
+                document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>" +
+                    err + "</p>";
+            }
+        };
+    
+        paypal.Button.render(Object.assign({}, obj, chkObj), '#paypal-button-container');
+    
+        console.error = function () {
+            $("#viewSC").hide();
+            document.getElementById("paypal-button-container").innerHTML += "<p style='color:red'>" +
+                arguments[1].stack + "</p>";
+            return false;
+        }
+    }
+</script>
+    <script src="/javascripts/formhandling.js"></script>
+    </body>
+
+    </html>

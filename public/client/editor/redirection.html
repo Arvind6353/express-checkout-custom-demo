@@ -1,0 +1,87 @@
+<div id='editor'></div>
+
+          <script>
+            var editor = ace.edit('editor');
+            editor.setTheme("ace/theme/monokai");
+            editor.getSession().setMode('ace/mode/html');
+            editor.setShowPrintMargin(false);
+            editor.setValue(stripIndent(code()),-1);
+            editor.clearSelection();
+            editor.moveCursorTo(0,0);
+            editor.setReadOnly(true);
+            function stripIndent(str) {
+                var match = str.match(/^[ \t]*(?=\S)/gm);
+            
+                if (!match) {
+                    return str;
+                }
+            
+                var indent = Math.min.apply(Math, match.map(function (x) {
+                    return x.length;
+                })); // eslint-disable-line
+                var re = new RegExp('^[ \\t]{' + indent + '}', 'gm');
+            
+                return indent > 0 ? str.replace(re, '') : str;
+            }
+            function code() {
+                return   "<script src=\"https://www.paypalobjects.com/api/checkout.js\"><\/script>\r\n" +
+                "<div id=\"paypal-button-container\"></div>\r\n" +
+                "<\script>\r\n" +
+                "    // Render the PayPal button\r\n" +
+                "    paypal.Button.render({\r\n" +
+                "        // Set your environment\r\n" +
+                "        env: 'sandbox', // sandbox | production\r\n" +
+                "        // Specify the style of the button\r\n" +
+                "       "+  loadStyles()+
+                "        // PayPal Client IDs - replace with your own\r\n" +
+                "        // Create a PayPal app: https://developer.paypal.com/developer/applications/create\r\n" +
+                "        client: {\r\n" +
+                "            sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',\r\n" +
+                "            production: '<insert production client id>'\r\n" +
+                "        },\r\n" +
+                "        // Wait for the PayPal button to be clicked\r\n" +
+                "        payment: function(data, actions) {\r\n" +
+                "            return actions.payment.create({\r\n" +
+                "                payment: {\r\n" +
+                "                    transactions: [\r\n" +
+                "                        {\r\n" +
+                "                            amount: { total: '0.01', currency: 'USD' }\r\n" +
+                "                        }\r\n" +
+                "                    ],\r\n" +
+                "                    redirect_urls: {\r\n" +
+                "                       return_url: \"http://localhost:3000/api/paymentDetails\",\r\n" +
+                "                       cancel_url: \"http://localhost:3000/cancel\"\r\n" +
+                "                    }\r\n" +
+                "                }\r\n" +
+                "            });\r\n" +
+                "        },\r\n" +
+                "        // Wait for the payment to be authorized by the customer\r\n" +
+                "        onAuthorize: function(data, actions) {\r\n" +
+                "            // redirect to the return url to get payment details and display them\r\n"+
+                "            return actions.payment.execute().then(function() {\r\n" +
+                "                actions.redirect()\r\n" +
+                "            });\r\n" +
+                "        },\r\n" +
+                "        onClose: function(data, actions) {\r\n" +
+                "            //redirect to the cancel page\r\n"+
+                "            return actions.redirect()\r\n"+
+                "        }\r\n\r\n" +
+                "    }, '#paypal-button-container');\r\n" +
+                "<\/script>\r\n" +
+                "    \r\n";
+            }
+
+
+         function loadStyles(){
+
+            var obj = checkoutObj.style;
+
+            var finalStr = " style: {\r\n" ;
+            var keys = Object.keys(obj);
+            for (let x of Object.keys(checkoutObj.style)) {
+               finalStr+= "            "+ x+":"+ "'"+checkoutObj.style[x]+"',\r\n";
+            }
+            finalStr+="        },\r\n";
+            return finalStr;
+         }   
+        </script>

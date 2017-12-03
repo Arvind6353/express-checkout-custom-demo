@@ -1,0 +1,83 @@
+<div id='editor'></div>
+
+          <script>
+            var editor = ace.edit('editor');
+            editor.setTheme("ace/theme/monokai");
+            editor.getSession().setMode('ace/mode/html');
+            editor.setShowPrintMargin(false);
+            editor.setValue(stripIndent(code()),-1);
+            editor.clearSelection();
+            editor.moveCursorTo(0,0);
+            editor.setReadOnly(true);
+            function stripIndent(str) {
+                var match = str.match(/^[ \t]*(?=\S)/gm);
+            
+                if (!match) {
+                    return str;
+                }
+            
+                var indent = Math.min.apply(Math, match.map(function (x) {
+                    return x.length;
+                })); // eslint-disable-line
+                var re = new RegExp('^[ \\t]{' + indent + '}', 'gm');
+            
+                return indent > 0 ? str.replace(re, '') : str;
+            }
+            function code() {
+                return   "<script src=\"https://www.paypalobjects.com/api/checkout.js\"><\/script>\r\n" +
+                "<div id=\"paypal-button-container\"></div>\r\n" +
+                "<script>\r\n" +
+                "    const CREATE_PAYMENT_URL = \"/api/server/payment\"\r\n" +
+                "    const EXECUTE_PAYMENT_URL = \"/api/server/payment-execute\"\r\n" +
+                "    // Render the PayPal button\r\n" +
+                "    paypal.Button.render({\r\n" +
+                "        // Set your environment\r\n" +
+                "        env: 'sandbox', // sandbox | production\r\n" +
+                "        // Specify the style of the button\r\n" +
+                "       "+  loadStyles()+
+                "        // PayPal Client IDs - replace with your own\r\n" +
+                "        // Create a PayPal app: https://developer.paypal.com/developer/applications/create\r\n" +
+                "        client: {\r\n" +
+                "            sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',\r\n" +
+                "            production: '<insert production client id>'\r\n" +
+                "        },\r\n" +
+                "        payment: function (data, actions) {\r\n" +
+                "            // call server to create payment\r\n" +
+                "            return paypal.request.post(CREATE_PAYMENT_URL).then(function(data) {\r\n" +
+                "                return data.id;\r\n" +
+                "            });\r\n" +
+                "        },    \r\n" +
+                "    \r\n" +
+                "        onAuthorize: function (data, actions) {\r\n" +
+                "            // call server to execute payment\r\n" +
+                "            return paypal.request.post(EXECUTE_PAYMENT_URL, {\r\n" +
+                "                paymentID: data.paymentID,\r\n" +
+                "                payerID:   data.payerID\r\n" +
+                "            }).then(function(payment) {\r\n" +
+                "                window.alert(\"Payment is Complete and Payment Id : \" +payment.id);\r\n" +
+                "            });\r\n" +
+                "        },\r\n" +
+                "    \r\n" +
+                "        onCancel: function () {\r\n" +
+                "            window.alert(\"You have cancelled\");\r\n" +
+                "            return;\r\n" +
+                "        }\r\n" +
+                "    }, '#paypal-button-container');\r\n" +
+                "<\/script>\r\n" +
+                "    \r\n";
+            }
+
+
+         function loadStyles(){
+
+            var obj = checkoutObj.style;
+
+            var finalStr = " style: {\r\n" ;
+            var keys = Object.keys(obj);
+            for (let x of Object.keys(checkoutObj.style)) {
+               finalStr+= "            "+ x+":"+ "'"+checkoutObj.style[x]+"',\r\n";
+            }
+            finalStr+="        },\r\n";
+            return finalStr;
+         }   
+        </script>

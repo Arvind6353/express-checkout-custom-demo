@@ -1,0 +1,73 @@
+<div id='editor'></div>
+
+          <script>
+            var editor = ace.edit('editor');
+            editor.setTheme("ace/theme/monokai");
+            editor.getSession().setMode('ace/mode/html');
+            editor.setShowPrintMargin(false);
+            editor.setValue(stripIndent(code()),-1);
+            editor.clearSelection();
+            editor.moveCursorTo(0,0);
+            editor.setReadOnly(true);
+            function stripIndent(str) {
+                var match = str.match(/^[ \t]*(?=\S)/gm);
+            
+                if (!match) {
+                    return str;
+                }
+            
+                var indent = Math.min.apply(Math, match.map(function (x) {
+                    return x.length;
+                })); // eslint-disable-line
+                var re = new RegExp('^[ \\t]{' + indent + '}', 'gm');
+            
+                return indent > 0 ? str.replace(re, '') : str;
+            }
+            function code() {
+                return   "<script src=\"https://www.paypalobjects.com/api/checkout.js\"><\/script>\r\n" +
+                "<div id=\"paypal-button-container\"></div>\r\n" +
+                "<script>\r\n" +
+                "    // Render the PayPal button\r\n" +
+                "    \r\n" +
+                "    var CREATE_PAYMENT_URL = \"/api/server/redirectpayment\"\r\n" +
+                "    paypal.Button.render({\r\n" +
+            "            env: 'sandbox', // sandbox | production\r\n" +
+            "            // Specify the style of the button\r\n" +
+            "            "+  loadStyles() +
+            "            // PayPal Client IDs - replace with your own\r\n" +
+            "            // Create a PayPal app: https://developer.paypal.com/developer/applications/create\r\n" +
+            "            client: {\r\n" +
+            "               sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',\r\n" +
+            "               production: '<insert production client id>'\r\n" +
+            "            },\r\n" +
+            "            validate: function (actions) { \r\n"+
+            "              actions.disable(); \r\n"+
+            "            },\r\n"+
+            "            onClick: function () {\r\n"+
+            "               // call server to create payment \r\n"+
+            "               window.location.href = CREATE_PAYMENT_URL\r\n"+
+            "            },\r\n"+
+            "            // payment() is called when the button is clicked\r\n" +
+            "            payment: function (data, actions) {\r\n" +
+            "            },    \r\n" +
+            "            onAuthorize: function (data, actions) {\r\n" +
+            "            }\r\n" +
+            "        }, '#paypal-button-container');\r\n" +
+            "        <\/script>\r\n";
+                        
+            }
+
+
+         function loadStyles(){
+
+            var obj = checkoutObj.style;
+
+            var finalStr = "style: {\r\n" ;
+            var keys = Object.keys(obj);
+            for (let x of Object.keys(checkoutObj.style)) {
+               finalStr+= "              "+ x+":"+ "'"+checkoutObj.style[x]+"',\r\n";
+            }
+            finalStr+="            },\r\n";
+            return finalStr;
+         }   
+        </script>

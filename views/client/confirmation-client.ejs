@@ -1,0 +1,142 @@
+<% include partials/header.ejs %>
+
+    <div class="container-fluid ">
+        
+        <div class="row">
+            <div class="col-lg-7 col-md-4 col-sm-12 portfolio-item c1 text-center">
+                    <% include partials/customizeform.ejs %>
+            </div>
+
+            <div class="col-lg-5 col-md-3 col-sm-12 portfolio-item c1 text-center">
+                <div id="column-middle1" style="margin-top:14.5%;height:100%">
+                    <legend>View the checkout experience</legend>
+                    <div class="alert alert-info">
+                            <strong>Confirmation Client Checkout Flow</strong>
+                    </div>
+                    <div class="row" style="margin-top:10%">
+                        <div id="paypal-button-container"></div>
+                        <br/>
+                        <div id="paypal-button-container-err"></div>
+
+                        <div id="confirm" style="display:none">
+                                <div>Ship to:</div>
+                                <div><span id="recipient"></span>, <span id="line1"></span>, <span id="city"></span></div>
+                                <div><span id="state"></span>, <span id="zip"></span>, <span id="country"></span></div>
+                            
+                                <button id="confirmButton">Complete Payment</button>
+                        </div>
+
+                        <div id="thanks" style="display:none">
+                                Thanks, <span id="thanksname"></span>!
+                        </div>
+                            
+                        <br/>
+
+                        <button type="button" class="btn btn-primary btn-md openBtn"  id="viewSC">View Source Code</button>
+                    </div>
+
+                </div>
+            </div>
+
+         <script>
+                $(document).ready(function(){
+                $('.openBtn').on('click',function(){
+                    $('.modal-body').load('client/editor/confirmation.html',function(){
+                        $('#myModal').modal({show:true});
+                    });
+                });
+            })
+        </script>   
+            
+        </div> <!-- end of row -->
+        <% include partials/sourcecode.ejs %>
+        
+    </div> <!-- end of container -->
+<script>
+    function createCheckoutExp(chkObj){
+
+      var obj = {
+            payment: function (data, actions) {
+                document.getElementById("paypal-button-container-err").innerHTML = "";
+                return actions.payment.create({
+                    payment: {
+                        transactions: [{
+                            amount: {
+                                total: '0.01',
+                                currency: 'USD'
+                            }
+                        }]
+                    }
+                });
+            },
+    
+            onAuthorize: function (data, actions) {
+              
+                return actions.payment.get().then(function(data) {
+        
+                    // Display the payment details and a confirmation button
+    
+                    var shipping = data.payer.payer_info.shipping_address;
+    
+                    document.querySelector('#recipient').innerText = shipping.recipient_name;
+                    document.querySelector('#line1').innerText     = shipping.line1;
+                    document.querySelector('#city').innerText      = shipping.city;
+                    document.querySelector('#state').innerText     = shipping.state;
+                    document.querySelector('#zip').innerText       = shipping.postal_code;
+                    document.querySelector('#country').innerText   = shipping.country_code;
+    
+                    document.querySelector('#paypal-button-container').style.display = 'none';
+                    document.querySelector('#confirm').style.display = 'block';
+    
+                    // Listen for click on confirm button
+    
+                    document.querySelector('#confirmButton').addEventListener('click', function() {
+    
+                        // Disable the button and show a loading message
+    
+                        document.querySelector('#confirm').innerText = 'Loading...';
+                        //document.querySelector('#confirm').disabled = true;
+    
+                        // Execute the payment
+    
+                        return actions.payment.execute().then(function() {
+    
+                            // Show a thank-you note
+                            document.querySelector('#thanksname').innerText = shipping.recipient_name;
+    
+                            document.querySelector('#confirm').style.display = 'none';
+                            document.querySelector('#thanks').style.display = 'block';
+                            setTimeout(()=>{
+                                document.querySelector('#paypal-button-container').style.display = 'block';
+                                document.querySelector('#thanks').style.display = 'none';
+                            },2000);
+                            
+                        });
+                    });
+                });
+            },
+            onCancel: function () {
+                window.alert("You have cancelled");
+                return;
+            },
+            onError: function (err) {
+                $("#viewSC").hide();
+                document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>" +
+                    err + "</p>";
+            }
+        };
+    
+        paypal.Button.render(Object.assign({}, obj, chkObj), '#paypal-button-container');
+    
+        console.error = function () {
+            $("#viewSC").hide();
+            document.getElementById("paypal-button-container").innerHTML += "<p style='color:red'>" +
+                arguments[1].stack + "</p>";
+            return false;
+        }
+    }
+</script>
+    <script src="/javascripts/formhandling.js"></script>
+    </body>
+
+    </html>

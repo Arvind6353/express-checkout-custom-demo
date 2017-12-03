@@ -1,0 +1,150 @@
+<div id="column-left1">
+        <form class="form-horizontal" method="post" style="margin-top:10%" onchange="customizeCheckout()">
+            <fieldset>
+                <legend>Customize Checkout Experience</legend>
+
+                <!-- Form Name -->
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Client Id</label>
+                    <div class="col-md-6">
+                        <input value="AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v" id="clientId" name="clientId"
+                            type="text" placeholder="Enter Client Id" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Select Basic -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="environment">Environment</label>
+                    <div class="col-md-6">
+                        <select id="environment" name="environment" class="form-control">
+                            <option value="sandbox">Sandbox</option>
+                            <option value="production">Production</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Select Basic -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="layout">Layout</label>
+                    <div class="col-md-6">
+                        <select id="layout" name="label" class="form-control" onChange="layoutChange()">
+                            <option value="horizontal">Horizontal</option>
+                            <option value="vertical">Vertical</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Select Basic -->
+                <div class="form-group" id="typeElem">
+                    <label class="col-md-4 control-label" for="label">Type</label>
+                    <div class="col-md-6">
+                        <select id="type" name="label" class="form-control" onchange="typeChange()">
+                            <option value="checkout">Checkout</option>
+                            <option value="credit">Credit</option>
+                            <option value="pay">Pay</option>
+                            <option value="buynow">Buy Now</option>
+                            <option value="paypal">Paypal</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Select Basic -->
+                <div class="form-group" id="sizeElem">
+                    <label class="col-md-4 control-label" for="size">Size</label>
+                    <div class="col-md-6">
+                        <select id="size" name="size" class="form-control">
+                            <option value="small">Small</option>
+                            <option value="medium">Medium</option>
+                            <option value="large">Large</option>
+                            <option value="responsive">Responsive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Select Basic -->
+                <div class="form-group" id="shapeElem">
+                    <label class="col-md-4 control-label" for="shape">Shape</label>
+                    <div class="col-md-6">
+                        <select id="shape" name="shape" class="form-control">
+                            <option value="pill">Pill</option>
+                            <option value="rect">Rectangle</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Select Basic -->
+                <div class="form-group" id="colorElem">
+                    <label class="col-md-4 control-label" for="color">Color</label>
+                    <div class="col-md-6">
+                        <select id="color" name="color" class="form-control">
+                            <option value="gold">Gold</option>
+                            <option value="blue">Blue</option>
+                            <option value="silver">Silver</option>
+                            <option value="black">Black</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Select Basic -->
+                <div class="form-group" id="maxButtonsElem">
+                        <label class="col-md-4 control-label" for="maxbuttons">Max no of Buttons</label>
+                        <div class="col-md-6">
+                            <select id="maxbuttons" name="maxbuttons" class="form-control">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                </div>
+
+                <!-- Toggle Switch -->
+                <div class="form-group" id="brandingElem">
+                    <label class="col-md-4 control-label" for="branding">Branding</label>
+                    <div class="col-md-6 btn-group btn-toggle alignLeft" data-toggle="buttons">
+                        <label class="btn btn-sm btn-primary active">
+                            <input type="radio" id="option-0" name="branding" value="true" checked="checked">Yes</label>
+                        <label class="btn btn-sm btn-default">
+                            <input type="radio" id="option-1" name="branding" value="false">No</label>
+                    </div>
+                </div>
+
+                <!-- Toggle Switch -->
+                <div class="form-group" id="fundingiconsElem">
+                    <label class="col-md-4 control-label" for="fundingicons">Funding Icons</label>
+                    <div class="col-md-6 btn-group btn-toggle alignLeft" data-toggle="buttons">
+                        <label class="btn btn-sm btn-default">
+                            <input type="radio" id="option-0" name="fundingicons" value="true">Yes</label>
+                        <label class="btn btn-sm btn-primary active">
+                            <input type="radio" id="option-1" name="fundingicons" value="false" checked="checked">No</label>
+                    </div>
+                </div>
+
+
+                <!-- Toggle Switch -->
+                <div class="form-group" id="taglineElem">
+                    <label class="col-md-4 control-label" for="tagline">Tagline</label>
+                    <div class="col-md-6 btn-group btn-toggle alignLeft" data-toggle="buttons">
+                        <label class="btn btn-sm btn-primary active">
+                            <input type="radio" id="option-0" name="tagline" value="true" checked="checked">Yes</label>
+                        <label class="btn btn-sm btn-default">
+                            <input type="radio" id="option-1" name="tagline" value="false">No</label>
+                    </div>
+                </div>
+                
+                <br/>
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="create"></label>
+                    <div class="col-md-4">
+                        <button type="button" id="create" onclick="customizeCheckout()" name="create" class="btn btn-success">Customize Checkout</button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
+    </div>

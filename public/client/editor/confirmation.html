@@ -1,0 +1,108 @@
+<div id='editor'></div>
+          <script>
+            var editor = ace.edit('editor');
+            editor.setTheme("ace/theme/monokai");
+            editor.getSession().setMode('ace/mode/html');
+            editor.setShowPrintMargin(false);
+            editor.setValue(stripIndent(code()),-1);
+            editor.clearSelection();
+            editor.moveCursorTo(0,0);
+            editor.setReadOnly(true);
+            function stripIndent(str) {
+                var match = str.match(/^[ \t]*(?=\S)/gm);
+            
+                if (!match) {
+                    return str;
+                }
+            
+                var indent = Math.min.apply(Math, match.map(function (x) {
+                    return x.length;
+                })); // eslint-disable-line
+                var re = new RegExp('^[ \\t]{' + indent + '}', 'gm');
+            
+                return indent > 0 ? str.replace(re, '') : str;
+            }
+            function code() {
+                return   "<script src=\"https://www.paypalobjects.com/api/checkout.js\"><\/script>\r\n\r\n" +
+                "<div id=\"paypal-button-container\"></div>\r\n\r\n" +
+                "// Show confirmation details to the user and get confirmation to complete the payment\r\n" +
+                "<div id=\"confirm\" class=\"hidden\">\r\n" +
+                "    <div>Ship to:</div>\r\n" +
+                "    <div><span id=\"recipient\"></span>, <span id=\"line1\"></span>, <span id=\"city\"></span></div>\r\n" +
+                "    <div><span id=\"state\"></span>, <span id=\"zip\"></span>, <span id=\"country\"></span></div>\r\n" +
+                "    <button id=\"confirmButton\">Complete Payment</button>\r\n" +
+                "</div>\r\n\r\n" +
+                "// Handle final success response\r\n" +
+                "<div id=\"thanks\" class=\"hidden\">\r\n" +
+                "    Thanks, <span id=\"thanksname\"></span>!\r\n" +
+                "</div>\r\n\r\n" +
+                "<script>\r\n" +
+                "    paypal.Button.render({\r\n" +
+                "        env: 'sandbox', // sandbox | production\r\n" +
+                "        // Specify the style of the button\r\n" +
+                "       "+  loadStyles()+
+                "        // PayPal Client IDs - replace with your own\r\n" +
+                "        // Create a PayPal app: https://developer.paypal.com/developer/applications/create\r\n" +
+                "        client: {\r\n" +
+                "            sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',\r\n" +
+                "            production: '<insert production client id>'\r\n" +
+                "        },\r\n" +
+                "        payment: function(data, actions) {\r\n" +
+                "            return actions.payment.create({\r\n" +
+                "                payment: {\r\n" +
+                "                    transactions: [\r\n" +
+                "                        {\r\n" +
+                "                            amount: { total: '0.01', currency: 'USD' }\r\n" +
+                "                        }\r\n" +
+                "                    ]\r\n" +
+                "                }\r\n" +
+                "            });\r\n" +
+                "        },\r\n" +
+                "        // Wait for the payment to be authorized by the customer\r\n" +
+                "        onAuthorize: function(data, actions) {\r\n" +
+                "            // Get the payment details\r\n" +
+                "            return actions.payment.get().then(function(data) {\r\n" +
+                "                // Display the payment details and a confirmation button\r\n" +
+                "                var shipping = data.payer.payer_info.shipping_address;\r\n" +
+                "                document.querySelector('#recipient').innerText = shipping.recipient_name;\r\n" +
+                "                document.querySelector('#line1').innerText     = shipping.line1;\r\n" +
+                "                document.querySelector('#city').innerText      = shipping.city;\r\n" +
+                "                document.querySelector('#state').innerText     = shipping.state;\r\n" +
+                "                document.querySelector('#zip').innerText       = shipping.postal_code;\r\n" +
+                "                document.querySelector('#country').innerText   = shipping.country_code;\r\n" +
+                "                document.querySelector('#paypal-button-container').style.display = 'none';\r\n" +
+                "                document.querySelector('#confirm').style.display = 'block';\r\n" +
+                "                // Listen for click on confirm button\r\n" +
+                "                document.querySelector('#confirmButton').addEventListener('click', function() {\r\n" +
+                "                    // Disable the button and show a loading message\r\n" +
+                "                    document.querySelector('#confirm').innerText = 'Loading...';\r\n" +
+                "                    document.querySelector('#confirm').disabled = true;\r\n" +
+                "                    // Execute the payment\r\n" +
+                "                    return actions.payment.execute().then(function() {\r\n" +
+                "                        // Show a thank-you note\r\n" +
+                "                        document.querySelector('#thanksname').innerText = shipping.recipient_name;\r\n" +
+                "                        document.querySelector('#confirm').style.display = 'none';\r\n" +
+                "                        document.querySelector('#thanks').style.display = 'block';\r\n" +
+                "                    });\r\n" +
+                "                });\r\n" +
+                "            });\r\n" +
+                "        }\r\n" +
+                "    }, '#paypal-button-container');\r\n" +
+                "<\/script>\r\n" +
+                "    \r\n";
+            }
+
+
+         function loadStyles(){
+
+            var styleObj = checkoutObj.style;
+
+            var finalStr = " style: {\r\n" ;
+            var keys = Object.keys(styleObj);
+            for (let x of Object.keys(styleObj)) {
+               finalStr+= "            "+ x+":"+ "'"+styleObj[x]+"',\r\n";
+            }
+            finalStr+="        },\r\n";
+            return finalStr;
+         }   
+        </script>

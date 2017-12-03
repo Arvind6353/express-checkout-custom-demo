@@ -1,0 +1,160 @@
+<% include partials/header.ejs %>
+
+    <div class="container-fluid ">
+
+        <div class="row">
+            <div class="col-lg-7 col-md-4 col-sm-12 portfolio-item c1 text-center">
+                <% include partials/customizeform.ejs %>
+            </div>
+
+            <div class="col-lg-5 col-md-3 col-sm-12 portfolio-item c1 text-center">
+                <div id="column-middle1" style="margin-top:14.5%;height:100%">
+                    <legend>View the checkout experience</legend>
+
+                    <div class="alert alert-info">
+                        <strong>Experience Server Checkout Flow</strong>
+                    </div>
+
+                    <div class="row" style="margin-top:10%">
+                        <div id="paypal-button-container"></div>
+                        <br/>
+                        <div id="paypal-button-container-err"></div>
+                        <button type="button" class="btn btn-primary btn-md openBtn" id="viewSC">View Source Code</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <script>
+                $(document).ready(function () {
+                    $('.openBtn').on('click', function () {
+                        $('.modal-body').load('server/editor/experience.html', function () {
+                            $('#myModal').modal({
+                                show: true
+                            });
+                        });
+                    });
+                })
+            </script>
+
+        </div>
+        <!-- end of row -->
+        <% include partials/sourcecode.ejs %>
+
+    </div>
+    <!-- end of container -->
+    <script>
+        function createCheckoutExp(chkObj) {
+            var CREATE_PAYMENT_URL = "/api/server/payment"
+            var EXECUTE_PAYMENT_URL = "/api/server/payment-execute"
+
+            var paymentPayload = {
+                intent: "sale",
+                payer: {
+                    payment_method: "paypal"
+                },
+                redirect_urls: {
+                    return_url: "http://localhost:3000/api/server/success",
+                    cancel_url: "http://localhost:3000/api/server/cancel"
+                },
+                transactions: [{
+                    amount: {
+                        total: "4.00",
+                        currency: "USD",
+                        details: {
+                            subtotal: "2.00",
+                            shipping: "1.00",
+                            tax: "2.00",
+                            shipping_discount: "-1.00"
+                        }
+                    },
+                    item_list: {
+                        items: [{
+                                quantity: "1",
+                                name: "item 1",
+                                price: "1",
+                                currency: "USD",
+                                description: "item 1 description",
+                                tax: "1"
+                            },
+                            {
+                                quantity: "1",
+                                name: "item 2",
+                                price: "1",
+                                currency: "USD",
+                                description: "item 2 description",
+                                tax: "1"
+                            }
+                        ]
+                    },
+                    soft_descriptor: "ECHI5786786",
+                    payee: {
+                        payee_display_metadata: {
+                            "brand_name": "Test Brand"
+                        }
+                    },
+                    description: "The payment transaction description.",
+                    custom: "merchant custom data"
+                }]
+
+            };
+
+
+            var obj = {
+                payment: function (data, actions) {
+                    document.getElementById("paypal-button-container-err").innerHTML = "";
+                    // call server to create payment
+
+                    return paypal.request({
+                        method: 'post',
+                        url: CREATE_PAYMENT_URL,
+                        json: paymentPayload
+                    }).then(function (data) {
+                        if (data.error) {
+                            document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>"+JSON.stringify(data.error)+"</p>";
+                            return;
+                        }
+                        return data.id;
+                    });
+                },
+                onAuthorize: function (data, actions) {
+                    // call server to execute payment
+                    return paypal.request.post(EXECUTE_PAYMENT_URL, {
+                        paymentID: data.paymentID,
+                        payerID: data.payerID
+                    }).then(function (payment) {
+                        if (payment.error) {
+                            document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>"+JSON.stringify(payment.error)+"</p>";
+                            return;
+                        }
+                        window.alert("Payment is Complete and Payment Id : " + payment.id);
+                    });
+                },
+                onCancel: function () {
+                    window.alert("You have cancelled");
+                    return;
+                },
+                onError: function (err) {
+                    $("#viewSC").hide();
+                    document.getElementById("paypal-button-container-err").innerHTML += "<p style='color:red'>" +
+                        err + "</p>";
+                    return false;
+                }
+            };
+
+            paypal.Button.render(Object.assign({}, obj, chkObj), '#paypal-button-container');
+
+            console.error = function () {
+             /*  $("#viewSC").hide();
+                document.getElementById("paypal-button-container").innerHTML += "<p style='color:red'>" +
+                    arguments[1].stack + "</p>";
+                return false;
+            */
+            }
+        }
+    </script>
+    <script src="/javascripts/formhandling.js"></script>
+
+    </body>
+
+    </html>

@@ -1,0 +1,145 @@
+<div id='editor'></div>
+
+          <script>
+            var editor = ace.edit('editor');
+            editor.setTheme("ace/theme/monokai");
+            editor.getSession().setMode('ace/mode/html');
+            editor.setShowPrintMargin(false);
+            editor.setValue(stripIndent(code()),-1);
+            editor.clearSelection();
+            editor.moveCursorTo(0,0);
+            editor.setReadOnly(true);
+            function stripIndent(str) {
+                var match = str.match(/^[ \t]*(?=\S)/gm);
+            
+                if (!match) {
+                    return str;
+                }
+            
+                var indent = Math.min.apply(Math, match.map(function (x) {
+                    return x.length;
+                })); // eslint-disable-line
+                var re = new RegExp('^[ \\t]{' + indent + '}', 'gm');
+            
+                return indent > 0 ? str.replace(re, '') : str;
+            }
+            function code() {
+                return   "<!DOCTYPE html>\r\n" +
+                "<head>\r\n" +
+                "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n" +
+                "    <script src=\"https://www.paypalobjects.com/api/checkout.js\"><\/script>\r\n" +
+                "</head>\r\n" +
+                "<body>\r\n" +
+                "    <div id=\"paypal-button-container\"></div>\r\n" +
+                "    <script>\r\n" +
+                "            var CREATE_PAYMENT_URL = \"/api/server/payment\"\r\n" +
+                "            var EXECUTE_PAYMENT_URL = \"/api/server/payment-execute\"\r\n" +
+                "            var paymentPayload = {\r\n" +
+                "                intent: \"sale\",\r\n" +
+                "                payer: {\r\n" +
+                "                    payment_method: \"paypal\"\r\n" +
+                "                },\r\n" +
+                "                redirect_urls: {\r\n" +
+                "                    return_url: \"http://localhost:3000/api/server/paymentDetails\",\r\n" +
+                "                    cancel_url: \"http://localhost:3000/api/server/cancel\"\r\n" +
+                "                },\r\n" +
+                "                transactions: [{\r\n" +
+                "                    amount: {\r\n" +
+                "                        total: \"4.00\",\r\n" +
+                "                        currency: \"USD\",\r\n" +
+                "                        details: {\r\n" +
+                "                            subtotal: \"2.00\",\r\n" +
+                "                            shipping: \"1.00\",\r\n" +
+                "                            tax: \"2.00\",\r\n" +
+                "                            shipping_discount: \"-1.00\"\r\n" +
+                "                        }\r\n" +
+                "                    },\r\n" +
+                "                    item_list: {\r\n" +
+                "                        items: [{\r\n" +
+                "                                quantity: \"1\",\r\n" +
+                "                                name: \"item 1\",\r\n" +
+                "                                price: \"1\",\r\n" +
+                "                                currency: \"USD\",\r\n" +
+                "                                description: \"item 1 description\",\r\n" +
+                "                                tax: \"1\"\r\n" +
+                "                            },\r\n" +
+                "                            {\r\n" +
+                "                                quantity: \"1\",\r\n" +
+                "                                name: \"item 2\",\r\n" +
+                "                                price: \"1\",\r\n" +
+                "                                currency: \"USD\",\r\n" +
+                "                                description: \"item 2 description\",\r\n" +
+                "                                tax: \"1\"\r\n" +
+                "                            }\r\n" +
+                "                        ]\r\n" +
+                "                    },\r\n" +
+                "                    description: \"The payment transaction description.\",\r\n" +
+                "                    custom: \"merchant custom data\"\r\n" +
+                "                }]\r\n" +
+                "            };\r\n" +
+                "        paypal.Button.render({\r\n" +
+                "            env: 'sandbox', // sandbox | production\r\n" +
+                "            // Specify the style of the button\r\n" +
+                "            "+  loadStyles() +
+                "            // PayPal Client IDs - replace with your own\r\n" +
+                "            // Create a PayPal app: https://developer.paypal.com/developer/applications/create\r\n" +
+                "            client: {\r\n" +
+                "               sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',\r\n" +
+                "               production: '<insert production client id>'\r\n" +
+                "            },\r\n" +
+                "            // payment() is called when the button is clicked\r\n" +
+                "            payment: function() {\r\n" +
+                "                // call server to create payment\r\n" +
+                "    \r\n" +
+                "                return paypal.request({\r\n" +
+                "                    method: 'post',\r\n" +
+                "                    url: CREATE_PAYMENT_URL,\r\n" +
+                "                    json: paymentPayload\r\n" +
+                "                }).then(function (data) {\r\n" +
+                "                    if (data.error) {\r\n" +
+                "                        alert(dat.error);\r\n" +
+                "                        return;\r\n" +
+                "                    }\r\n" +
+                "                    return data.id;\r\n" +
+                "                });\r\n" +
+                "            },\r\n" +
+                "            onAuthorize: function (data, actions) {\r\n" +
+                "                // call server to execute payment\r\n" +
+                "                return paypal.request.post(EXECUTE_PAYMENT_URL, {\r\n" +
+                "                    paymentID: data.paymentID,\r\n" +
+                "                    payerID: data.payerID\r\n" +
+                "                }).then(function (payment) {\r\n" +
+                "                    if (payment.error) {\r\n" +
+                "                        alert(payment.error);\r\n" +
+                "                        return;\r\n" +
+                "                    }\r\n" +
+                "                    // redirect to the return url to get the payment details and display\r\n"+
+                "                    actions.redirect()\r\n"+
+                "                });\r\n" +
+                "            },\r\n" +
+                "            onCancel: function () {\r\n" +
+                "                // redirect to the cancel url\r\n"+
+                "                actions.redirect()\r\n"+
+                "                return;\r\n" +
+                "            }\r\n" +
+                "        }, '#paypal-button-container');\r\n" +
+                "    <\/script>\r\n" +
+                "</body>\r\n" +
+                "    \r\n";
+            }
+
+
+         function loadStyles(){
+
+            var obj = checkoutObj.style;
+
+            var finalStr = "style: {\r\n" ;
+            var keys = Object.keys(obj);
+            for (let x of Object.keys(checkoutObj.style)) {
+               finalStr+= "               "+ x+":"+ "'"+checkoutObj.style[x]+"',\r\n";
+            }
+            finalStr+="            },\r\n";
+            return finalStr;
+         }   
+        </script>

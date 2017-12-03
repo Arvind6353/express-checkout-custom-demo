@@ -1,0 +1,73 @@
+<% include partials/header.ejs %>
+
+    <div class="container-fluid ">
+        
+        <div class="row">
+            <div class="col-lg-7 col-md-4 col-sm-12 portfolio-item c1 text-center">
+                    <% include partials/customizeform.ejs %>
+            </div>
+
+            <div class="col-lg-5 col-md-3 col-sm-12 portfolio-item c1 text-center">
+                <div id="column-middle1" style="margin-top:14.5%;height:100%">
+                    <legend>View the checkout experience</legend>
+                    
+                    <div class="alert alert-info">
+                            <strong>Full Page Redirection Server Checkout Flow</strong>
+                    </div>
+                    
+                    <div class="row" style="margin-top:10%">
+                        <div id="paypal-button-container"></div>
+                        <br/>
+                        <div id="paypal-button-container-err"></div>
+                        <button type="button" class="btn btn-primary btn-md openBtn"  id="viewSC">View Source Code</button>
+                    </div>
+
+                </div>
+            </div>
+
+         <script>
+                $(document).ready(function(){
+                $('.openBtn').on('click',function(){
+                    $('.modal-body').load('server/editor/fullredirection.html',function(){
+                        $('#myModal').modal({show:true});
+                    });
+                });
+            })
+        </script>   
+            
+        </div> <!-- end of row -->
+        <% include partials/sourcecode.ejs %>
+        
+    </div> <!-- end of container -->
+<script>
+    function createCheckoutExp(chkObj){
+      var CREATE_PAYMENT_URL = "/api/server/redirectpayment"
+      var obj = {
+            validate: function (actions) {
+                actions.disable();
+            },
+            onClick: function () {
+                // call server to create payment
+                window.location.href = CREATE_PAYMENT_URL
+            },
+            payment: function (data, actions) {
+                document.getElementById("paypal-button-container-err").innerHTML = "";
+            },    
+            onAuthorize: function (data, actions) {
+            },
+            onError: function (err) {
+                $("#viewSC").hide();
+                document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>" +
+                    err + "</p>";
+            }
+        };
+    
+        paypal.Button.render(Object.assign({}, obj, chkObj), '#paypal-button-container');
+    
+    }
+</script>
+<script src="/javascripts/formhandling.js"></script>
+
+</body>
+
+</html>
