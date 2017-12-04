@@ -217,7 +217,7 @@ svg:not(:root) {
 	font-weight: 400;
 	font-variant: normal;
 	padding: 0;
-	font-size: 1rem
+	font-size: 0.8rem
 }
 .main-menu .closer-mobile a:before {
 	content: '';
@@ -863,7 +863,7 @@ svg:not(:root) {
 		transform: translate(15pc, 0)
 	}
 	body.menu-open header.pp-header {
-		height: 100%
+		
 	}
 	.pypl-logo--white {
 		position: static;

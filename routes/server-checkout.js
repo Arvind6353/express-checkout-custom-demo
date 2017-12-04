@@ -174,12 +174,12 @@ router.get("/success", function(req, res) {
   paypal.payment.execute(paymentId, payerId, function(error, payment) {
     if (error) {
       console.error(error);
-      res.send("payment error");
+      res.render("error",{message:error});
     } else {
       if (payment.state === "approved") {
         res.render("result", {res:payment})
       } else {
-        res.send("payment not successful");
+        res.render("error",{message:"payment error"});      
       }
     }
   });

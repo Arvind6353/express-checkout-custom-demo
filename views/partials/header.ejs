@@ -24,7 +24,7 @@
   var checkoutObj ={};
   var editor ={};
   var serverUrl = 'https://expresscheckout-demo.herokuapp.com'
-          
+  
   $(document).ready(function(){
     $('[href="'+location.pathname+'"]').css("color","yellow");
     $($('[href="'+location.pathname+'"]').parent().parent().parent().parent().parent().parent().siblings()[0]).addClass("header-menu-highlight")
@@ -39,7 +39,7 @@
 </style>
 </head>
 <body>
-
+  <div role="main" id="mpp-app" class="notMobile">
   <header class="pp-header sticky-pp-header scrolling" id="pp-header">
     <div class="pp-header__container">
       <div class="container">
@@ -96,7 +96,3 @@
   </header>
   <br/><br/>
   <!-- end header -->
-
-</div>
-</body>
-</html>
