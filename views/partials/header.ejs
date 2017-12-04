@@ -18,12 +18,15 @@
 <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
 <script src="/javascripts/jquery-ui.min.js" type="text/javascript"></script>
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script src="https://js.braintreegateway.com/web/3.11.0/js/client.min.js"></script>
+<script src="https://js.braintreegateway.com/web/3.11.0/js/paypal-checkout.min.js"></script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js"></script>
 <script>
   var checkoutObj ={};
   var editor ={};
-  var serverUrl = 'https://expresscheckout-demo.herokuapp.com'
+  var serverUrl = 'http://localhost:3000'
   
   $(document).ready(function(){
     $('[href="'+location.pathname+'"]').css("color","yellow");
@@ -66,10 +69,10 @@
                 </div>
               </div>
             </li>
-            <li><a class="pypl-header__subnav-control main-link" href="https://www.paypal.com/in/webapps/mpp/merchant" id="Header-Business" rel="menuitem" aria-expanded="false">Server Integration Steps</a>
+            <li><a class="pypl-header__subnav-control main-link" href="#" id="Header-Business" rel="menuitem" aria-expanded="false">Server Integration Steps</a>
               <div class="submenu-wrapper" id="submenu-Business" aria-labelledby="header-Business" role="region">
                 <div class="container">
-                  <div class="pp-header__subnav"><span class="closer-mobile"><a href="https://www.paypal.com/in/webapps/mpp/home#" role="button">Server Integration Steps</a></span>
+                  <div class="pp-header__subnav"><span class="closer-mobile"><a href="#" role="button">Server Integration Steps</a></span>
                     <div class="submenu-cols lvl-2">
                       <ul class="submenu-col submenu-row-3">
                         <li><a href="/simpleServer">Simple</a></li>
@@ -86,8 +89,22 @@
                 </div>
               </div>
             </li>
-            <li><a class="main-link hidden-md-down" href="#" aria-controls="submenu-Partners" aria-expanded="false">Brain Tree Integration Steps</a></li>
             
+            <li><a class="pypl-header__subnav-control main-link" href="#" id="Header-Business" rel="menuitem" aria-expanded="false">Brain Tree Integration Steps</a>
+              <div class="submenu-wrapper" id="submenu-Business" aria-labelledby="header-Business" role="region">
+                <div class="container">
+                  <div class="pp-header__subnav"><span class="closer-mobile"><a href="#" role="button">Brain Tree Integration Steps</a></span>
+                    <div class="submenu-cols lvl-2">
+                      <ul class="submenu-col submenu-row-3">
+                        <li><a href="/simpleBrainTree">Simple</a></li>
+                        <li><a href="/redirectionBrainTree">Redirection</a></li>
+                        <li><a href="/confirmationBrainTree">Confirmation</a></li>                      
+                      </ul>
+                    </div>
+                    <span class="closer-desktop"><a href="#" role="button" title="Close">Close</a></span></div>
+                </div>
+              </div>
+            </li> 
           </ul>
         </nav>
         

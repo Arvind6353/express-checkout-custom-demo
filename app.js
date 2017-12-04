@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var serverCheckout = require('./routes/server-checkout');
+var braintreeCheckout = require('./routes/braintree-checkout');
 
 var app = express();
 
@@ -14,7 +15,8 @@ var app = express();
 app.set('views', 
 [path.join(__dirname, 'views'),
 path.join(__dirname, 'views/client/'),
-path.join(__dirname, 'views/server/')]);
+path.join(__dirname, 'views/server/'),
+path.join(__dirname, 'views/braintree/')]);
 
 app.set('view engine', 'ejs');
 
@@ -79,6 +81,11 @@ app.get('/fullredirectionServer', function(req,res){
   res.render("fullredirection-server");
 })
 
+
+app.get('/simpleBrainTree', function(req,res){
+  res.render("simple-braintree");
+})
+
 app.get("/cancel", function(req, res, next) {
   res.render("cancel");
 });
@@ -90,6 +97,9 @@ app.get("/error", function(req, res, next) {
 app.use('/api', index);
 
 app.use('/api/server', serverCheckout);
+
+app.use('/api/braintree', braintreeCheckout);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

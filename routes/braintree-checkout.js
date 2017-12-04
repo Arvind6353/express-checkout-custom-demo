@@ -1,13 +1,8 @@
 var express = require("express");
-var paypal = require("paypal-rest-sdk");
 var router = express.Router();
-
-paypal.configure({
-  mode: "sandbox", //sandbox or live
-  client_id:
-    "AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v",
-  client_secret:
-    "EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM"
+var braintree = require("braintree");
+var gateway = braintree.connect({
+  accessToken: "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
 });
 
 var serverUrl = 'http://localhost:3000'
@@ -193,6 +188,16 @@ router.get("/cancel", function(req, res, next) {
 router.get("/error", function(req, res, next) {
   res.render("error",{message:""});
 });
-  
+
+router.get("/clienttoken",function(req,res,next){
+  gateway.clientToken.generate({}, function (err, response) {
+    if(err){
+      console.log("error in creating client token")
+      res.render("error",{message:err});
+    }
+    console.log(response.clientToken);
+    res.send(response.clientToken);
+  });
+})
 
 module.exports = router;
