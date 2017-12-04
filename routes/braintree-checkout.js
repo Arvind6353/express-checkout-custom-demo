@@ -5,7 +5,7 @@ var gateway = braintree.connect({
   accessToken: "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
 });
 
-var serverUrl = 'http://localhost:3000'
+var serverUrl = 'https://expresscheckout-demo.herokuapp.com'
 
 var create_payment_json = {
   intent: "sale",

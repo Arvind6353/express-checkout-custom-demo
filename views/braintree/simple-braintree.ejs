@@ -28,7 +28,7 @@
          <script>
                 $(document).ready(function(){
                 $('.openBtn').on('click',function(){
-                    $('.modal-body').load('server/editor/simple.html',function(){
+                    $('.modal-body').load('braintree/editor/simple.html',function(){
                         $('#myModal').modal({show:true});
                     });
                 });
@@ -41,8 +41,6 @@
     </div> <!-- end of container -->
 <script>
     function createCheckoutExp(chkObj){
-      var CREATE_PAYMENT_URL = "/api/server/payment"
-      var EXECUTE_PAYMENT_URL = "/api/server/payment-execute"
       
       delete chkObj.client;
       var obj = {

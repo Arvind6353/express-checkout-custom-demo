@@ -1,0 +1,92 @@
+<div id='editor'></div>
+
+          <script>
+            editor = ace.edit('editor');
+            editor.setTheme("ace/theme/tomorrow_night_blue");
+            editor.getSession().setMode('ace/mode/html');
+            editor.setShowPrintMargin(false);
+            editor.setValue(stripIndent(code()),-1);
+            editor.clearSelection();
+            editor.moveCursorTo(0,0);
+            editor.setReadOnly(true);
+            function stripIndent(str) {
+                var match = str.match(/^[ \t]*(?=\S)/gm);
+            
+                if (!match) {
+                    return str;
+                }
+            
+                var indent = Math.min.apply(Math, match.map(function (x) {
+                    return x.length;
+                })); // eslint-disable-line
+                var re = new RegExp('^[ \\t]{' + indent + '}', 'gm');
+            
+                return indent > 0 ? str.replace(re, '') : str;
+            }
+            function code() {
+                return   "<!DOCTYPE html>\r\n" +
+                "<head>\r\n" +
+                "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n" +
+                "    <script src=\"https://www.paypalobjects.com/api/checkout.js\"><\/script>\r\n" +
+                "    <script src=\"https://js.braintreegateway.com/web/3.11.0/js/client.min.js\"><\/script>\r\n" +
+                "    <script src=\"https://js.braintreegateway.com/web/3.11.0/js/paypal-checkout.min.js\"><\/script>\r\n" +
+                "</head>\r\n" +
+                "<body>\r\n" +
+                "    <div id=\"paypal-button-container\"></div>\r\n" +
+                "    <script>\r\n" +
+                "        // Render the PayPal button\r\n" +
+                "        paypal.Button.render({\r\n" +
+                "            // Pass in the Braintree SDK\r\n" +
+                "            braintree: braintree,\r\n" +
+                "            // Pass in your Braintree authorization key\r\n" +
+                "            client: {\r\n" +
+                "                sandbox: paypal.request.get('/api/braintree/clienttoken'),\r\n" +
+                "                production: '<insert production auth key>'\r\n" +
+                "            },\r\n" +
+                "            // Set your environment\r\n" +
+                "            env: 'sandbox', // sandbox | production\r\n" +
+                "            // Wait for the PayPal button to be clicked\r\n" +
+                "            payment: function(data, actions) {\r\n" +
+                "                // Make a call to create the payment\r\n" +
+                "                return actions.payment.create({\r\n" +
+                "                    payment: {\r\n" +
+                "                        transactions: [\r\n" +
+                "                            {\r\n" +
+                "                                amount: { total: '0.01', currency: 'USD' }\r\n" +
+                "                            }\r\n" +
+                "                        ]\r\n" +
+                "                    }\r\n" +
+                "                });\r\n" +
+                "            },\r\n" +
+                "            // Wait for the payment to be authorized by the customer\r\n" +
+                "            onAuthorize: function(data, actions) {\r\n" +
+                "                // Call your server with data.nonce to finalize the payment\r\n" +
+                "                console.log('Braintree nonce:', data.nonce);\r\n" +
+                "                // Get the payment and buyer details\r\n" +
+                "                return actions.payment.get().then(function(payment) {\r\n" +
+                "                    window.alert('Payment details:', payment);\r\n" +
+                "                });\r\n" +
+                "            }\r\n" +
+                "        }, '#paypal-button-container');\r\n" +
+                "    <\/script>\r\n" +
+                "</body>\r\n" +
+                "    \r\n";
+            }
+
+
+         function loadStyles(){
+
+            var obj = checkoutObj.style;
+
+            var finalStr = " style: {\r\n" ;
+            var keys = Object.keys(obj);
+            for (let x of Object.keys(checkoutObj.style)) {
+               finalStr+= "            "+ x+":"+ "'"+checkoutObj.style[x]+"',\r\n";
+            }
+            finalStr+="        },\r\n";
+            return finalStr;
+         }   
+
+        
+        </script>

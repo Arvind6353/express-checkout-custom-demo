@@ -10,7 +10,7 @@ paypal.configure({
     "EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM"
 });
 
-var serverUrl = 'http://localhost:3000'
+var serverUrl = 'https://expresscheckout-demo.herokuapp.com'
 
 var create_payment_json = {
   intent: "sale",
