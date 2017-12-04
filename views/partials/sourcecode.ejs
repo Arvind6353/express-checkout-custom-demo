@@ -12,9 +12,21 @@
                 
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Copy Source Code</button>
+              <button type="button" class="btn btn-primary" id="csc">Copy Source Code</button>
             </div>
           </div>
       
         </div>
       </div>
+<script>
+  $(document).ready(function(){
+  $('#csc').on('click', function() {
+    var sel = editor.selection.toJSON(); // save selection
+    editor.selectAll();
+    editor.focus();
+    document.execCommand('copy');
+    editor.selection.fromJSON(sel); // restore selection
+    alert("Copied to Clipboard");
+  });
+});
+</script>
