@@ -72,12 +72,6 @@
                 "        env: 'sandbox',\r\n" +
                 "        // Specify the style of the button\r\n" +
                 "       "+  loadStyles()+
-                "        // PayPal Client IDs - replace with your own\r\n" +
-                "        // Create a PayPal app: https://developer.paypal.com/developer/applications/create\r\n" +
-                "        client: {\r\n" +
-                "            sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',\r\n" +
-                "            production: '<insert production client id>'\r\n" +
-                "        },\r\n" +
                 "       payment: function (data, actions) {\r\n" +
                 "            // call server to create payment\r\n" +
                 "            return paypal.request.post(CREATE_PAYMENT_URL).then(function(data) {\r\n" +
