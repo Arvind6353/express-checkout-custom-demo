@@ -43,12 +43,13 @@
 
          <script>
                 $(document).ready(function(){
-                $('.openBtn').on('click',function(){
-                    $('.modal-body').load('braintree/editor/confirmation.html',function(){
-                        $('#myModal').modal({show:true});
+                    $("#clientIdElem").hide();    
+                    $('.openBtn').on('click',function(){
+                        $('.modal-body').load('braintree/editor/confirmation.html',function(){
+                            $('#myModal').modal({show:true});
+                        });
                     });
-                });
-            })
+                })
         </script>   
             
         </div> <!-- end of row -->
