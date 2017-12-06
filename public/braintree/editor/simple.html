@@ -24,7 +24,7 @@
                 return indent > 0 ? str.replace(re, '') : str;
             }
             function code() {
-                return   "<!DOCTYPE html>\r\n" +
+                return    "<!DOCTYPE html>\r\n" +
                 "<head>\r\n" +
                 "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n" +
@@ -41,9 +41,11 @@
                 "            braintree: braintree,\r\n" +
                 "            // Pass in your Braintree authorization key\r\n" +
                 "            client: {\r\n" +
-                "                sandbox: paypal.request.get('/api/braintree/clienttoken'),\r\n" +
+                "                sandbox: paypal.request.get('/demo/checkout/api/braintree/client-token/'),\r\n" +
                 "                production: '<insert production auth key>'\r\n" +
                 "            },\r\n" +
+                "            // Specify the style of the button\r\n" +
+                "       "+  loadStyles()+
                 "            // Set your environment\r\n" +
                 "            env: 'sandbox', // sandbox | production\r\n" +
                 "            // Wait for the PayPal button to be clicked\r\n" +
@@ -63,11 +65,25 @@
                 "            onAuthorize: function(data, actions) {\r\n" +
                 "                // Call your server with data.nonce to finalize the payment\r\n" +
                 "                console.log('Braintree nonce:', data.nonce);\r\n" +
-                "                // Get the payment and buyer details\r\n" +
-                "                return actions.payment.get().then(function(payment) {\r\n" +
-                "                    window.alert('Payment details:', payment);\r\n" +
+                "                return paypal.request.post(EXECUTE_PAYMENT_URL, {\r\n" +
+                "                    nonce: data.nonce\r\n" +
+                "                }).then(function(payment) {\r\n" +
+                "                    if (payment.error) {\r\n" +
+                "                        alert(payment.error);\r\n" +
+                "                        return;\r\n" +
+                "                    }\r\n" +
+                "                    // window.alert(\"Payment is Complete and Payment Id : \" +payment.transaction.paypal.paymentId);\r\n" +
+                "                    // Get the payment and buyer details\r\n" +
+                "                    return actions.payment.get().then(function(paymentq) {\r\n" +
+                "                        window.alert(\"Payment is Complete and Payment Id : \" +paymentq.id);\r\n" +
+                "                    });\r\n" +
                 "                });\r\n" +
-                "            }\r\n" +
+                "            },\r\n" +
+                "            \r\n" +
+                "            onCancel: function () {\r\n" +
+                "                window.alert(\"You have cancelled\");\r\n" +
+                "                return;\r\n" +
+                "            },\r\n" +
                 "        }, '#paypal-button-container');\r\n" +
                 "    <\/script>\r\n" +
                 "</body>\r\n" +
@@ -79,12 +95,12 @@
 
             var obj = checkoutObj.style;
 
-            var finalStr = " style: {\r\n" ;
+            var finalStr = "     style: {\r\n" ;
             var keys = Object.keys(obj);
             for (let x of Object.keys(checkoutObj.style)) {
-               finalStr+= "            "+ x+":"+ "'"+checkoutObj.style[x]+"',\r\n";
+               finalStr+= "               "+ x+":"+ "'"+checkoutObj.style[x]+"',\r\n";
             }
-            finalStr+="        },\r\n";
+            finalStr+="            },\r\n";
             return finalStr;
          }   
 

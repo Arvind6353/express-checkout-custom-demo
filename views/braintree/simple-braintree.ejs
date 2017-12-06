@@ -41,8 +41,9 @@
     </div> <!-- end of container -->
 <script>
     function createCheckoutExp(chkObj){
-      
+      var EXECUTE_PAYMENT_URL = "/api/braintree/payment"
       delete chkObj.client;
+      
       var obj = {
             braintree: braintree,
 
@@ -52,14 +53,32 @@
             },
         
             payment: function(data, actions) {
+                document.getElementById("paypal-button-container-err").innerHTML='';
                 // Make a call to create the payment
                 return actions.payment.create({
                     payment: {
                         transactions: [
                             {
-                                amount: { total: '0.01', currency: 'USD' }
+                                amount: { total: '1.00', currency: 'USD' }
                             }
                         ]
+                      /* payer : {
+                            shipping_address: {
+                                recipient_name: 'XYA ABC',
+                                line1: '1234 Main St.',
+                                line2: 'Unit 1',
+                                city: 'Little India',
+                                country_code: 'SG',
+                                postal_code: '351234',
+                                state: 'Singapore',
+                                phone: '65 123213213'
+                            }
+                        }
+                        application_context: {
+                            brand_name: "branding",
+                            shipping_preference: "NO_SHIPPING",
+                            landing_page: "billing"
+                        }*/
                     }
                 });
             },
@@ -67,11 +86,20 @@
             onAuthorize: function(data, actions) {
                 // Call your server with data.nonce to finalize the payment
                 console.log('Braintree nonce:', data.nonce);
-                // Get the payment and buyer details
-                return actions.payment.get().then(function(payment) {
-                    console.log('Payment details:', payment);
-                    window.alert("Payment is Complete and Payment Id : " +payment.id);
+                return paypal.request.post(EXECUTE_PAYMENT_URL, {
+                    nonce: data.nonce
+                }).then(function(payment) {
+                    if (payment.error) {
+                        document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>"+JSON.stringify(payment.error)+"</p>";
+                        return;
+                    }
+                    // Get the payment and buyer details
+                    return actions.payment.get().then(function(paymentq) {
+                        window.alert("Payment is Complete and Payment Id : " +paymentq.id);
+                    });
+                   // window.alert("Payment is Complete and Payment Id : " +payment.transaction.paypal.paymentId);
                 });
+
             },
                 
             onCancel: function () {
