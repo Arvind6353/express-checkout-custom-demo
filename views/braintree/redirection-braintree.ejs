@@ -1,0 +1,124 @@
+<% include partials/header.ejs %>
+
+    <div class="container-fluid ">
+        
+        <div class="row">
+            <div class="col-lg-7 col-md-4 col-sm-12 portfolio-item c1 text-center">
+                    <% include partials/customizeform.ejs %>
+            </div>
+
+            <div class="col-lg-5 col-md-3 col-sm-12 portfolio-item c1 text-center">
+                <div id="column-middle1" style="margin-top:14.5%;height:100%">
+                    <legend>View the checkout experience</legend>
+                    
+                    <div class="alert alert-info">
+                            <strong>Redirection Braintree Checkout Flow</strong>
+                    </div>
+                    
+                    <div class="row" style="margin-top:10%">
+                        <div id="paypal-button-container"></div>
+                        <br/>
+                        <div id="paypal-button-container-err"></div>
+                        <button type="button" class="btn btn-primary btn-md openBtn"  id="viewSC">View Source Code</button>
+                    </div>
+
+                </div>
+            </div>
+
+         <script>
+                $(document).ready(function(){
+                $('.openBtn').on('click',function(){
+                    $('.modal-body').load('braintree/editor/redirection.html',function(){
+                        $('#myModal').modal({show:true});
+                    });
+                });
+            })
+        </script>   
+            
+        </div> <!-- end of row -->
+        <% include partials/sourcecode.ejs %>
+        
+    </div> <!-- end of container -->
+<script>
+    function createCheckoutExp(chkObj){
+      var EXECUTE_PAYMENT_URL = "/api/braintree/payment"
+      var CANCEL_URL = "/api/braintree/cancel"
+      var RESULT_URL = "/api/braintree/getTrxDetails"
+      delete chkObj.client;
+      
+      var obj = {
+            braintree: braintree,
+
+            client: {
+                sandbox: paypal.request.get('/api/braintree/clienttoken'),
+                production: '<insert production auth key>'
+            },
+        
+            payment: function(data, actions) {
+                document.getElementById("paypal-button-container-err").innerHTML='';
+                // Make a call to create the payment
+                return actions.payment.create({
+                    payment: {
+                        transactions: [
+                            {
+                                amount: { total: '1.00', currency: 'USD' }
+                            }
+                        ]
+                      /* payer : {
+                            shipping_address: {
+                                recipient_name: 'XYA ABC',
+                                line1: '1234 Main St.',
+                                line2: 'Unit 1',
+                                city: 'Little India',
+                                country_code: 'SG',
+                                postal_code: '351234',
+                                state: 'Singapore',
+                                phone: '65 123213213'
+                            }
+                        }
+                        application_context: {
+                            brand_name: "branding",
+                            shipping_preference: "NO_SHIPPING",
+                            landing_page: "billing"
+                        }*/
+                    }
+                });
+            },
+            // Wait for the payment to be authorized by the customer
+            onAuthorize: function(data, actions) {
+                // Call your server with data.nonce to finalize the payment
+                console.log('Braintree nonce:', data.nonce);
+                return paypal.request.post(EXECUTE_PAYMENT_URL, {
+                    nonce: data.nonce
+                }).then(function(payment) {
+                    if (payment.error) {
+                        document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>"+JSON.stringify(payment.error)+"</p>";
+                        return;
+                    }
+                    window.location.href=RESULT_URL+"?id="+payment.transaction.id;
+                   
+                });
+
+            },
+                
+            onCancel: function () {
+                window.location.href = CANCEL_URL;
+                return;
+            },
+
+            onError: function (err) {
+                $("#viewSC").hide();
+                document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>" +
+                    err + "</p>";
+            }
+        };
+    
+        paypal.Button.render(Object.assign({}, obj, chkObj), '#paypal-button-container');
+
+    }
+</script>
+<script src="/javascripts/formhandling.js"></script>
+
+</body>
+
+</html>

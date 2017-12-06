@@ -1,0 +1,19 @@
+<% include partials/header.ejs %>
+
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+    </div>
+    <div class="col-sm-8 text-left" style="margin-top:50px"> 
+    <h3>Payment Details : </h3><br/>
+     <ul class="list-group">
+        <li class="list-group-item">Payment ID : <%= res.paypal.paymentId %></li>
+        <li class="list-group-item">Payment Method : Paypal</li>
+        <li class="list-group-item">Payment State : <%=  res.paypal.payerStatus %></li>
+        <li class="list-group-item">Payer Name : <%=  res.paypal.payerFirstName%>  <%= res.paypal.payerLastName %></li>
+        <li class="list-group-item">Payer Email : <%=  res.paypal.payerEmail %></li>
+        <li class="list-group-item">Amount Paid : <%=  res.amount %> <%=res.currencyIsoCode %></li>
+     </ul>
+    </div>
+  </div>
+</div>

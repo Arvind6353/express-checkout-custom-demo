@@ -86,6 +86,11 @@ app.get('/simpleBrainTree', function(req,res){
   res.render("simple-braintree");
 })
 
+
+app.get('/redirectionBrainTree', function(req,res){
+  res.render("redirection-braintree");
+})
+
 app.get("/cancel", function(req, res, next) {
   res.render("cancel");
 });

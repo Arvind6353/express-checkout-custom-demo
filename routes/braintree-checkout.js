@@ -29,23 +29,41 @@ router.get("/clienttoken",function(req,res,next){
 
 
 router.post("/payment", function(req,res,next){
-console.log("inside ononce")
-var saleRequest = {
-  amount: "1.00",
-  merchantAccountId: "USD",
-  paymentMethodNonce: req.body.nonce
-};
+  console.log("inside noonce")
+  var saleRequest = {
+    amount: "1.00",
+    merchantAccountId: "USD",
+    paymentMethodNonce: req.body.nonce
+  };
 
-gateway.transaction.sale(saleRequest, function (err, result) {
-  if (err) {
-    res.json({"error": err});
-  } else if (result.success) {
-    res.json(result);
-  } else {
-    res.json({"error": result.message});
-  }
-});
+  gateway.transaction.sale(saleRequest, function (err, result) {
+    if (err) {
+      res.json({"error": err});
+    } else if (result.success) {
+      res.json(result);
+    } else {
+      res.json({"error": result.message});
+    }
+  });
 
+})
+
+
+// get payment details and render result
+router.get('/getTrxDetails',function(req,res,next){
+  var paymentId = req.query.id;
+  var stream = gateway.transaction.search(function (search) {
+    search.id().is(paymentId);
+  }, function (err, response) {
+    if(err){
+      console.log("errr",err);
+      res.render("error",{message:err});
+    }
+    response.each(function (err, transaction) {
+      res.render("result_braintree",{res:transaction})
+    });
+    
+  });
 })
 
 module.exports = router;
