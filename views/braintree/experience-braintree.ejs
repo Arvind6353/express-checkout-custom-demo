@@ -12,7 +12,7 @@
                     <legend>View the checkout experience</legend>
                     
                     <div class="alert alert-info">
-                            <strong>Redirection Braintree Checkout Flow</strong>
+                            <strong>Experience Braintree Checkout Flow</strong>
                     </div>
                     
                     <div class="row" style="margin-top:10%">
@@ -28,7 +28,7 @@
          <script>
                 $(document).ready(function(){
                 $('.openBtn').on('click',function(){
-                    $('.modal-body').load('braintree/editor/redirection.html',function(){
+                    $('.modal-body').load('braintree/editor/experience.html',function(){
                         $('#myModal').modal({show:true});
                     });
                 });
@@ -42,8 +42,6 @@
 <script>
     function createCheckoutExp(chkObj){
       var EXECUTE_PAYMENT_URL = "/api/braintree/payment"
-      var CANCEL_URL = "/api/braintree/cancel"
-      var RESULT_URL = "/api/braintree/getTrxDetails"
       delete chkObj.client;
       
       var obj = {
@@ -64,7 +62,7 @@
                                 amount: { total: '1.00', currency: 'USD' }
                             }
                         ],
-                      /* payer : {
+                        payer : {
                             shipping_address: {
                                 recipient_name: 'XYA ABC',
                                 line1: '1234 Main St.',
@@ -75,10 +73,10 @@
                                 state: 'Singapore',
                                 phone: '65 123213213'
                             }
-                        }*/
+                        },
                         application_context: {
                             brand_name: "branding",
-                            shipping_preference: "GET_FROM_FILE",
+                            shipping_preference: "SET_PROVIDED_ADDRESS", // NO_SHIPPING
                             landing_page: "billing"
                         }
                     }
@@ -95,14 +93,17 @@
                         document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>"+JSON.stringify(payment.error)+"</p>";
                         return;
                     }
-                    window.location.href=RESULT_URL+"?id="+payment.transaction.id;
-                   
+                    // Get the payment and buyer details
+                    return actions.payment.get().then(function(paymentq) {
+                        window.alert("Payment is Complete and Payment Id : " +paymentq.id);
+                    });
+                   // window.alert("Payment is Complete and Payment Id : " +payment.transaction.paypal.paymentId);
                 });
 
             },
                 
             onCancel: function () {
-                window.location.href = CANCEL_URL;
+                window.alert("You have cancelled");
                 return;
             },
 

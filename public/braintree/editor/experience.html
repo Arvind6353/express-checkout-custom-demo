@@ -24,7 +24,7 @@
                 return indent > 0 ? str.replace(re, '') : str;
             }
             function code() {
-                return    "<!DOCTYPE html>\r\n" +
+                return  "<!DOCTYPE html>\r\n" +
                 "<head>\r\n" +
                 "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n" +
@@ -35,9 +35,6 @@
                 "<body>\r\n" +
                 "    <div id=\"paypal-button-container\"></div>\r\n" +
                 "    <script>\r\n" +
-                "        var EXECUTE_PAYMENT_URL = \"/api/braintree/payment\"\r\n" +
-                "        var CANCEL_URL = \"/api/braintree/cancel\"\r\n" +
-                "        var RESULT_URL = \"/api/braintree/getTrxDetails\"\r\n" +
                 "        // Render the PayPal button\r\n" +
                 "        paypal.Button.render({\r\n" +
                 "            // Pass in the Braintree SDK\r\n" +
@@ -54,22 +51,35 @@
                 "            // Wait for the PayPal button to be clicked\r\n" +
                 "            payment: function(data, actions) {\r\n" +
                 "                // Make a call to create the payment\r\n" +
-                "                return actions.payment.create({\r\n" +
+                "                 return actions.payment.create({\r\n" +
                 "                    payment: {\r\n" +
                 "                        transactions: [\r\n" +
                 "                            {\r\n" +
                 "                                amount: { total: '1.00', currency: 'USD' }\r\n" +
                 "                            }\r\n" +
-                "                        ]\r\n" +
-                "                        application_context: {\r\n"+
-                "                           brand_name: 'Sample brand name',\r\n"+
-                "                           shipping_preference: 'GET_FROM_FILE', \r\n"+
-                "                           landing_page: 'billing'\r\n"+
-                "                        }\r\n"+
+                "                        ],\r\n" +
+                "                        payer : {\r\n" +
+                "                            shipping_address: {\r\n" +
+                "                                recipient_name: 'XYA ABC',\r\n" +
+                "                                line1: '1234 Main St.',\r\n" +
+                "                                line2: 'Unit 1',\r\n" +
+                "                                city: 'Little India',\r\n" +
+                "                                country_code: 'SG',\r\n" +
+                "                                postal_code: '351234',\r\n" +
+                "                                state: 'Singapore',\r\n" +
+                "                                phone: '65 123213213'\r\n" +
+                "                            }\r\n" +
+                "                        },\r\n" +
+                "                        application_context: {\r\n" +
+                "                            brand_name: \"sample brand name\",\r\n" +
+                "                            // SET_PROVIDED_ADDRESS, NO_SHIPPING, GET_FROM_FILE \r\n "+
+                "                            shipping_preference: \"SET_PROVIDED_ADDRESS\",\r\n" +
+                "                            landing_page: \"billing\"\r\n" +
+                "                        }\r\n" +
                 "                    }\r\n" +
                 "                });\r\n" +
                 "            },\r\n" +
-                "             // Wait for the payment to be authorized by the customer\r\n" +
+                "            // Wait for the payment to be authorized by the customer\r\n" +
                 "            onAuthorize: function(data, actions) {\r\n" +
                 "                // Call your server with data.nonce to finalize the payment\r\n" +
                 "                console.log('Braintree nonce:', data.nonce);\r\n" +
@@ -80,14 +90,19 @@
                 "                        document.getElementById(\"paypal-button-container-err\").innerHTML = \"<p style='color:red'>\"+JSON.stringify(payment.error)+\"</p>\";\r\n" +
                 "                        return;\r\n" +
                 "                    }\r\n" +
-                "                    window.location.href=RESULT_URL+\"?id=\"+payment.transaction.id;\r\n" +
+                "                    // Get the payment and buyer details\r\n" +
+                "                    return actions.payment.get().then(function(paymentq) {\r\n" +
+                "                        window.alert(\"Payment is Complete and Payment Id : \" +paymentq.id);\r\n" +
+                "                    });\r\n" +
+                "                   // window.alert(\"Payment is Complete and Payment Id : \" +payment.transaction.paypal.paymentId);\r\n" +
                 "                });\r\n" +
                 "            },\r\n" +
                 "                \r\n" +
                 "            onCancel: function () {\r\n" +
-                "                window.location.href = CANCEL_URL;\r\n" +
+                "                window.alert(\"You have cancelled\");\r\n" +
                 "                return;\r\n" +
                 "            }\r\n" +
+                "            \r\n" +
                 "        }, '#paypal-button-container');\r\n" +
                 "    <\/script>\r\n" +
                 "</body>\r\n" +
