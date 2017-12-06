@@ -55,6 +55,10 @@ app.get('/markintegrationClient', function(req,res){
 })
 
 
+app.get('/markflowClient', function(req,res){
+  res.render("markflow-client");
+})
+
 // server routes
 
 app.get('/simpleServer', function(req,res){
@@ -82,6 +86,11 @@ app.get('/fullredirectionServer', function(req,res){
 })
 
 
+app.get('/markflowServer', function(req,res){
+  res.render("markflow-server");
+});
+
+// braintree routes
 app.get('/simpleBrainTree', function(req,res){
   res.render("simple-braintree");
 })
@@ -100,6 +109,10 @@ app.get('/confirmationBrainTree', function(req,res){
 
 app.get('/markintegrationBrainTree', function(req,res){
   res.render("markintegration-braintree");
+})
+
+app.get('/markflowBrainTree', function(req,res){
+  res.render("markflow-braintree");
 })
 
 app.get("/cancel", function(req, res, next) {
