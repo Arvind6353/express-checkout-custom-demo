@@ -16,6 +16,7 @@ router.get("/error", function(req, res, next) {
   res.render("error",{message:""});
 });
 
+// get client token and send to the client 
 router.get("/clienttoken",function(req,res,next){
   gateway.clientToken.generate({}, function (err, response) {
     if(err){
@@ -26,8 +27,7 @@ router.get("/clienttoken",function(req,res,next){
   });
 })
 
-
-
+// execute payment
 router.post("/payment", function(req,res,next){
   console.log("inside noonce")
   var saleRequest = {
