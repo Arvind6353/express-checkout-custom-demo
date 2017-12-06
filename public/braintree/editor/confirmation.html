@@ -52,6 +52,8 @@
                 "        paypal.Button.render({\r\n" +
                 "            // Pass in the Braintree SDK\r\n" +
                 "            braintree: braintree,\r\n" +
+                "            // Specify the style of the button\r\n" +
+                "       "+  loadStyles()+
                 "            // Pass in your Braintree authorization key\r\n" +
                 "            client: {\r\n" +
                 "                sandbox: paypal.request.get('/demo/checkout/api/braintree/client-token/'),\r\n" +
