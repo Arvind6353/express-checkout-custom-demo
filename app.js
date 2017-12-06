@@ -98,6 +98,10 @@ app.get('/confirmationBrainTree', function(req,res){
   res.render("confirmation-braintree");
 })
 
+app.get('/markintegrationBrainTree', function(req,res){
+  res.render("markintegration-braintree");
+})
+
 app.get("/cancel", function(req, res, next) {
   res.render("cancel");
 });
