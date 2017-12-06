@@ -9,7 +9,12 @@
      <ul class="list-group">
         <li class="list-group-item">Payment ID : <%= res.paypal.paymentId %></li>
         <li class="list-group-item">Payment Method : Paypal</li>
-        <li class="list-group-item">Payment State : <%=  res.paypal.payerStatus %></li>
+        <li class="list-group-item">Payment State : 
+            <% if(res.paypal.payerStatus =='VERIFIED') { %>
+              APPROVED
+          <% } else { %>
+            <%= res.paypal.payerStatus %>
+          <% } %>
         <li class="list-group-item">Payer Name : <%=  res.paypal.payerFirstName%>  <%= res.paypal.payerLastName %></li>
         <li class="list-group-item">Payer Email : <%=  res.paypal.payerEmail %></li>
         <li class="list-group-item">Amount Paid : <%=  res.amount %> <%=res.currencyIsoCode %></li>
