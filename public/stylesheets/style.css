@@ -2319,7 +2319,6 @@ a.votebtn:hover {
 	background-color: #f5f7fa;
 	box-sizing: border-box;
 	vertical-align: top;
-	height:100% !important;
 }
 
 #editor {
