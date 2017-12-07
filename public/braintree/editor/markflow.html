@@ -1,0 +1,624 @@
+<div id='editor'></div>
+
+          <script>
+            editor = ace.edit('editor');
+            editor.setTheme("ace/theme/tomorrow_night_blue");
+            editor.getSession().setMode('ace/mode/html');
+            editor.setShowPrintMargin(false);
+            editor.setValue(stripIndent(code()),-1);
+            editor.clearSelection();
+            editor.moveCursorTo(0,0);
+            editor.setReadOnly(true);
+            function stripIndent(str) {
+                var match = str.match(/^[ \t]*(?=\S)/gm);
+            
+                if (!match) {
+                    return str;
+                }
+            
+                var indent = Math.min.apply(Math, match.map(function (x) {
+                    return x.length;
+                })); // eslint-disable-line
+                var re = new RegExp('^[ \\t]{' + indent + '}', 'gm');
+            
+                return indent > 0 ? str.replace(re, '') : str;
+            }
+            function code() {
+                return   "<!DOCTYPE html>\r\n" +
+                "<head>\r\n" +
+                "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n" +
+                "    <script src=\"https://www.paypalobjects.com/api/checkout.js\"><\/script>\r\n" +
+                "<script>\r\n" +
+                "    function switchFlows(){\r\n" +
+                "          document.getElementById(\"shortFlow\").style.display=\"none\";\r\n" +
+                "          document.getElementById(\"markFlow\").style.display=\"block\";\r\n" +
+                "    }\r\n" +
+                "<\/script>\r\n" +
+                "</head>\r\n" +
+                "<body>\r\n" +
+                "    <div>\r\n" +
+                "        <h3>iPhone 6S</h3>\r\n" +
+                "        <img src=\"/images/iphone.jpeg\" class=\"img-responsive\" style=\"height:15%\"/>\r\n" +
+                "        <h4>Price : $1.00</h4>\r\n" +
+                "        <p></p>\r\n" +
+                "    </div>\r\n" +
+                "     <div id=\"shortFlow\">\r\n" +
+                "        <div id=\"paypal-button-container\"></div>\r\n" +
+                "        <br/>\r\n" +
+                "        <button id=\"markFlowBtn\" class=\"btn btn-warning btn-sm\" onclick=\"javascript:switchFlows()\">Proceed to Checkout</button>\r\n" +
+                "        <br/>\r\n" +
+                "    </div>\r\n" +
+                "    \r\n" +
+                "    \r\n" +
+                "    <div style=\"display:none\" id=\"markFlow\">\r\n" +
+                "    \r\n" +
+                "        <form class=\"form-horizontal\" method=\"post\">\r\n" +
+                "            <fieldset>\r\n" +
+                "                <!-- Form Name -->\r\n" +
+                "                <legend>Shipping Address</legend>\r\n" +
+                "                <!-- Text input-->\r\n" +
+                "                <div class=\"form-group\">\r\n" +
+                "                    <label class=\"col-md-4 control-label\" for=\"firstname\">First Name</label>\r\n" +
+                "                    <div class=\"col-md-4\">\r\n" +
+                "                        <input value=\"ABCD\" id=\"firstname\" name=\"firstname\" type=\"text\" placeholder=\"Enter First Name\" class=\"form-control input-md\"\r\n" +
+                "                            required=\"\">\r\n" +
+                "                    </div>\r\n" +
+                "                </div>\r\n" +
+                "                <!-- Text input-->\r\n" +
+                "                <div class=\"form-group\">\r\n" +
+                "                    <label class=\"col-md-4 control-label\" for=\"lastname\">Last Name</label>\r\n" +
+                "                    <div class=\"col-md-4\">\r\n" +
+                "                        <input value=\"SD\" id=\"lastname\" name=\"lastname\" type=\"text\" placeholder=\"Enter Last Name\" class=\"form-control input-md\">\r\n" +
+                "                    </div>\r\n" +
+                "                </div>\r\n" +
+                "                <!-- Text input-->\r\n" +
+                "                <div class=\"form-group\">\r\n" +
+                "                    <label class=\"col-md-4 control-label\" for=\"address\">Address</label>\r\n" +
+                "                    <div class=\"col-md-4\">\r\n" +
+                "                        <input value=\"1 Main St\" id=\"address\" name=\"address\" type=\"text\" placeholder=\"Enter Address line 1\" class=\"form-control input-md\">\r\n" +
+                "                    </div>\r\n" +
+                "                </div>\r\n" +
+                "                <!-- Text input-->\r\n" +
+                "                <div class=\"form-group\">\r\n" +
+                "                    <label class=\"col-md-4 control-label\" for=\"address1\">Address1</label>\r\n" +
+                "                    <div class=\"col-md-4\">\r\n" +
+                "                        <input id=\"address1\" value=\"\" name=\"address1\" type=\"text\" placeholder=\"Enter Address line 2\" class=\"form-control input-md\">\r\n" +
+                "                    </div>\r\n" +
+                "                </div>\r\n" +
+                "                <!-- Text input-->\r\n" +
+                "                <div class=\"form-group\">\r\n" +
+                "                    <label class=\"col-md-4 control-label\" for=\"city\">City</label>\r\n" +
+                "                    <div class=\"col-md-4\">\r\n" +
+                "                        <input value=\"Little India\" id=\"city\" name=\"city\" type=\"text\" placeholder=\"Enter City\" class=\"form-control input-md\">\r\n" +
+                "                    </div>\r\n" +
+                "                </div>\r\n" +
+                "                <!-- Text input-->\r\n" +
+                "                <div class=\"form-group\">\r\n" +
+                "                    <label class=\"col-md-4 control-label\" for=\"city\">State</label>\r\n" +
+                "                    <div class=\"col-md-4\">\r\n" +
+                "                        <input value=\"Singapore\" id=\"state\" name=\"state\" type=\"text\" placeholder=\"Enter State\" class=\"form-control input-md\">\r\n" +
+                "                    </div>\r\n" +
+                "                </div>\r\n" +
+                "                <!-- Text input-->\r\n" +
+                "                <div class=\"form-group\">\r\n" +
+                "                    <label class=\"col-md-4 control-label\" for=\"city\">Postal Code</label>\r\n" +
+                "                    <div class=\"col-md-4\">\r\n" +
+                "                        <input value=\"351234\" id=\"postalcode\" name=\"postalcode\" type=\"text\" placeholder=\"Enter Postal code\" class=\"form-control input-md\">\r\n" +
+                "                    </div>\r\n" +
+                "                </div>\r\n" +
+                "                <!-- Select Basic -->\r\n" +
+                "                <div class=\"form-group\">\r\n" +
+                "                    <label class=\"col-md-4 control-label\" for=\"selectbasic\">Country</label>\r\n" +
+                "                    <div class=\"col-md-4\">\r\n" +
+                "                        <select id=\"country\" name=\"country\" class=\"form-control\">\r\n" +
+                "                            <option value=\"AF\">Afghanistan</option>\r\n" +
+                "                            <option value=\"AX\">Aland Islands</option>\r\n" +
+                "                            <option value=\"AL\">Albania</option>\r\n" +
+                "                            <option value=\"DZ\">Algeria</option>\r\n" +
+                "                            <option value=\"AS\">American Samoa</option>\r\n" +
+                "                            <option value=\"AD\">Andorra</option>\r\n" +
+                "                            <option value=\"AO\">Angola</option>\r\n" +
+                "                            <option value=\"AI\">Anguilla</option>\r\n" +
+                "                            <option value=\"AQ\">Antarctica</option>\r\n" +
+                "                            <option value=\"AG\">Antigua and Barbuda</option>\r\n" +
+                "                            <option value=\"AR\">Argentina</option>\r\n" +
+                "                            <option value=\"AM\">Armenia</option>\r\n" +
+                "                            <option value=\"AW\">Aruba</option>\r\n" +
+                "                            <option value=\"AU\">Australia</option>\r\n" +
+                "                            <option value=\"AT\">Austria</option>\r\n" +
+                "                            <option value=\"AZ\">Azerbaijan</option>\r\n" +
+                "                            <option value=\"BS\">Bahamas</option>\r\n" +
+                "                            <option value=\"BH\">Bahrain</option>\r\n" +
+                "                            <option value=\"BD\">Bangladesh</option>\r\n" +
+                "                            <option value=\"BB\">Barbados</option>\r\n" +
+                "                            <option value=\"BY\">Belarus</option>\r\n" +
+                "                            <option value=\"BE\">Belgium</option>\r\n" +
+                "                            <option value=\"BZ\">Belize</option>\r\n" +
+                "                            <option value=\"BJ\">Benin</option>\r\n" +
+                "                            <option value=\"BM\">Bermuda</option>\r\n" +
+                "                            <option value=\"BT\">Bhutan</option>\r\n" +
+                "                            <option value=\"BO\">Bolivia</option>\r\n" +
+                "                            <option value=\"BA\">Bosnia and Herzegovina</option>\r\n" +
+                "                            <option value=\"BW\">Botswana</option>\r\n" +
+                "                            <option value=\"BV\">Bouvet Island</option>\r\n" +
+                "                            <option value=\"BR\">Brazil</option>\r\n" +
+                "                            <option value=\"IO\">British Indian Ocean Territory</option>\r\n" +
+                "                            <option value=\"BN\">Brunei Darussalam</option>\r\n" +
+                "                            <option value=\"BG\">Bulgaria</option>\r\n" +
+                "                            <option value=\"BF\">Burkina Faso</option>\r\n" +
+                "                            <option value=\"BI\">Burundi</option>\r\n" +
+                "                            <option value=\"KH\">Cambodia</option>\r\n" +
+                "                            <option value=\"CM\">Cameroon</option>\r\n" +
+                "                            <option value=\"CA\">Canada</option>\r\n" +
+                "                            <option value=\"CV\">Cape Verde</option>\r\n" +
+                "                            <option value=\"KY\">Cayman Islands</option>\r\n" +
+                "                            <option value=\"CF\">Central African Republic</option>\r\n" +
+                "                            <option value=\"TD\">Chad</option>\r\n" +
+                "                            <option value=\"CL\">Chile</option>\r\n" +
+                "                            <option value=\"CN\">China</option>\r\n" +
+                "                            <option value=\"CX\">Christmas Island</option>\r\n" +
+                "                            <option value=\"CC\">Cocos (Keeling) Islands</option>\r\n" +
+                "                            <option value=\"CO\">Colombia</option>\r\n" +
+                "                            <option value=\"KM\">Comoros</option>\r\n" +
+                "                            <option value=\"CG\">Congo</option>\r\n" +
+                "                            <option value=\"CD\">Congo, The Democratic Republic of The</option>\r\n" +
+                "                            <option value=\"CK\">Cook Islands</option>\r\n" +
+                "                            <option value=\"CR\">Costa Rica</option>\r\n" +
+                "                            <option value=\"CI\">Cote D'ivoire</option>\r\n" +
+                "                            <option value=\"HR\">Croatia</option>\r\n" +
+                "                            <option value=\"CU\">Cuba</option>\r\n" +
+                "                            <option value=\"CY\">Cyprus</option>\r\n" +
+                "                            <option value=\"CZ\">Czech Republic</option>\r\n" +
+                "                            <option value=\"DK\">Denmark</option>\r\n" +
+                "                            <option value=\"DJ\">Djibouti</option>\r\n" +
+                "                            <option value=\"DM\">Dominica</option>\r\n" +
+                "                            <option value=\"DO\">Dominican Republic</option>\r\n" +
+                "                            <option value=\"EC\">Ecuador</option>\r\n" +
+                "                            <option value=\"EG\">Egypt</option>\r\n" +
+                "                            <option value=\"SV\">El Salvador</option>\r\n" +
+                "                            <option value=\"GQ\">Equatorial Guinea</option>\r\n" +
+                "                            <option value=\"ER\">Eritrea</option>\r\n" +
+                "                            <option value=\"EE\">Estonia</option>\r\n" +
+                "                            <option value=\"ET\">Ethiopia</option>\r\n" +
+                "                            <option value=\"FK\">Falkland Islands (Malvinas)</option>\r\n" +
+                "                            <option value=\"FO\">Faroe Islands</option>\r\n" +
+                "                            <option value=\"FJ\">Fiji</option>\r\n" +
+                "                            <option value=\"FI\">Finland</option>\r\n" +
+                "                            <option value=\"FR\">France</option>\r\n" +
+                "                            <option value=\"GF\">French Guiana</option>\r\n" +
+                "                            <option value=\"PF\">French Polynesia</option>\r\n" +
+                "                            <option value=\"TF\">French Southern Territories</option>\r\n" +
+                "                            <option value=\"GA\">Gabon</option>\r\n" +
+                "                            <option value=\"GM\">Gambia</option>\r\n" +
+                "                            <option value=\"GE\">Georgia</option>\r\n" +
+                "                            <option value=\"DE\">Germany</option>\r\n" +
+                "                            <option value=\"GH\">Ghana</option>\r\n" +
+                "                            <option value=\"GI\">Gibraltar</option>\r\n" +
+                "                            <option value=\"GR\">Greece</option>\r\n" +
+                "                            <option value=\"GL\">Greenland</option>\r\n" +
+                "                            <option value=\"GD\">Grenada</option>\r\n" +
+                "                            <option value=\"GP\">Guadeloupe</option>\r\n" +
+                "                            <option value=\"GU\">Guam</option>\r\n" +
+                "                            <option value=\"GT\">Guatemala</option>\r\n" +
+                "                            <option value=\"GG\">Guernsey</option>\r\n" +
+                "                            <option value=\"GN\">Guinea</option>\r\n" +
+                "                            <option value=\"GW\">Guinea-bissau</option>\r\n" +
+                "                            <option value=\"GY\">Guyana</option>\r\n" +
+                "                            <option value=\"HT\">Haiti</option>\r\n" +
+                "                            <option value=\"HM\">Heard Island and Mcdonald Islands</option>\r\n" +
+                "                            <option value=\"VA\">Holy See (Vatican City State)</option>\r\n" +
+                "                            <option value=\"HN\">Honduras</option>\r\n" +
+                "                            <option value=\"HK\">Hong Kong</option>\r\n" +
+                "                            <option value=\"HU\">Hungary</option>\r\n" +
+                "                            <option value=\"IS\">Iceland</option>\r\n" +
+                "                            <option value=\"IN\">India</option>\r\n" +
+                "                            <option value=\"ID\">Indonesia</option>\r\n" +
+                "                            <option value=\"IR\">Iran, Islamic Republic of</option>\r\n" +
+                "                            <option value=\"IQ\">Iraq</option>\r\n" +
+                "                            <option value=\"IE\">Ireland</option>\r\n" +
+                "                            <option value=\"IM\">Isle of Man</option>\r\n" +
+                "                            <option value=\"IL\">Israel</option>\r\n" +
+                "                            <option value=\"IT\">Italy</option>\r\n" +
+                "                            <option value=\"JM\">Jamaica</option>\r\n" +
+                "                            <option value=\"JP\">Japan</option>\r\n" +
+                "                            <option value=\"JE\">Jersey</option>\r\n" +
+                "                            <option value=\"JO\">Jordan</option>\r\n" +
+                "                            <option value=\"KZ\">Kazakhstan</option>\r\n" +
+                "                            <option value=\"KE\">Kenya</option>\r\n" +
+                "                            <option value=\"KI\">Kiribati</option>\r\n" +
+                "                            <option value=\"KP\">Korea, Democratic People's Republic of</option>\r\n" +
+                "                            <option value=\"KR\">Korea, Republic of</option>\r\n" +
+                "                            <option value=\"KW\">Kuwait</option>\r\n" +
+                "                            <option value=\"KG\">Kyrgyzstan</option>\r\n" +
+                "                            <option value=\"LA\">Lao People's Democratic Republic</option>\r\n" +
+                "                            <option value=\"LV\">Latvia</option>\r\n" +
+                "                            <option value=\"LB\">Lebanon</option>\r\n" +
+                "                            <option value=\"LS\">Lesotho</option>\r\n" +
+                "                            <option value=\"LR\">Liberia</option>\r\n" +
+                "                            <option value=\"LY\">Libyan Arab Jamahiriya</option>\r\n" +
+                "                            <option value=\"LI\">Liechtenstein</option>\r\n" +
+                "                            <option value=\"LT\">Lithuania</option>\r\n" +
+                "                            <option value=\"LU\">Luxembourg</option>\r\n" +
+                "                            <option value=\"MO\">Macao</option>\r\n" +
+                "                            <option value=\"MK\">Macedonia, The Former Yugoslav Republic of</option>\r\n" +
+                "                            <option value=\"MG\">Madagascar</option>\r\n" +
+                "                            <option value=\"MW\">Malawi</option>\r\n" +
+                "                            <option value=\"MY\">Malaysia</option>\r\n" +
+                "                            <option value=\"MV\">Maldives</option>\r\n" +
+                "                            <option value=\"ML\">Mali</option>\r\n" +
+                "                            <option value=\"MT\">Malta</option>\r\n" +
+                "                            <option value=\"MH\">Marshall Islands</option>\r\n" +
+                "                            <option value=\"MQ\">Martinique</option>\r\n" +
+                "                            <option value=\"MR\">Mauritania</option>\r\n" +
+                "                            <option value=\"MU\">Mauritius</option>\r\n" +
+                "                            <option value=\"YT\">Mayotte</option>\r\n" +
+                "                            <option value=\"MX\">Mexico</option>\r\n" +
+                "                            <option value=\"FM\">Micronesia, Federated States of</option>\r\n" +
+                "                            <option value=\"MD\">Moldova, Republic of</option>\r\n" +
+                "                            <option value=\"MC\">Monaco</option>\r\n" +
+                "                            <option value=\"MN\">Mongolia</option>\r\n" +
+                "                            <option value=\"ME\">Montenegro</option>\r\n" +
+                "                            <option value=\"MS\">Montserrat</option>\r\n" +
+                "                            <option value=\"MA\">Morocco</option>\r\n" +
+                "                            <option value=\"MZ\">Mozambique</option>\r\n" +
+                "                            <option value=\"MM\">Myanmar</option>\r\n" +
+                "                            <option value=\"NA\">Namibia</option>\r\n" +
+                "                            <option value=\"NR\">Nauru</option>\r\n" +
+                "                            <option value=\"NP\">Nepal</option>\r\n" +
+                "                            <option value=\"NL\">Netherlands</option>\r\n" +
+                "                            <option value=\"AN\">Netherlands Antilles</option>\r\n" +
+                "                            <option value=\"NC\">New Caledonia</option>\r\n" +
+                "                            <option value=\"NZ\">New Zealand</option>\r\n" +
+                "                            <option value=\"NI\">Nicaragua</option>\r\n" +
+                "                            <option value=\"NE\">Niger</option>\r\n" +
+                "                            <option value=\"NG\">Nigeria</option>\r\n" +
+                "                            <option value=\"NU\">Niue</option>\r\n" +
+                "                            <option value=\"NF\">Norfolk Island</option>\r\n" +
+                "                            <option value=\"MP\">Northern Mariana Islands</option>\r\n" +
+                "                            <option value=\"NO\">Norway</option>\r\n" +
+                "                            <option value=\"OM\">Oman</option>\r\n" +
+                "                            <option value=\"PK\">Pakistan</option>\r\n" +
+                "                            <option value=\"PW\">Palau</option>\r\n" +
+                "                            <option value=\"PS\">Palestinian Territory, Occupied</option>\r\n" +
+                "                            <option value=\"PA\">Panama</option>\r\n" +
+                "                            <option value=\"PG\">Papua New Guinea</option>\r\n" +
+                "                            <option value=\"PY\">Paraguay</option>\r\n" +
+                "                            <option value=\"PE\">Peru</option>\r\n" +
+                "                            <option value=\"PH\">Philippines</option>\r\n" +
+                "                            <option value=\"PN\">Pitcairn</option>\r\n" +
+                "                            <option value=\"PL\">Poland</option>\r\n" +
+                "                            <option value=\"PT\">Portugal</option>\r\n" +
+                "                            <option value=\"PR\">Puerto Rico</option>\r\n" +
+                "                            <option value=\"QA\">Qatar</option>\r\n" +
+                "                            <option value=\"RE\">Reunion</option>\r\n" +
+                "                            <option value=\"RO\">Romania</option>\r\n" +
+                "                            <option value=\"RU\">Russian Federation</option>\r\n" +
+                "                            <option value=\"RW\">Rwanda</option>\r\n" +
+                "                            <option value=\"SH\">Saint Helena</option>\r\n" +
+                "                            <option value=\"KN\">Saint Kitts and Nevis</option>\r\n" +
+                "                            <option value=\"LC\">Saint Lucia</option>\r\n" +
+                "                            <option value=\"PM\">Saint Pierre and Miquelon</option>\r\n" +
+                "                            <option value=\"VC\">Saint Vincent and The Grenadines</option>\r\n" +
+                "                            <option value=\"WS\">Samoa</option>\r\n" +
+                "                            <option value=\"SM\">San Marino</option>\r\n" +
+                "                            <option value=\"ST\">Sao Tome and Principe</option>\r\n" +
+                "                            <option value=\"SA\">Saudi Arabia</option>\r\n" +
+                "                            <option value=\"SN\">Senegal</option>\r\n" +
+                "                            <option value=\"RS\">Serbia</option>\r\n" +
+                "                            <option value=\"SC\">Seychelles</option>\r\n" +
+                "                            <option value=\"SL\">Sierra Leone</option>\r\n" +
+                "                            <option value=\"SG\" selected>Singapore</option>\r\n" +
+                "                            <option value=\"SK\">Slovakia</option>\r\n" +
+                "                            <option value=\"SI\">Slovenia</option>\r\n" +
+                "                            <option value=\"SB\">Solomon Islands</option>\r\n" +
+                "                            <option value=\"SO\">Somalia</option>\r\n" +
+                "                            <option value=\"ZA\">South Africa</option>\r\n" +
+                "                            <option value=\"GS\">South Georgia and The South Sandwich Islands</option>\r\n" +
+                "                            <option value=\"ES\">Spain</option>\r\n" +
+                "                            <option value=\"LK\">Sri Lanka</option>\r\n" +
+                "                            <option value=\"SD\">Sudan</option>\r\n" +
+                "                            <option value=\"SR\">Suriname</option>\r\n" +
+                "                            <option value=\"SJ\">Svalbard and Jan Mayen</option>\r\n" +
+                "                            <option value=\"SZ\">Swaziland</option>\r\n" +
+                "                            <option value=\"SE\">Sweden</option>\r\n" +
+                "                            <option value=\"CH\">Switzerland</option>\r\n" +
+                "                            <option value=\"SY\">Syrian Arab Republic</option>\r\n" +
+                "                            <option value=\"TW\">Taiwan, Province of China</option>\r\n" +
+                "                            <option value=\"TJ\">Tajikistan</option>\r\n" +
+                "                            <option value=\"TZ\">Tanzania, United Republic of</option>\r\n" +
+                "                            <option value=\"TH\">Thailand</option>\r\n" +
+                "                            <option value=\"TL\">Timor-leste</option>\r\n" +
+                "                            <option value=\"TG\">Togo</option>\r\n" +
+                "                            <option value=\"TK\">Tokelau</option>\r\n" +
+                "                            <option value=\"TO\">Tonga</option>\r\n" +
+                "                            <option value=\"TT\">Trinidad and Tobago</option>\r\n" +
+                "                            <option value=\"TN\">Tunisia</option>\r\n" +
+                "                            <option value=\"TR\">Turkey</option>\r\n" +
+                "                            <option value=\"TM\">Turkmenistan</option>\r\n" +
+                "                            <option value=\"TC\">Turks and Caicos Islands</option>\r\n" +
+                "                            <option value=\"TV\">Tuvalu</option>\r\n" +
+                "                            <option value=\"UG\">Uganda</option>\r\n" +
+                "                            <option value=\"UA\">Ukraine</option>\r\n" +
+                "                            <option value=\"AE\">United Arab Emirates</option>\r\n" +
+                "                            <option value=\"GB\">United Kingdom</option>\r\n" +
+                "                            <option value=\"US\" >United States</option>\r\n" +
+                "                            <option value=\"UM\">United States Minor Outlying Islands</option>\r\n" +
+                "                            <option value=\"UY\">Uruguay</option>\r\n" +
+                "                            <option value=\"UZ\">Uzbekistan</option>\r\n" +
+                "                            <option value=\"VU\">Vanuatu</option>\r\n" +
+                "                            <option value=\"VE\">Venezuela</option>\r\n" +
+                "                            <option value=\"VN\">Viet Nam</option>\r\n" +
+                "                            <option value=\"VG\">Virgin Islands, British</option>\r\n" +
+                "                            <option value=\"VI\">Virgin Islands, U.S.</option>\r\n" +
+                "                            <option value=\"WF\">Wallis and Futuna</option>\r\n" +
+                "                            <option value=\"EH\">Western Sahara</option>\r\n" +
+                "                            <option value=\"YE\">Yemen</option>\r\n" +
+                "                            <option value=\"ZM\">Zambia</option>\r\n" +
+                "                            <option value=\"ZW\">Zimbabwe</option>\r\n" +
+                "                        </select>\r\n" +
+                "                    </div>\r\n" +
+                "                </div>\r\n" +
+                "     \r\n" +
+                "            </fieldset>\r\n" +
+                "        </form>\r\n" +
+                "        <div>\r\n" +
+                "            <label>\r\n" +
+                "                <input type=\"radio\" name=\"payment-option\" value=\"paypal\" checked>\r\n" +
+                "                <img src=\"/images/paypal-mark.jpg\" alt=\"Pay with Paypal\">\r\n" +
+                "            </label>\r\n" +
+                "            <label>\r\n" +
+                "                <input type=\"radio\" name=\"payment-option\" value=\"card\">\r\n" +
+                "                <img src=\"/images/card-mark.png\" alt=\"Accepting Visa, Mastercard, Discover and American Express\">\r\n" +
+                "            </label>\r\n" +
+                "            <div id=\"paypal-button-container-mark\"></div>\r\n" +
+                "            <div id=\"card-button-container\" style=\"display:none\" onclick=\"alert('Integrate with alternate payment')\">\r\n" +
+                "                <button class=\"btn btn-warning\">Continue</button>\r\n" +
+                "            </div>\r\n" +
+                "            <br/>\r\n" +
+                "        </div>\r\n" +
+                "    </div>\r\n" +
+                "    <script>\r\n" +
+                "    \r\n" +
+                "        // Helper functions\r\n" +
+                "function switchFlows(){\r\n" +
+                "          document.getElementById(\"shortFlow\").style.display=\"none\";\r\n" +
+                "            document.getElementById(\"markFlow\").style.display=\"block\";\r\n" +
+                "    }\r\n" +
+                "        function getElements(el) {\r\n" +
+                "            return Array.prototype.slice.call(document.querySelectorAll(el));\r\n" +
+                "        }\r\n" +
+                "        function hideElement(el) {\r\n" +
+                "            document.body.querySelector(el).style.display = 'none';\r\n" +
+                "        }\r\n" +
+                "        function showElement(el) {\r\n" +
+                "            document.body.querySelector(el).style.display = 'block';\r\n" +
+                "        }\r\n" +
+                "        // Listen for changes to the radio fields\r\n" +
+                "        getElements('input[name=payment-option]').forEach(function (el) {\r\n" +
+                "            el.addEventListener('change', function (event) {\r\n" +
+                "                // If PayPal is selected, show the PayPal button\r\n" +
+                "                if (event.target.value === 'paypal') {\r\n" +
+                "                    hideElement('#card-button-container');\r\n" +
+                "                    showElement('#paypal-button-container-mark');\r\n" +
+                "                }\r\n" +
+                "                // If Card is selected, show the standard continue button\r\n" +
+                "                if (event.target.value === 'card') {\r\n" +
+                "                    showElement('#card-button-container');\r\n" +
+                "                    hideElement('#paypal-button-container-mark');\r\n" +
+                "                }\r\n" +
+                "            });\r\n" +
+                "        });\r\n" +
+                "        // Hide Non-PayPal button by default\r\n" +
+                "        hideElement('#card-button-container');\r\n" +
+                "        \r\n" +
+                "         var CREATE_PAYMENT_URL = \"/api/server/payment\"\r\n" +
+                "            var EXECUTE_PAYMENT_URL = \"/api/server/payment-execute\"\r\n" +
+                "            var paymentPayload = {\r\n" +
+                "                intent: \"sale\",\r\n" +
+                "                payer: {\r\n" +
+                "                    payment_method: \"paypal\"\r\n" +
+                "                },\r\n" +
+                "                redirect_urls: {\r\n" +
+                "                    return_url:  \"/api/server/success\",\r\n" +
+                "                    cancel_url:   \"/api/server/cancel\"\r\n" +
+                "                },\r\n" +
+                "                transactions: [{\r\n" +
+                "                    amount: {\r\n" +
+                "                        total: \"4.00\",\r\n" +
+                "                        currency: \"USD\",\r\n" +
+                "                        details: {\r\n" +
+                "                            subtotal: \"2.00\",\r\n" +
+                "                            shipping: \"1.00\",\r\n" +
+                "                            tax: \"2.00\",\r\n" +
+                "                            shipping_discount: \"-1.00\"\r\n" +
+                "                        }\r\n" +
+                "                    },\r\n" +
+                "                    item_list: {\r\n" +
+                "                        items: [{\r\n" +
+                "                                quantity: \"1\",\r\n" +
+                "                                name: \"item 1\",\r\n" +
+                "                                price: \"1\",\r\n" +
+                "                                currency: \"USD\",\r\n" +
+                "                                description: \"item 1 description\",\r\n" +
+                "                                tax: \"1\"\r\n" +
+                "                            },\r\n" +
+                "                            {\r\n" +
+                "                                quantity: \"1\",\r\n" +
+                "                                name: \"item 2\",\r\n" +
+                "                                price: \"1\",\r\n" +
+                "                                currency: \"USD\",\r\n" +
+                "                                description: \"item 2 description\",\r\n" +
+                "                                tax: \"1\"\r\n" +
+                "                            }\r\n" +
+                "                        ]\r\n" +
+                "                    }\r\n" +
+                "                }]\r\n" +
+                "            };\r\n" +
+                "    \r\n" +
+                "        paypal.Button.render({\r\n" +
+                "            env: 'sandbox', // sandbox | production\r\n" +
+                "            // PayPal Client IDs - replace with your own\r\n" +
+                "            // Create a PayPal app: https://developer.paypal.com/developer/applications/create\r\n" +
+                "            client: {\r\n" +
+                "                sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',\r\n" +
+                "                production: '<insert production client id>'\r\n" +
+                "            },\r\n" +
+                "            // Show the buyer a 'Pay Now' button in the checkout flow\r\n" +
+                "            commit: true,\r\n" +
+                "            // Specify the style of the button\r\n" +
+                "          "+  loadStyles()+
+                "            // payment() is called when the button is clicked\r\n" +
+                "            payment: function (data, actions) {\r\n" +
+                "                    document.getElementById(\"paypal-button-container-err\").innerHTML = \"\";\r\n" +
+                "                    // call server to create payment\r\n" +
+                "                    return paypal.request({\r\n" +
+                "                        method: 'post',\r\n" +
+                "                        url: CREATE_PAYMENT_URL,\r\n" +
+                "                        json: paymentPayload\r\n" +
+                "                    }).then(function (data) {\r\n" +
+                "                        if (data.error) {\r\n" +
+                "                            alert(data.error);\r\n" +
+                "                            return;\r\n" +
+                "                        }\r\n" +
+                "                        return data.id;\r\n" +
+                "                    });\r\n" +
+                "                },\r\n" +
+                "                onAuthorize: function (data, actions) {\r\n" +
+                "                    // call server to execute payment\r\n" +
+                "                    return paypal.request.post(EXECUTE_PAYMENT_URL, {\r\n" +
+                "                        paymentID: data.paymentID,\r\n" +
+                "                        payerID: data.payerID\r\n" +
+                "                    }).then(function (payment) {\r\n" +
+                "                        if (payment.error) {\r\n" +
+                "                            alert(payment.error);\r\n" +
+                "                            return;\r\n" +
+                "                        }\r\n" +
+                "                        window.alert(\"Payment is Complete and Payment Id : \" + payment.id);\r\n" +
+                "                    });\r\n" +
+                "                },\r\n" +
+                "                onCancel: function () {\r\n" +
+                "                    window.alert(\"You have cancelled\");\r\n" +
+                "                    return;\r\n" +
+                "                }\r\n" +
+                "        }, '#paypal-button-container');\r\n" +
+                "        \r\n" +
+                "        paypal.Button.render({\r\n" +
+                "            env: 'sandbox', // sandbox | production\r\n" +
+                "            // PayPal Client IDs - replace with your own\r\n" +
+                "            // Create a PayPal app: https://developer.paypal.com/developer/applications/create\r\n" +
+                "            client: {\r\n" +
+                "                sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',\r\n" +
+                "                production: '<insert production client id>'\r\n" +
+                "            },\r\n" +
+                "            // Show the buyer a 'Pay Now' button in the checkout flow\r\n" +
+                "            commit: true,\r\n" +
+                "            // Specify the style of the button\r\n" +
+                "          "+  loadStyles()+
+                "            // payment() is called when the button is clicked\r\n" +
+                "            payment: function (data, actions) {\r\n" +
+                "                   // call server to create payment\r\n" +
+                "                    return paypal.request({\r\n" +
+                "                        method: 'post',\r\n" +
+                "                        url: CREATE_PAYMENT_URL,\r\n" +
+                "                        json: {\r\n" +
+                "                            intent: \"sale\",\r\n" +
+                "                            payer: {\r\n" +
+                "                                payment_method: \"paypal\"\r\n" +
+                "                            },\r\n" +
+                "                            redirect_urls: {\r\n" +
+                "                                return_url:  \"/api/server/success\",\r\n" +
+                "                                cancel_url:   \"/api/server/cancel\"\r\n" +
+                "                            },\r\n" +
+                "                            transactions:  [{\r\n" +
+                "                                amount: {\r\n" +
+                "                                    total: \"4.00\",\r\n" +
+                "                                    currency: \"USD\",\r\n" +
+                "                                    details: {\r\n" +
+                "                                        subtotal: \"2.00\",\r\n" +
+                "                                        shipping: \"1.00\",\r\n" +
+                "                                        tax: \"2.00\",\r\n" +
+                "                                        shipping_discount: \"-1.00\"\r\n" +
+                "                                    }\r\n" +
+                "                                },\r\n" +
+                "                                item_list: {\r\n" +
+                "                                    items: [{\r\n" +
+                "                                            quantity: \"1\",\r\n" +
+                "                                            name: \"item 1\",\r\n" +
+                "                                            price: \"1\",\r\n" +
+                "                                            currency: \"USD\",\r\n" +
+                "                                            description: \"item 1 description\",\r\n" +
+                "                                            tax: \"1\"\r\n" +
+                "                                        },\r\n" +
+                "                                        {\r\n" +
+                "                                            quantity: \"1\",\r\n" +
+                "                                            name: \"item 2\",\r\n" +
+                "                                            price: \"1\",\r\n" +
+                "                                            currency: \"USD\",\r\n" +
+                "                                            description: \"item 2 description\",\r\n" +
+                "                                            tax: \"1\"\r\n" +
+                "                                        }\r\n" +
+                "                                    ],\r\n" +
+                "                                    shipping_address: {\r\n" +
+                "                                        recipient_name: $(\"#firstname\").val() + \" \" + $(\"#lastname\").val(),\r\n" +
+                "                                        line1: $(\"#address\").val(),\r\n" +
+                "                                        line2: $(\"#address1\").val(),\r\n" +
+                "                                        city: $(\"#city\").val(),\r\n" +
+                "                                        country_code: $(\"#country\").val(),\r\n" +
+                "                                        postal_code: $(\"#postalcode\").val(),\r\n" +
+                "                                        state: $(\"#state\").val()\r\n" +
+                "                                    }\r\n" +
+                "                                },\r\n" +
+                "                                description: \"The payment transaction description.\",\r\n" +
+                "                                custom: \"merchant custom data\"\r\n" +
+                "                            }]\r\n" +
+                "                        }\r\n" +
+                "                    }).then(function (data) {\r\n" +
+                "                        if (data.error) {\r\n" +
+                "                             alert(data.error);\r\n" +
+                "                             return;\r\n" +
+                "                        }\r\n" +
+                "                        return data.id;\r\n" +
+                "                    });\r\n" +
+                "                },\r\n" +
+                "                onAuthorize: function (data, actions) {\r\n" +
+                "                    // call server to execute payment\r\n" +
+                "                    return paypal.request.post(EXECUTE_PAYMENT_URL, {\r\n" +
+                "                        paymentID: data.paymentID,\r\n" +
+                "                        payerID: data.payerID\r\n" +
+                "                    }).then(function (payment) {\r\n" +
+                "                        if (payment.error) {\r\n" +
+                "                            alert(payment.error);\r\n" +
+                "                            return;\r\n" +
+                "                        }\r\n" +
+                "                        document.getElementById(\"markFlow\").style.display=\"none\";\r\n" +
+                "                        document.getElementById(\"shortFlow\").style.display=\"block\";\r\n" +
+                "                        window.alert(\"Payment is Complete and Payment Id : \" + payment.id);\r\n" +
+                "                    });\r\n" +
+                "                },\r\n" +
+                "                onCancel: function () {\r\n" +
+                "                    window.alert(\"You have cancelled\");\r\n" +
+                "                    return;\r\n" +
+                "                },\r\n" +
+                "        }, '#paypal-button-container-mark');\r\n" +
+                "      \r\n" +
+                "    <\/script>\r\n" +
+                "</body>\r\n";
+                                    }
+
+
+         
+
+        function loadStyles(){
+            
+                        var obj = checkoutObj.style;
+            
+                        var finalStr = "  style: {\r\n" ;
+                        var keys = Object.keys(obj);
+                        for (let x of Object.keys(checkoutObj.style)) {
+                            finalStr+= "                  "+ x+":"+ "'"+checkoutObj.style[x]+"',\r\n";
+                        }
+                        finalStr+="            },\r\n";
+                        return finalStr;
+                        }   
+    </script>
