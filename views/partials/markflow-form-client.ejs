@@ -405,8 +405,8 @@
                 return actions.payment.execute().then(function () {
                     return actions.payment.get().then(function (payment) {
                         window.alert('Payment Complete and Payment Id is: ' + payment.id);
-                        $("#markFlow").hide();
-                        $("#shortFlow").show();
+                        document.getElementById("markFlow").style.display="none";
+                        document.getElementById("shortFlow").style.display="block";
                     })
                 });
             },

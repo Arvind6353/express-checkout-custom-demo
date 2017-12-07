@@ -406,6 +406,8 @@
                     // Get the payment and buyer details
                     return actions.payment.get().then(function (paymentq) {
                         window.alert("Payment is Complete and Payment Id : " + paymentq.id);
+                        document.getElementById("markFlow").style.display="none";
+                        document.getElementById("shortFlow").style.display="block";
                     });
                     // window.alert("Payment is Complete and Payment Id : " +payment.transaction.paypal.paymentId);
                 });
