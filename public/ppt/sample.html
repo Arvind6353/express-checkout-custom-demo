@@ -29,6 +29,15 @@
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
 
+        <style>
+            .smallfont {
+                    font-size: 30px !important;
+                }
+                i {
+                    font-weight : 800 !important;
+                    text-decoration: underline;
+                }
+        </style>
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
@@ -93,7 +102,7 @@
                 </section>
 
 
-                <section id="fragments">
+                <section >
                     
                     <h3> Steps to integrate Express checkout</h3>
                     <ol>
@@ -117,7 +126,6 @@
                             <pre><code class="hljs" data-trim contenteditable>
                                 
 <!-- Import the checkout js here -->
-<script src="checkoutjs api from paypal"></script>
 
 <div id="paypal-button"></div>
 
@@ -228,59 +236,209 @@
                     </tr>   
                 </thead>
                 <tbody>
-            <tr>
-                <td>
-                    onAuthorize()
-                </td>
-                <td>
-                        This gets called after the buyer logs in and authorizes the payment on paypal.com. 
-                        
-                        You can optionally show a confirmation page, and then execute the payment.
-                </td>
-            </tr>
-                 <tr>   
-                <td>
-                    onCancel()
-                </td>
-                <td>
-                    This gets called if the buyer cancels the payment.
-                    
-                    By default, the buyer is returned to the original page, but you're free to use this function to take them to a different page.
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    onError()
-                </td>
-                <td>
-                    Function called by checkout.js when an error occurs. 
-                    
-                    You can allow the buyer to re-try or show an error message.
-                </td>
+                    <tr>
+                        <td>
+                            onAuthorize()
+                        </td>
+                        <td>
+                                This gets called after the buyer logs in and authorizes the payment on paypal.com. 
+                                
+                                You can optionally show a confirmation page, and then execute the payment.
+                        </td>
+                    </tr>
+                        <tr>   
+                        <td>
+                            onCancel()
+                        </td>
+                        <td>
+                            This gets called if the buyer cancels the payment.
+                            
+                            By default, the buyer is returned to the original page, but you're free to use this function to take them to a different page.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            onError()
+                        </td>
+                        <td>
+                            Function called by checkout.js when an error occurs. 
+                            
+                            You can allow the buyer to re-try or show an error message.
+                        </td>
 
-            </tr>
-        </tbody>
-    </table>
-	
-</section>    
+                    </tr>
+                    </tbody>
+                </table>
+             </section>    
 
         </section> <!-- End Of Add Payment -->    
 
 
+        <section>
+            <section>
+            <h3> Create Rest App &amp; Credentials</h3>
 
+            <p> As a prerequisite, you need a client ID and secret to authenticate your account with PayPal.
+            </p>
+             <p>You can use an existing client ID or create a new one.
+            </p>
+           </section>
+            <section>
+                <h4> Follow the below steps to create rest credentials</h4>
+                <ol>
+                    <li>
+                            Navigate to My Apps &amp; Credentials and click Log into Dashboard in the top, right corner of the page.
+                    </li>
+                    <li>
+                            Scroll down to REST API Apps and click the name of your app to see the app's details. If you don't have any apps, create one now
+                    </li>
+                    <li>
+                         Click Create App.
+                         In App Name, enter a name and then click Create App again. The app is created and your client ID is displayed.
+                    </li>
+                    <li>
+                            Click the Sandbox / Live toggle to display and copy the client ID for each environment.
+                    </li>
+
+                </ol>
+            </section>  
+        </section>
 
                 
+        <section>
+
+            <h3> Set up &amp; Execute the Payment</h3>
+            <p> We have the following 3 types of integrations</h3>
+            <ul>
+                <li class='fragment'> Client Integration</li>
+                <li class='fragment'> Server Integration</li>
+                <li class='fragment'> Braintree Integration</li>
+            </ul>
+
+        </section>
+
+
+        <section>
+            <h3> Client Integration</h3>
+           <section>
+               <p> Characteristics</p>
+                <ul>
+                    <li> Simple to implement </li>
+                    <li>
+                        With this integration, the PayPal button calls the PayPal REST API directly to set up the payment
+                    </li>
+                    <li>       
+                        No server setup required.
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <p> Some of the most common types of Client integration:</p>
+                <ol>
+                    <li> Basic</li>
+                    <li> Redirection </li>
+                    <li> Experience </li>
+                    <li> Confirmation </li>
+                    <li> Mark Flow (Can be used with other types)</li>
+                </ol>
+            </section>    
+        </section>   
+
+
+        <section>
+            <h3> Basic Client Integration </h3>
+            <section>
+                <ul class="smallfont" style="line-height:1.5em;">
+                    <li> This is the simplest of all checkout jsv4 integrations.</li>
+                    <li> User will be shown the paypal checkout button.</li>
+                    <li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+                    <li> Call <mark>actions.payment.create()</mark> in the payment() method passing the payment information <i>(amount and currency are required fields) </i>to create a payment.
+                    <li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called.    
+                    <li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.
+                    <li> Final payment object is returned in the execute() call and this can be shown to the user.
+                </ul>    
+            </section>
+            <section>
+                    <img height="400" data-src="../../images/basic-client.gif" alt="Basic Client working flow">
+                    
+            </section>       
+        </section>    <!-- end of basic client -->
+
+
+        <section>
+            <h3> Redirection Client Integration </h3>
+            <section>
+                <ul class="smallfont" style="line-height:1.8em;">
+                    <li> We can redirect the user to a different page on cancelling the checkout flow or on success execution of the payment to show the payment details.</li>
+                    <li> User will be shown the paypal checkout button.</li>
+                    <li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+                    <li> Call <mark>actions.payment.create()</mark> in the payment() method passing the payment information to create a payment.
+                    <li> For redirection to happen , we need to pass  <mark>redirect_urls: {
+                            return_url: "/api/paymentDetails",
+                            cancel_url: "/api/cancel"
+                         }    
+                        </mark>  along with the <i>amount and currency </i> </li>
+                </ul>
+            </section>         
+                
+            <section>
+                <ul class="smallfont" style="line-height:1.8em;">
+                   <li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called.    
+                    <li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.
+                    <li> Once the final payment object is returned , invoke <mark> actions.redirect()</mark> to redirect the user to the url specified in the <i>return url</i>.
+                    <li> If the user cancels the checkout flow , use <mark> actions.redirect() </mark> in the <i>onCancel()</i> option to redirect the user to the cancel page</li>    
+                </ul>    
+            </section>
+
+            <section>
+                <img height="400" data-src="../../images/redirection-client.gif" alt="Redirection Client working flow">
+                    
+            </section>       
+        </section>    <!-- end of redirection client -->
+
+
+        
+        <section>
+                <h3> Experience Client Integration </h3>
                 <section>
-
-                    <h3> Types of Integration</h3>
-
-                    <ul>
-                        <li> Client Integration</li>
-                        <li> Server Integration</li>
-                        <li> Braintree Integration</li>
+                    <ul class="smallfont" style="line-height:1.5em;">
+                        <li> We can customize the experience by passing extra options in <mark> actions.payment.create()</mark>.
+                        <li> These options are based on the <mark> <a href="https://developer.paypal.com/docs/api/payment-experience/">Experience Api </a></mark>.  
+                        <li> User will be shown the paypal checkout button.</li>
+                        <li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+                        <li> Call <mark>actions.payment.create()</mark> in the payment() method passing the payment information to create a payment.
+                        <li> For customized experience , we need to pass  <mark>experience: {
+                                input_fields: {
+                                    no_shipping: 1 // takes 0,1,2 as values
+                                    // many more fields
+                                }
+                            }
+                            </mark>  along with the <i>amount and currency </i> </li>
+                        <li> Here, no_shipping : 1 means shipping address will not be shown to the user during checkout flow.</li>  
                     </ul>
-
+                </section>         
+                    
+                <section>
+                    <ul class="smallfont" style="line-height:1.8em;">
+                            <li> We can also show custom logo and brand names in the paypal page . To do this , we need to pass <mark> presentation {
+                                    brand_name :"custom brand name"
+                                    logo_image:"custom logo image_url"
+                                   }
+                                  </mark>  along with the <i>amount and currency </i>
+                            </li>
+                            <li> User will be shown the paypal login screen and once after successful auth the user <i>will not be able to see the shipping details</i> as we have disabled them using <i>no_shipping</i> and <mark>onAuthorize()</mark> method gets called.    
+                            <li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.
+                            <li> Final payment object is returned in the execute() call and this can be shown to the user.    
+                    </ul>    
                 </section>
+    
+                <section>
+                    <img height="400" data-src="../../images/experience-client.gif" alt="Experience Client working flow">
+                        
+                </section>       
+            </section>    <!-- end of experience client -->
+
+
 
 
 
