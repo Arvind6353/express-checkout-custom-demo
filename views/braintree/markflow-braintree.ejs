@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="row" style="margin-top:1%;display:none" id="markFlow">
-                            <% include partials/markflow-form-server.ejs %>
+                            <% include partials/markflow-form-braintree.ejs %>
                         </div>
 
 
@@ -102,98 +102,72 @@
         hideElement('#card-button-container');
 
         function createCheckoutExp(chkObj) {
-            var CREATE_PAYMENT_URL = "/api/server/payment"
-            var EXECUTE_PAYMENT_URL = "/api/server/payment-execute"
-
-            var paymentPayload = {
-                intent: "sale",
-                payer: {
-                    payment_method: "paypal"
-                },
-                redirect_urls: {
-                    return_url: serverUrl + "/api/server/success",
-                    cancel_url: serverUrl + "/api/server/cancel"
-                },
-                transactions: [{
-                    amount: {
-                        total: "4.00",
-                        currency: "USD",
-                        details: {
-                            subtotal: "2.00",
-                            shipping: "1.00",
-                            tax: "2.00",
-                            shipping_discount: "-1.00"
-                        }
-                    },
-                    item_list: {
-                        items: [{
-                                quantity: "1",
-                                name: "item 1",
-                                price: "1",
-                                currency: "USD",
-                                description: "item 1 description",
-                                tax: "1"
-                            },
-                            {
-                                quantity: "1",
-                                name: "item 2",
-                                price: "1",
-                                currency: "USD",
-                                description: "item 2 description",
-                                tax: "1"
-                            }
-                        ]
-                    }
-                }]
-
-            };
+            var EXECUTE_PAYMENT_URL = "/api/braintree/payment"
+            delete chkObj.client;
 
             var obj = {
-                payment: function (data, actions) {
-                    document.getElementById("paypal-button-container-err").innerHTML = "";
-                    // call server to create payment
+                braintree: braintree,
 
-                    return paypal.request({
-                        method: 'post',
-                        url: CREATE_PAYMENT_URL,
-                        json: paymentPayload
-                    }).then(function (data) {
-                        if (data.error) {
-                            document.getElementById("paypal-button-container-err").innerHTML =
-                                "<p style='color:red'>" + JSON.stringify(data.error) + "</p>";
-                            return;
+                client: {
+                    sandbox: paypal.request.get('/api/braintree/clienttoken'),
+                    production: '<insert production auth key>'
+                },
+
+                payment: function (data, actions) {
+                    document.getElementById("paypal-button-container-err").innerHTML = '';
+                    // Make a call to create the payment
+                    return actions.payment.create({
+                        payment: {
+                            transactions: [{
+                                amount: {
+                                    total: '1.00',
+                                    currency: 'USD'
+                                }
+                            }],
+
+                            application_context: {
+                                brand_name: "branding",
+                                shipping_preference: "GET_FROM_FILE",
+                                landing_page: "billing"
+                            }
                         }
-                        return data.id;
                     });
                 },
+                // Wait for the payment to be authorized by the customer
                 onAuthorize: function (data, actions) {
-                    // call server to execute payment
+                    // Call your server with data.nonce to finalize the payment
+                    console.log('Braintree nonce:', data.nonce);
                     return paypal.request.post(EXECUTE_PAYMENT_URL, {
-                        paymentID: data.paymentID,
-                        payerID: data.payerID
+                        nonce: data.nonce
                     }).then(function (payment) {
                         if (payment.error) {
                             document.getElementById("paypal-button-container-err").innerHTML =
                                 "<p style='color:red'>" + JSON.stringify(payment.error) + "</p>";
                             return;
                         }
-                        window.alert("Payment is Complete and Payment Id : " + payment.id);
+                        // Get the payment and buyer details
+                        return actions.payment.get().then(function (paymentq) {
+                            window.alert("Payment is Complete and Payment Id : " + paymentq.id);
+                        });
+                        // window.alert("Payment is Complete and Payment Id : " +payment.transaction.paypal.paymentId);
                     });
+
                 },
+
                 onCancel: function () {
                     window.alert("You have cancelled");
                     return;
                 },
+
                 onError: function (err) {
                     $("#viewSC").hide();
-                    document.getElementById("paypal-button-container-err").innerHTML += "<p style='color:red'>" +
+                    document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>" +
                         err + "</p>";
-                    return false;
                 }
             };
 
             paypal.Button.render(Object.assign({}, obj, chkObj), '#paypal-button-container');
-            createCheckoutExpMarkServer(chkObj);
+            createCheckoutExpMarkBraintree(chkObj);
         }
     </script>
     <script src="/javascripts/formhandling.js"></script>

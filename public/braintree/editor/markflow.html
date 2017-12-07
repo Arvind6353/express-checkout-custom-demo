@@ -29,14 +29,8 @@
                 "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n" +
                 "    <script src=\"https://www.paypalobjects.com/api/checkout.js\"><\/script>\r\n" +
-                "<script>\r\n" +
-                "    function switchFlows(){\r\n" +
-                "          document.getElementById(\"shortFlow\").style.display=\"none\";\r\n" +
-                "          document.getElementById(\"markFlow\").style.display=\"block\";\r\n" +
-                "    }\r\n" +
-                "<\/script>\r\n" +
                 "</head>\r\n" +
-                "<body>\r\n" +
+                "<body>\r\n" +  
                 "    <div>\r\n" +
                 "        <h3>iPhone 6S</h3>\r\n" +
                 "        <img src=\"/images/iphone.jpeg\" class=\"img-responsive\" style=\"height:15%\"/>\r\n" +
@@ -381,10 +375,10 @@
                 "    <script>\r\n" +
                 "    \r\n" +
                 "        // Helper functions\r\n" +
-                "function switchFlows(){\r\n" +
-                "          document.getElementById(\"shortFlow\").style.display=\"none\";\r\n" +
+                "        function switchFlows(){\r\n" +
+                "            document.getElementById(\"shortFlow\").style.display=\"none\";\r\n" +
                 "            document.getElementById(\"markFlow\").style.display=\"block\";\r\n" +
-                "    }\r\n" +
+                "        }\r\n" +
                 "        function getElements(el) {\r\n" +
                 "            return Array.prototype.slice.call(document.querySelectorAll(el));\r\n" +
                 "        }\r\n" +
@@ -412,89 +406,63 @@
                 "        // Hide Non-PayPal button by default\r\n" +
                 "        hideElement('#card-button-container');\r\n" +
                 "        \r\n" +
-                "         var CREATE_PAYMENT_URL = \"/api/server/payment\"\r\n" +
-                "            var EXECUTE_PAYMENT_URL = \"/api/server/payment-execute\"\r\n" +
-                "            var paymentPayload = {\r\n" +
-                "                intent: \"sale\",\r\n" +
-                "                payer: {\r\n" +
-                "                    payment_method: \"paypal\"\r\n" +
-                "                },\r\n" +
-                "                redirect_urls: {\r\n" +
-                "                    return_url:  \"/api/server/success\",\r\n" +
-                "                    cancel_url:   \"/api/server/cancel\"\r\n" +
-                "                },\r\n" +
-                "                transactions: [{\r\n" +
-                "                    amount: {\r\n" +
-                "                        total: \"4.00\",\r\n" +
-                "                        currency: \"USD\",\r\n" +
-                "                        details: {\r\n" +
-                "                            subtotal: \"2.00\",\r\n" +
-                "                            shipping: \"1.00\",\r\n" +
-                "                            tax: \"2.00\",\r\n" +
-                "                            shipping_discount: \"-1.00\"\r\n" +
-                "                        }\r\n" +
-                "                    },\r\n" +
-                "                    item_list: {\r\n" +
-                "                        items: [{\r\n" +
-                "                                quantity: \"1\",\r\n" +
-                "                                name: \"item 1\",\r\n" +
-                "                                price: \"1\",\r\n" +
-                "                                currency: \"USD\",\r\n" +
-                "                                description: \"item 1 description\",\r\n" +
-                "                                tax: \"1\"\r\n" +
-                "                            },\r\n" +
-                "                            {\r\n" +
-                "                                quantity: \"1\",\r\n" +
-                "                                name: \"item 2\",\r\n" +
-                "                                price: \"1\",\r\n" +
-                "                                currency: \"USD\",\r\n" +
-                "                                description: \"item 2 description\",\r\n" +
-                "                                tax: \"1\"\r\n" +
-                "                            }\r\n" +
-                "                        ]\r\n" +
-                "                    }\r\n" +
-                "                }]\r\n" +
-                "            };\r\n" +
-                "    \r\n" +
+                "        var EXECUTE_PAYMENT_URL = \"/api/braintree/payment\"\r\n" +
+                "           \r\n" +
                 "        paypal.Button.render({\r\n" +
                 "            env: 'sandbox', // sandbox | production\r\n" +
-                "            // PayPal Client IDs - replace with your own\r\n" +
-                "            // Create a PayPal app: https://developer.paypal.com/developer/applications/create\r\n" +
-                "            client: {\r\n" +
-                "                sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',\r\n" +
-                "                production: '<insert production client id>'\r\n" +
-                "            },\r\n" +
+                "            \r\n" +
                 "            // Show the buyer a 'Pay Now' button in the checkout flow\r\n" +
                 "            commit: true,\r\n" +
                 "            // Specify the style of the button\r\n" +
-                "          "+  loadStyles()+
-                "            // payment() is called when the button is clicked\r\n" +
+                "            style: {\r\n" +
+                "                  layout:'horizontal',\r\n" +
+                "                  label:'checkout',\r\n" +
+                "                  size:'small',\r\n" +
+                "                  shape:'pill',\r\n" +
+                "                  color:'gold',\r\n" +
+                "                  fundingicons:'false',\r\n" +
+                "                  tagline:'true',\r\n" +
+                "                  maxbuttons:2,\r\n" +
+                "            },\r\n" +
+                "            braintree: braintree,\r\n" +
+                "            client: {\r\n" +
+                "                    sandbox: paypal.request.get('/api/braintree/clienttoken'),\r\n" +
+                "                    production: '<insert production auth key>'\r\n" +
+                "            },\r\n" +
                 "            payment: function (data, actions) {\r\n" +
-                "                    document.getElementById(\"paypal-button-container-err\").innerHTML = \"\";\r\n" +
-                "                    // call server to create payment\r\n" +
-                "                    return paypal.request({\r\n" +
-                "                        method: 'post',\r\n" +
-                "                        url: CREATE_PAYMENT_URL,\r\n" +
-                "                        json: paymentPayload\r\n" +
-                "                    }).then(function (data) {\r\n" +
-                "                        if (data.error) {\r\n" +
-                "                            alert(data.error);\r\n" +
-                "                            return;\r\n" +
+                "                    // Make a call to create the payment\r\n" +
+                "                    return actions.payment.create({\r\n" +
+                "                        payment: {\r\n" +
+                "                            transactions: [{\r\n" +
+                "                                amount: {\r\n" +
+                "                                    total: '1.00',\r\n" +
+                "                                    currency: 'USD'\r\n" +
+                "                                }\r\n" +
+                "                            }],\r\n" +
+                "                            application_context: {\r\n" +
+                "                                brand_name: \"branding\",\r\n" +
+                "                                shipping_preference: \"GET_FROM_FILE\",\r\n" +
+                "                                landing_page: \"billing\"\r\n" +
+                "                            }\r\n" +
                 "                        }\r\n" +
-                "                        return data.id;\r\n" +
                 "                    });\r\n" +
                 "                },\r\n" +
+                "                // Wait for the payment to be authorized by the customer\r\n" +
                 "                onAuthorize: function (data, actions) {\r\n" +
-                "                    // call server to execute payment\r\n" +
+                "                    // Call your server with data.nonce to finalize the payment\r\n" +
+                "                    console.log('Braintree nonce:', data.nonce);\r\n" +
                 "                    return paypal.request.post(EXECUTE_PAYMENT_URL, {\r\n" +
-                "                        paymentID: data.paymentID,\r\n" +
-                "                        payerID: data.payerID\r\n" +
+                "                        nonce: data.nonce\r\n" +
                 "                    }).then(function (payment) {\r\n" +
                 "                        if (payment.error) {\r\n" +
                 "                            alert(payment.error);\r\n" +
                 "                            return;\r\n" +
                 "                        }\r\n" +
-                "                        window.alert(\"Payment is Complete and Payment Id : \" + payment.id);\r\n" +
+                "                        // Get the payment and buyer details\r\n" +
+                "                        return actions.payment.get().then(function (paymentq) {\r\n" +
+                "                            window.alert(\"Payment is Complete and Payment Id : \" + paymentq.id);\r\n" +
+                "                        });\r\n" +
+                "                        // window.alert(\"Payment is Complete and Payment Id : \" +payment.transaction.paypal.paymentId);\r\n" +
                 "                    });\r\n" +
                 "                },\r\n" +
                 "                onCancel: function () {\r\n" +
@@ -503,107 +471,86 @@
                 "                }\r\n" +
                 "        }, '#paypal-button-container');\r\n" +
                 "        \r\n" +
+                "               \r\n" +
                 "        paypal.Button.render({\r\n" +
                 "            env: 'sandbox', // sandbox | production\r\n" +
-                "            // PayPal Client IDs - replace with your own\r\n" +
-                "            // Create a PayPal app: https://developer.paypal.com/developer/applications/create\r\n" +
-                "            client: {\r\n" +
-                "                sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',\r\n" +
-                "                production: '<insert production client id>'\r\n" +
-                "            },\r\n" +
+                "            \r\n" +
                 "            // Show the buyer a 'Pay Now' button in the checkout flow\r\n" +
                 "            commit: true,\r\n" +
                 "            // Specify the style of the button\r\n" +
-                "          "+  loadStyles()+
-                "            // payment() is called when the button is clicked\r\n" +
-                "            payment: function (data, actions) {\r\n" +
-                "                   // call server to create payment\r\n" +
-                "                    return paypal.request({\r\n" +
-                "                        method: 'post',\r\n" +
-                "                        url: CREATE_PAYMENT_URL,\r\n" +
-                "                        json: {\r\n" +
-                "                            intent: \"sale\",\r\n" +
-                "                            payer: {\r\n" +
-                "                                payment_method: \"paypal\"\r\n" +
-                "                            },\r\n" +
-                "                            redirect_urls: {\r\n" +
-                "                                return_url:  \"/api/server/success\",\r\n" +
-                "                                cancel_url:   \"/api/server/cancel\"\r\n" +
-                "                            },\r\n" +
-                "                            transactions:  [{\r\n" +
+                "            style: {\r\n" +
+                "                  layout:'horizontal',\r\n" +
+                "                  label:'checkout',\r\n" +
+                "                  size:'small',\r\n" +
+                "                  shape:'pill',\r\n" +
+                "                  color:'gold',\r\n" +
+                "                  fundingicons:'false',\r\n" +
+                "                  tagline:'true',\r\n" +
+                "                  maxbuttons:2,\r\n" +
+                "            },\r\n" +
+                "            braintree: braintree,\r\n" +
+                "            client: {\r\n" +
+                "                    sandbox: paypal.request.get('/api/braintree/clienttoken'),\r\n" +
+                "                    production: '<insert production auth key>'\r\n" +
+                "             },\r\n" +
+                "             payment: function (data, actions) {\r\n" +
+                "                    // Make a call to create the payment\r\n" +
+                "                    return actions.payment.create({\r\n" +
+                "                        payment: {\r\n" +
+                "                            transactions: [{\r\n" +
                 "                                amount: {\r\n" +
-                "                                    total: \"4.00\",\r\n" +
-                "                                    currency: \"USD\",\r\n" +
-                "                                    details: {\r\n" +
-                "                                        subtotal: \"2.00\",\r\n" +
-                "                                        shipping: \"1.00\",\r\n" +
-                "                                        tax: \"2.00\",\r\n" +
-                "                                        shipping_discount: \"-1.00\"\r\n" +
-                "                                    }\r\n" +
-                "                                },\r\n" +
-                "                                item_list: {\r\n" +
-                "                                    items: [{\r\n" +
-                "                                            quantity: \"1\",\r\n" +
-                "                                            name: \"item 1\",\r\n" +
-                "                                            price: \"1\",\r\n" +
-                "                                            currency: \"USD\",\r\n" +
-                "                                            description: \"item 1 description\",\r\n" +
-                "                                            tax: \"1\"\r\n" +
-                "                                        },\r\n" +
-                "                                        {\r\n" +
-                "                                            quantity: \"1\",\r\n" +
-                "                                            name: \"item 2\",\r\n" +
-                "                                            price: \"1\",\r\n" +
-                "                                            currency: \"USD\",\r\n" +
-                "                                            description: \"item 2 description\",\r\n" +
-                "                                            tax: \"1\"\r\n" +
-                "                                        }\r\n" +
-                "                                    ],\r\n" +
-                "                                    shipping_address: {\r\n" +
-                "                                        recipient_name: $(\"#firstname\").val() + \" \" + $(\"#lastname\").val(),\r\n" +
-                "                                        line1: $(\"#address\").val(),\r\n" +
-                "                                        line2: $(\"#address1\").val(),\r\n" +
-                "                                        city: $(\"#city\").val(),\r\n" +
-                "                                        country_code: $(\"#country\").val(),\r\n" +
-                "                                        postal_code: $(\"#postalcode\").val(),\r\n" +
-                "                                        state: $(\"#state\").val()\r\n" +
-                "                                    }\r\n" +
-                "                                },\r\n" +
-                "                                description: \"The payment transaction description.\",\r\n" +
-                "                                custom: \"merchant custom data\"\r\n" +
-                "                            }]\r\n" +
+                "                                    total: '1.00',\r\n" +
+                "                                    currency: 'USD'\r\n" +
+                "                                }\r\n" +
+                "                            }],\r\n" +
+                "                            payer: {\r\n" +
+                "                                shipping_address: {\r\n" +
+                "                                    recipient_name: $(\"#firstname\").val() + \" \" + $(\"#lastname\")\r\n" +
+                "                                        .val(),\r\n" +
+                "                                    line1: $(\"#address\").val(),\r\n" +
+                "                                    line2: $(\"#address1\").val(),\r\n" +
+                "                                    city: $(\"#city\").val(),\r\n" +
+                "                                    country_code: $(\"#country\").val(),\r\n" +
+                "                                    postal_code: $(\"#postalcode\").val(),\r\n" +
+                "                                    state: $(\"#state\").val()\r\n" +
+                "                                }\r\n" +
+                "                        },\r\n" +
+                "                            application_context: {\r\n" +
+                "                                brand_name: \"branding\",\r\n" +
+                "                                shipping_preference: \"GET_FROM_FILE\",\r\n" +
+                "                                landing_page: \"billing\"\r\n" +
+                "                            }\r\n" +
                 "                        }\r\n" +
-                "                    }).then(function (data) {\r\n" +
-                "                        if (data.error) {\r\n" +
-                "                             alert(data.error);\r\n" +
-                "                             return;\r\n" +
-                "                        }\r\n" +
-                "                        return data.id;\r\n" +
                 "                    });\r\n" +
                 "                },\r\n" +
+                "                // Wait for the payment to be authorized by the customer\r\n" +
                 "                onAuthorize: function (data, actions) {\r\n" +
-                "                    // call server to execute payment\r\n" +
+                "                    // Call your server with data.nonce to finalize the payment\r\n" +
+                "                    console.log('Braintree nonce:', data.nonce);\r\n" +
                 "                    return paypal.request.post(EXECUTE_PAYMENT_URL, {\r\n" +
-                "                        paymentID: data.paymentID,\r\n" +
-                "                        payerID: data.payerID\r\n" +
+                "                        nonce: data.nonce\r\n" +
                 "                    }).then(function (payment) {\r\n" +
                 "                        if (payment.error) {\r\n" +
+                "                            \r\n" +
                 "                            alert(payment.error);\r\n" +
                 "                            return;\r\n" +
                 "                        }\r\n" +
-                "                        document.getElementById(\"markFlow\").style.display=\"none\";\r\n" +
-                "                        document.getElementById(\"shortFlow\").style.display=\"block\";\r\n" +
-                "                        window.alert(\"Payment is Complete and Payment Id : \" + payment.id);\r\n" +
+                "                        // Get the payment and buyer details\r\n" +
+                "                        return actions.payment.get().then(function (paymentq) {\r\n" +
+                "                            window.alert(\"Payment is Complete and Payment Id : \" + paymentq.id);\r\n" +
+                "                        });\r\n" +
+                "                        // window.alert(\"Payment is Complete and Payment Id : \" +payment.transaction.paypal.paymentId);\r\n" +
                 "                    });\r\n" +
                 "                },\r\n" +
                 "                onCancel: function () {\r\n" +
                 "                    window.alert(\"You have cancelled\");\r\n" +
                 "                    return;\r\n" +
-                "                },\r\n" +
-                "        }, '#paypal-button-container-mark');\r\n" +
+                "                }\r\n" +
+                "        }, '#paypal-button-container-mark')\r\n" +
                 "      \r\n" +
                 "    <\/script>\r\n" +
                 "</body>\r\n";
+                        
                                     }
 
 
