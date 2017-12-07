@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
 var serverCheckout = require('./routes/server-checkout');
 var braintreeCheckout = require('./routes/braintree-checkout');
 
@@ -122,8 +121,6 @@ app.get("/cancel", function(req, res, next) {
 app.get("/error", function(req, res, next) {
   res.render("error",{message:""});
 });
-
-app.use('/api', index);
 
 app.use('/api/server', serverCheckout);
 

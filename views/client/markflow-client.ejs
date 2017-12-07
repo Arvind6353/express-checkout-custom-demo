@@ -1,0 +1,144 @@
+<% include partials/header.ejs %>
+
+    <div class="container-fluid ">
+
+        <div class="row">
+            <div class="col-lg-6 col-md-4 col-sm-12 portfolio-item c1 text-center">
+                <% include partials/customizeform.ejs %>
+            </div>
+
+            <div class="col-lg-6 col-md-3 col-sm-12 portfolio-item c1 text-center">
+                <div id="column-middle1" style="margin-top:10%;height:100%">
+                    <legend>View the checkout experience</legend>
+                 <div class="text-left">
+                    <% include partials/sourcecode.ejs %>
+                </div>  
+                    <div class="alert alert-info">
+                        <strong>Mark Integration Client Checkout Flow</strong>
+                    </div>
+
+                    <% include partials/product.ejs %>
+
+                    <div class="row" style="margin-top:1%" id="shortFlow">
+                        <div id="code" class="markintg">
+
+                            <div id="paypal-button-container"></div>
+                            <br/>
+                            <div id="markFlowBtn" class="btn btn-warning btn-sm" onClick="switchFlows()">Proceed to Checkout</div>
+                         
+                            <br/>
+                            <div id="paypal-button-container-err"></div>
+                        </div>
+                        <br/>
+                        <button type="button" class="btn btn-primary btn-md openBtn" id="viewSC">View Source Code</button>
+                    </div>
+
+                    <div class="row" style="margin-top:1%;display:none" id="markFlow">
+                        <% include partials/addressform.ejs %>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+        <!-- end of row -->
+
+    </div>
+    <!-- end of container -->
+    <script>
+        // handle loading of source code inside modal body
+        $(document).ready(function () {
+            $('.openBtn').on('click', function () {
+                $('.modal-body').load('client/editor/markflow.html', function () {
+                    $('#myModal').modal({
+                        show: true
+                    });
+                });
+            });
+        })
+
+        function switchFlows(){
+            $("#shortFlow").hide();
+            $("#markFlow").show();
+        }
+        // Helper functions
+
+        function getElements(el) {
+            return Array.prototype.slice.call(document.querySelectorAll(el));
+        }
+
+        function hideElement(el) {
+            document.body.querySelector(el).style.display = 'none';
+        }
+
+        function showElement(el) {
+            document.body.querySelector(el).style.display = 'block';
+        }
+
+        // Listen for changes to the radio fields
+
+        getElements('input[name=payment-option]').forEach(function (el) {
+            el.addEventListener('change', function (event) {
+
+                // If PayPal is selected, show the PayPal button
+
+                if (event.target.value === 'paypal') {
+                    hideElement('#card-button-container');
+                    showElement('#paypal-button-container-mark');
+                }
+
+                // If Card is selected, show the standard continue button
+
+                if (event.target.value === 'card') {
+                    showElement('#card-button-container');
+                    hideElement('#paypal-button-container-mark');
+                }
+            });
+        });
+
+        // Hide Non-PayPal button by default
+
+        hideElement('#card-button-container');
+
+        function createCheckoutExp(chkObj) {
+
+            var obj = {
+                payment: function (data, actions) {
+                    document.getElementById("paypal-button-container-err").innerHTML = "";
+                    return actions.payment.create({
+                        payment: {
+                            transactions: [{
+                                amount: {
+                                    total: '0.01',
+                                    currency: 'USD'
+                                }
+                            }]
+                        }
+                    });
+                },
+
+                onAuthorize: function (data, actions) {
+                    return actions.payment.execute().then(function () {
+                        window.alert('Payment Complete!');
+                    });
+                },
+                onCancel: function () {
+                    window.alert("You have cancelled");
+                    return;
+                },
+                onError: function (err) {
+                    $("#viewSC").hide();
+                    document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>" +
+                        err + "</p>";
+                }
+            };
+
+            paypal.Button.render(Object.assign({}, obj, chkObj), '#paypal-button-container');
+            createCheckoutExpMark(chkObj);
+        }
+    </script>
+    <script src="/javascripts/formhandling.js"></script>
+    </body>
+
+    </html>
