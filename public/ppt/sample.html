@@ -888,12 +888,8 @@
 			<ul class="smallfont" style="line-height:1.5em;">
 				<li> The server api returns back the <mark>id</mark> to the client which returns the same in the payment() method</li>
 				<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called. </li>
-				<li> For customized experience , we need to pass  <mark>payee: {
-                        payee_display_metadata: {
-                            "brand_name": "Test Brand" // custom brand name
-                        }
-                    }
-				 </li>
+				<li> For customized experience , we need to pass <i>experience_profile_id</i>, which can be created using the steps specified <a target="_blank" href="https://developer.paypal.com/docs/api/payment-experience/#web-profiles_create">here</a>
+				</li>
 			</ul>
 		</section>			
 
