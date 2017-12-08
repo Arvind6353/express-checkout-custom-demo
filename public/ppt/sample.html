@@ -321,7 +321,7 @@
         <section>
             <h3> Client Integration</h3>
            <section>
-               <p> Characteristics</p>
+               <p style="float:left;margin-left:4%"> Characteristics</p>
                 <ul>
                     <li> Simple to implement </li>
                     <li>
@@ -353,13 +353,19 @@
                     <li> User will be shown the paypal checkout button.</li>
                     <li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
                     <li> Call <mark>actions.payment.create()</mark> in the payment() method passing the payment information <i>(amount and currency are required fields) </i>to create a payment.
-                    <li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called.    
-                    <li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.
-                    <li> Final payment object is returned in the execute() call and the result can be shown to the user.
-                </ul>    
-            </section>
+                    </ul>    
+			</section>
+			
+			<section>
+				<ul class="smallfont" style="line-height:1.5em;">
+					<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called.    
+					<li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.
+					<li> Final payment object is returned in the execute() call and the result can be shown to the user.
+				</ul>
+			</section>
+
             <section>
-                    <img height="400" data-src="../../images/basic-client.gif" alt="Basic Client working flow">
+                    <img height="400" data-src="../../images/basic-client.gif" alt="Shortcut Client working flow">
                     
             </section>       
         </section>    <!-- end of basic client -->
@@ -368,23 +374,29 @@
         <section>
             <h3> Redirection flow Client Integration </h3>
             <section>
-                <ul class="smallfont" style="line-height:1.8em;">
+                <ul class="smallfont" style="line-height:1.5em;">
                     <li> We can redirect the user to a different page on cancelling the checkout flow or on success execution of the payment to show the payment details.</li>
                     <li> User will be shown the paypal checkout button.</li>
                     <li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
                     <li> Call <mark>actions.payment.create()</mark> in the payment() method passing the payment information to create a payment.
-                    <li> For redirection to happen , we need to pass  <mark>redirect_urls: {
-                            return_url: "/api/paymentDetails",
-                            cancel_url: "/api/cancel"
-                         }    
-                        </mark>  along with the <i>amount and currency </i> </li>
+                    
                 </ul>
             </section>         
-                
+				
+			<section>
+				<ul class="smallfont" style="line-height:1.5em;">
+					<li> For redirection to happen , we need to pass  <mark>redirect_urls: {
+							return_url: "/api/paymentDetails",
+							cancel_url: "/api/cancel"
+							}    
+						</mark>  along with the <i>amount and currency </i> </li>
+					<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called.    
+				</ul>
+			</section>				
+
             <section>
-                <ul class="smallfont" style="line-height:1.8em;">
-                   <li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called.    
-                    <li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.
+                <ul class="smallfont" style="line-height:1.5em;">
+                  	<li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.
                     <li> Once the final payment object is returned , invoke <mark> actions.redirect()</mark> to redirect the user to the url specified in the <i>return url</i>.
                     <li> If the user cancels the checkout flow , use <mark> actions.redirect() </mark> in the <i>onCancel()</i> option to redirect the user to the cancel page</li>    
                 </ul>    
@@ -403,32 +415,37 @@
                 <section>
                     <ul class="smallfont" style="line-height:1.5em;">
                         <li> We can customize the experience by passing extra options in <mark> actions.payment.create()</mark>.
-                        <li> These options are based on the <mark> <a href="https://developer.paypal.com/docs/api/payment-experience/">Experience Api </a></mark>.  
+                        <li> These options are based on the <mark> <a target="_blank" href="https://developer.paypal.com/docs/api/payment-experience/">Experience Api </a></mark>.  
                         <li> User will be shown the paypal checkout button.</li>
                         <li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
                         <li> Call <mark>actions.payment.create()</mark> in the payment() method passing the payment information to create a payment.
-                        <li> For customized experience , we need to pass  <mark>experience: {
-                                input_fields: {
-                                    no_shipping: 1 // takes 0,1,2 as values
-                                    // many more fields
-                                }
-                            }
-                            </mark>  along with the <i>amount and currency </i> </li>
-                        <li> Here, no_shipping : 1 means shipping address will not be shown to the user during checkout flow.</li>  
-                    </ul>
+                         </ul>
                 </section>         
-                    
+					
+				<section>
+					<ul class="smallfont" style="line-height:1.5em;">
+						<li> For customized experience , we need to pass  <mark>experience: {
+								input_fields: {
+									no_shipping: 1 // takes 0,1,2 as values
+									// many more fields
+								}
+							}
+							</mark>  along with the <i>amount and currency </i> </li>
+						<li> Here, <i>no_shipping : 1 </i> means shipping address will not be shown to the user during checkout flow.</li>  
+						<li> We can also show custom logo and brand names in the paypal page . To do this , we need to pass <mark> presentation {
+								brand_name :"custom brand name"
+								logo_image:"custom logo image_url"
+								}
+								</mark>  along with the <i>amount and currency </i>
+						</li>
+					</ul>
+				</section>			
+
                 <section>
                     <ul class="smallfont" style="line-height:1.5em;">
-                            <li> We can also show custom logo and brand names in the paypal page . To do this , we need to pass <mark> presentation {
-                                    brand_name :"custom brand name"
-                                    logo_image:"custom logo image_url"
-                                   }
-                                  </mark>  along with the <i>amount and currency </i>
-                            </li>
-                            <li> User will be shown the paypal login screen and once after successful auth the user <i>will not be able to see the shipping details</i> as we have disabled them using <i>no_shipping</i> and <mark>onAuthorize()</mark> method gets called.    
-                            <li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.
-                            <li> Final payment object is returned in the execute() call and this can be shown to the user.    
+						<li> User will be shown the paypal login screen and once after successful auth the user <i>will not be able to see the shipping details</i> as we have disabled them using <i>no_shipping</i> and <mark>onAuthorize()</mark> method gets called.    
+						<li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.
+						<li> Final payment object is returned in the execute() call and this can be shown to the user.    
                     </ul>    
                 </section>
 				
@@ -546,7 +563,7 @@
 	
 										<tr>
 											<td>locale_code    </td>
-											<td> The locale of pages that the PayPal payment experience displays. Example : <i>AU,AT,BE,US </i>	</td>
+											<td> The locale of pages that the PayPal payment experience displays. Example : <i>AU, AT, BE, US </i>	</td>
 										</tr>
 	
 		
@@ -556,12 +573,10 @@
 
 				
                 <section>
-                    <img height="400" data-src="../../images/experience-client.gif" alt="Experience Client working flow">
+                    <img height="400" data-src="../../images/experience-client.gif" alt="Custom Experience Client working flow">
                         
                 </section>       
             </section>    <!-- end of experience client -->
-
-
 
 			<section> <!-- confirmation client -->
 					<h3> Confirmation flow Client Integration </h3>
@@ -583,9 +598,361 @@
 							</ul>    
 					   </section>
 					<section>
-							<img height="400" data-src="../../images/basic-client.gif" alt="Basic Client working flow">
+							<img height="400" data-src="../../images/confirmation-client.gif" alt="Confirmation Client working flow">
 					</section>       
 			</section>    <!-- end of confirmation client -->
+
+			<section> <!-- Mark Flow client -->
+				<h3> Mark flow Client Integration </h3>
+				<section>
+					<ul class="smallfont" style="line-height:1.5em;">
+						<li> This flow is longer when compared to Shortcut flow</li>
+						<li> Merchant selects the product and clicks on proceed to checkout button.</li>
+						<li> Merchant will be shown a shipping address form and merchant can enter them.</li> 
+					</ul>
+				</section>
+				
+				<section>
+					<ul class="smallfont" style="line-height:1.5em;">
+						<li> User will be shown the paypal checkout button and other payment options.</li>
+						<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+						<li> Call <mark>actions.payment.create()</mark> in the payment() method passing the payment information <i>(amount and currency are required fields) </i> and other fields as applicable to create a payment.
+					</ul>
+				</section>
+
+				<section>
+					<ul class="smallfont" style="line-height:1.5em;">
+						<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called.    
+						<li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.</li>
+						<li> Final payment object is returned in the execute() call and the result can be shown to the user.
+					</ul>    
+				</section>
+				<section>
+						<img height="400" data-src="../../images/markflow-client.gif" alt="Mark Flow Client working">
+				</section>       
+		</section>    <!-- end of mark flow client -->
+
+		<!-- end of client intergration-->
+		
+		
+
+	<!-- start of server integration -->
+
+	<section>
+			<h3> Server Integration</h3>
+			<section>
+				<p style="float:left;margin-left:4%"> Characteristics</p>
+				<ul>
+					<li> Requires Server application </li>
+					<li> Use this integration for advanced apps that require more flexibility to manage payments.</li>
+					<li> The PayPal button calls your server, and your server calls the PayPal REST API to set up the payment.</li>
+					<li> Requires client Id and client secret of the REST App </li>
+				</ul>
+			</section>
+			<section>
+				<p> Some of the most common types of Server integration:</p>
+				<ol>
+					<li> Shortcut</li>
+					<li> Redirection </li>
+					<li> Experience </li>
+					<li> Confirmation </li>
+					<li> Full Page Redirection </li>
+					<li> Mark Flow (Can be used with other types)</li>
+				</ol>
+			</section>    
+	</section>  
+
+	<section> <!-- server shortcut flow -->
+		<h3> Shortcut flow Server Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> Server App used <i>paypal-rest-sdk node js</i> module.</li>
+				<li> User will be shown the paypal checkout button.</li>
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				<li> Call <mark>paypal.request.post(CREATE_PAYMENT_URL)</mark>,passing the payment payload <i>(intent and payer are required fields) </i> which invokes the method on the server to create payment</li>
+				<li> The server api returns back the <mark>id</mark> to the client which returns the same in the payment() method</li>
+				
+			</ul>    
+		</section>
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called. </li>
+				<li> In the onAuthorize() method, call <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.paymentID and data.payerID </i> </li>
+				<li> The server calls the payment api and execute the payment.</li>
+				<li> Final payment object is returned from the server and the result can be shown to the user.
+			</ul>
+		</section>
+
+		<section>
+			<br/>
+			<p>Sample Payment Payload </p>
+			<p>Read more about the payload options <a target="_blank" href="https://developer.paypal.com/docs/api/payments/?mark=payments/payment/#definition-payment"> here</a>
+<pre><code data-trim >
+{
+"intent": "sale",
+"payer": {
+	"payment_method": "paypal"
+	},
+"transactions": [
+	{
+		"amount": {
+		"total": "30.11",
+		"currency": "USD",
+		"details": {
+		"subtotal": "30.00",
+		"tax": "0.07",
+		"shipping": "0.03",
+		"handling_fee": "1.00",
+		"shipping_discount": "-1.00",
+		"insurance": "0.01"
+		}
+		},
+		"description": "The payment transaction description.",
+		"custom": "EBAY_EMS_90048630024435",
+		"invoice_number": "48787589673",
+		"payment_options": {
+		"allowed_payment_method": "INSTANT_FUNDING_SOURCE"
+		},
+		"soft_descriptor": "ECHI5786786",
+		"item_list": {
+		"items": [
+		{
+		"name": "hat",
+		"description": "Brown hat.",
+		"quantity": "5",
+		"price": "3",
+		"tax": "0.01",
+		"sku": "1",
+		"currency": "USD"
+		},
+		{
+		"name": "handbag",
+		"description": "Black handbag.",
+		"quantity": "1",
+		"price": "15",
+		"tax": "0.02",
+		"sku": "product34",
+		"currency": "USD"
+		}
+		],
+		"shipping_address": {
+		"recipient_name": "Brian Robinson",
+		"line1": "4th Floor",
+		"line2": "Unit #34",
+		"city": "San Jose",
+		"country_code": "US",
+		"postal_code": "95131",
+		"phone": "011862212345678",
+		"state": "CA"
+		}
+		}
+	}
+],
+"note_to_payer": "Contact us for any questions on your order.",
+"redirect_urls": {
+	"return_url": "https://www.example.com/return",
+	"cancel_url": "https://www.example.com/cancel"
+	}
+}
+</pre></code>
+			</section>	
+
+		<section>
+				<img height="400" data-src="../../images/basic-server.gif" alt="Shortcut Server working flow">
+				
+		</section>       
+    </section>    <!-- end of shortcut server  -->
+
+
+	<section>
+		<h3> Redirection flow Server Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> Server App used <i>paypal-rest-sdk node js</i> module.</li>
+				<li> We can redirect the user to a different page on cancelling the checkout flow or on success execution of the payment to show the payment details.</li>
+				<li> User will be shown the paypal checkout button.</li>
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				
+			</ul>    
+		</section>
+
+		<section>
+				<ul class="smallfont" style="line-height:1.5em;">
+				<li> Call <mark>paypal.request.post(CREATE_PAYMENT_URL)</mark>,passing the payment payload containing <i>(intent and payer are required fields) </i> and <mark>redirect_urls: {
+						return_url: "/api/paymentDetails",
+						cancel_url: "/api/cancel"
+						}   </mark>   which invokes the method on the server to create payment</li>
+				  <li> The server api returns back the <mark>id</mark> to the client which returns the same in the payment() method</li>
+				  <li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called. </li>
+				</ul>
+		</section>	
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> In the onAuthorize() method, call <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.paymentID and data.payerID </i> </li>
+				<li> The server calls the payment api and execute the payment.</li>
+				<li> Once the final payment object is returned , invoke <mark> actions.redirect()</mark> to redirect the user to the url specified in the <i>return url</i>.
+				<li> If the user cancels the checkout flow , use <mark> actions.redirect() </mark> in the <i>onCancel()</i> option to redirect the user to the cancel page</li>    
+			</ul>
+		</section>
+
+		<section>
+			<img height="400" data-src="../../images/redirection-server.gif" alt="Redirection Flow Server working">
+				
+		</section>       
+	</section>    <!-- end of redirection server -->
+
+	<section> <!-- confirmation server -->
+		<h3> Confirmation flow Server Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> Server App used <i>paypal-rest-sdk node js</i> module.</li>
+				<li> Merchant will be shown a confirmation block before executing the payment.</li>
+				<li> User will be shown the paypal checkout button.</li>
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				<li> Call <mark>paypal.request.post(CREATE_PAYMENT_URL)</mark>,passing the payment payload <i>(intent and payer are required fields) </i> which invokes the method on the server to create payment</li>
+				
+			</ul>
+			</section>
+		
+			<section>
+				<ul class="smallfont" style="line-height:1.5em;">
+					<li> The server api returns back the <mark>id</mark> to the client which returns the same in the payment() method</li>
+					<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called. </li>
+					<li> Call <mark> paypal.request.get(GET_PAYMENT_URL+"?paymentId="+data.paymentID).</mark> in onAuthorize() to get the payment details and show the <i>confirmation</i> block with complete the payment button </li>	
+				</ul>
+			</section>
+
+			<section>
+				<ul class="smallfont" style="line-height:1.5em;">
+					<li> On clicking complete the payment button , call  <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.paymentID and data.payerID </i> in onAuthorize() to execute the payment.</li>
+					<li> The server calls the payment api and execute the payment.</li>
+					<li> Final payment object is returned in the callback and the result can be shown to the user.
+				</ul>    
+		   </section>
+		<section>
+				<img height="400" data-src="../../images/confirmation-server.gif" alt="Confirmation Server working flow">
+		</section>       
+	</section>    <!-- end of confirmation server -->
+
+	<section> <!-- Mark Flow server -->
+		<h3> Mark flow Server Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> This flow is longer when compared to Shortcut flow</li>
+				<li> Server App used <i>paypal-rest-sdk node js</i> module.</li>
+				<li> Merchant selects the product and clicks on proceed to checkout button.</li>
+				<li> Merchant will be shown a shipping address form and merchant can enter them.</li> 
+				<li> User will be shown the <i>paypal checkout button and other payment options</i>.</li>
+			</ul>
+		</section>
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				<li> Call <mark>paypal.request.post(CREATE_PAYMENT_URL)</mark>,passing the payment payload <i>(intent and payer are required fields) </i> which invokes the method on the server to create payment</li>
+				<li> The server api returns back the <mark>id</mark> to the client which returns the same in the payment() method</li>
+				<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called. </li>
+				
+			</ul>
+		</section>
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> In the onAuthorize() method, call <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.paymentID and data.payerID </i> </li>
+				<li> The server calls the payment api and execute the payment.</li>
+				<li> Final payment object is returned from the server and the result can be shown to the user.
+			</ul>
+		</section>	
+	
+		<section>
+				<img height="400" data-src="../../images/markflow-server.gif" alt="Mark Flow Server working">
+		</section>       
+	</section>    <!-- end of mark flow server -->
+
+
+	<section> <!-- experience server -->
+		<h3> Custom Experience flow Server Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> We can customize the experience by passing extra options in <mark> actions.payment.create()</mark>.
+				<li> These options are based on the <mark> <a target="_blank" href="https://developer.paypal.com/docs/api/payment-experience/">Experience Api </a></mark>.  
+				<li> User will be shown the paypal checkout button.</li>
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				<li> Call <mark>paypal.request.post(CREATE_PAYMENT_URL)</mark>,passing the payment payload <i>(intent and payer are required fields) </i> which invokes the method on the server to create payment</li>
+			</ul>
+		</section>         
+			
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> The server api returns back the <mark>id</mark> to the client which returns the same in the payment() method</li>
+				<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called. </li>
+				<li> For customized experience , we need to pass  <mark>payee: {
+                        payee_display_metadata: {
+                            "brand_name": "Test Brand" // custom brand name
+                        }
+                    }
+				 </li>
+			</ul>
+		</section>			
+
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> The custom brand name which is passed in the payload will be shown in the paypal page
+				<li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.
+				<li> Final payment object is returned in the execute() call and this can be shown to the user.    
+			</ul>    
+		</section>
+		
+		<section>
+			<img height="400" data-src="../../images/experience-server.gif" alt="Custom Experience Server working flow">
+				
+		</section>       
+	</section>    <!-- end of experience server -->
+
+
+	<section> <!-- Full Page redirect Flow server -->
+		<h3> Full Page redirect flow Server Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> This flow doesnot use the incontext experience</li>
+				<li> Server App used <i>paypal-rest-sdk node js</i> module.</li>
+				<li> Merchant is shown the paypal checkout button </li>
+				<li> On clicking the paypal button, <mark>onClick()</mark> method gets invoked.</li>
+				<li> <i>Redirect the merchant to the server</i> to create the payment by using <mark> window.location = "CREATE_PAYMENT_URL"</mark></li>
+			</ul>
+		</section>
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> The server node sdk invokes the create payment api of paypal by passing the payment payload containing <i>intent , payer and return_urls </i> &nbsp;&nbsp;
+				<mark>
+					redirect_urls: {
+						return_url: "/api/server/return",
+						cancel_url: "/api/server/cancel"
+						}
+				</mark>
+				</li>
+				<li> The returned response contains list of <i>HATEOAS links</i> </li> 
+				<li> Redirect the merchant to the redirect HATEOAS link from the above step </li>
+				<li> User will be shown the paypal login screen </li>
+			</ul>
+		</section>
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> Once after successful auth and on clicking <i>Pay now/Continue button</i>, payment gets executed </li>
+				<li> Paypal returns payerId and token to the return url mentioned in the payload.</li>
+				<li> Use the payerId information to get the payment details and display to the user.</li>
+			</ul>
+		</section>	
+	
+		<section>
+				<img height="400" data-src="../../images/fullpageredirect-server.gif" alt="Mark Flow Server working">
+		</section>       
+	</section>    <!-- end of full page redirect flow server -->
+
 
 
                 <section>
@@ -899,7 +1266,7 @@ Reveal.addEventListener( 'customevent', function() {
 				progress: true,
 				history: true,
 				center: true,
-				autoSlide:4000,
+				//autoSlide:4000,
 
 				transition: 'page', // none/fade/slide/convex/concave/zoom
 
