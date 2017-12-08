@@ -25,6 +25,9 @@
                             
                                 <button id="confirmButton" class="btn btn-success">Complete Payment</button>
                         </div>
+                        <div id="loading" style="display:none">
+                            Loading...
+                        </div>
 
                         <div id="thanks" style="display:none">
                                 Thanks, <span id="thanksname"></span>!
@@ -94,7 +97,9 @@
     
                         // Disable the button and show a loading message
     
-                        document.querySelector('#confirm').innerText = 'Loading...';
+                        document.querySelector('#confirm').style.display = 'none'; 
+                        document.querySelector('#loading').style.display = 'block'; 
+                        
                         //document.querySelector('#confirm').disabled = true;
     
                         // Execute the payment
@@ -105,6 +110,7 @@
                             document.querySelector('#thanksname').innerText = shipping.recipient_name;
     
                             document.querySelector('#confirm').style.display = 'none';
+                            document.querySelector('#loading').style.display = 'none';
                             document.querySelector('#thanks').style.display = 'block';
                             setTimeout(()=>{
                                 document.querySelector('#paypal-button-container').style.display = 'block';

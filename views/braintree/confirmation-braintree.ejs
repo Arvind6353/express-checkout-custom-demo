@@ -28,6 +28,10 @@
                                 <button id="confirmButton" class="btn btn-success">Complete Payment</button>
                         </div>
 
+                        <div id="loading" style="display:none">
+                                Loading...
+                            </div>   
+                            
                         <div id="thanks" style="display:none">
                                 Thanks, <span id="thanksname"></span>!
                             <br/>
@@ -123,7 +127,9 @@
                     document.querySelector('#confirmButton').addEventListener('click', function() {
     
                         // Disable the button and show a loading message
-                        document.querySelector('#confirm').innerText = 'Loading...';
+                        document.querySelector('#confirm').style.display = 'none'; 
+                        document.querySelector('#loading').style.display = 'block'; 
+                        
                         // Execute the payment
                         // Call your server with data.nonce to finalize the payment
                         console.log('Braintree nonce:', data.nonce);
@@ -138,6 +144,7 @@
                              document.querySelector('#thanksname').innerText = shipping.recipient_name;
                              document.querySelector('#pid').innerText = payment.transaction.paypal.paymentId;
                              document.querySelector('#confirm').style.display = 'none';
+                             document.querySelector('#loading').style.display = 'none';
                              document.querySelector('#thanks').style.display = 'block';
                              setTimeout(()=>{
                                  document.querySelector('#paypal-button-container').style.display = 'block';

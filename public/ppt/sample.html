@@ -335,7 +335,7 @@
             <section>
                 <p> Some of the most common types of Client integration:</p>
                 <ol>
-                    <li> Basic</li>
+                    <li> Shortcut</li>
                     <li> Redirection </li>
                     <li> Experience </li>
                     <li> Confirmation </li>
@@ -345,8 +345,8 @@
         </section>   
 
 
-        <section>
-            <h3> Basic Client Integration </h3>
+        <section> <!-- shortcut flow -->
+            <h3> Shortcut flow Client Integration </h3>
             <section>
                 <ul class="smallfont" style="line-height:1.5em;">
                     <li> This is the simplest of all checkout jsv4 integrations.</li>
@@ -355,7 +355,7 @@
                     <li> Call <mark>actions.payment.create()</mark> in the payment() method passing the payment information <i>(amount and currency are required fields) </i>to create a payment.
                     <li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called.    
                     <li> Call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.
-                    <li> Final payment object is returned in the execute() call and this can be shown to the user.
+                    <li> Final payment object is returned in the execute() call and the result can be shown to the user.
                 </ul>    
             </section>
             <section>
@@ -366,7 +366,7 @@
 
 
         <section>
-            <h3> Redirection Client Integration </h3>
+            <h3> Redirection flow Client Integration </h3>
             <section>
                 <ul class="smallfont" style="line-height:1.8em;">
                     <li> We can redirect the user to a different page on cancelling the checkout flow or on success execution of the payment to show the payment details.</li>
@@ -398,8 +398,8 @@
 
 
         
-        <section>
-                <h3> Experience Client Integration </h3>
+        <section> <!-- experience client -->
+                <h3> Custom Experience flow Client Integration </h3>
                 <section>
                     <ul class="smallfont" style="line-height:1.5em;">
                         <li> We can customize the experience by passing extra options in <mark> actions.payment.create()</mark>.
@@ -419,7 +419,7 @@
                 </section>         
                     
                 <section>
-                    <ul class="smallfont" style="line-height:1.8em;">
+                    <ul class="smallfont" style="line-height:1.5em;">
                             <li> We can also show custom logo and brand names in the paypal page . To do this , we need to pass <mark> presentation {
                                     brand_name :"custom brand name"
                                     logo_image:"custom logo image_url"
@@ -431,7 +431,130 @@
                             <li> Final payment object is returned in the execute() call and this can be shown to the user.    
                     </ul>    
                 </section>
-    
+				
+				<section>
+	
+					<p> Sample Experience payload section</p>	
+<pre>
+<code>
+"flow_config": {
+	"landing_page_type": "billing",
+	"bank_txn_pending_url": "https://www.example.com"
+},
+"input_fields": {
+	"no_shipping": 1,
+	"address_override": 1
+},
+"presentation": {
+	"logo_image": "https://www.example.com"
+}
+</code>
+</pre>
+
+				</section>
+				<style>
+						table.options tr td {
+							font-size: 27px !important;
+						}
+					</style>
+				<section class="stack">
+					
+					<br/> <p> Flow Config options</p>
+						<table class="options">
+							<thead>
+								<tr>
+									<th>Option</th>
+									<th>Possible Values</th>
+									</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>landing_page_type </td>
+									<td> <i>Billing</i> - For non-PayPal account landing page <br/>
+										 <i>Login</i> - For PayPal account login landing page
+									</td>
+								</tr>
+
+								<tr>
+										<td>user_action </td>
+										<td> <i>continue</i> - Use it when you <i>don't know</i> the final payment amount. Here customer can change the payment amount on clicking <i>continue</i> in the paypal page <br/>
+											 <i>commit</i> - Use it when you <i>know</i> the final payment amount. On clicking </i>paynow</i> , payment is processed immediately
+										</td>
+									</tr>
+
+							</tbody>
+						</table>
+				</section>
+
+				<section class="stack">
+						<br/> <p>Input Fields options</p>
+							<table  class="options">
+								<thead>
+									<tr>
+										<th>Option</th>
+										<th>Possible Values</th>
+										</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>allow_note </td>
+										<td> <i>Boolean value</i> - Indicates whether the customer can enter a note to the merchant on the PayPal page during checkout <br/>
+										</td>
+									</tr>
+	
+									<tr>
+										<td>no_shipping  </td>
+										<td> <i>0</i> - Displays the shipping address on the PayPal pages. <br/>
+											<i>1</i> - Redacts shipping address fields from the PayPal pages <br/>
+											<i>2</i> - Gets the shipping address from the customer's account profile
+										</td>
+									</tr>
+
+									<tr>
+										<td>address_override   </td>
+										<td> <i>0</i>- Displays the shipping address on file. <br/>
+											<i>1</i> -  Displays the shipping address specified in this call. the customer cannot edit this shipping address
+										</td>
+									</tr>
+
+	
+								</tbody>
+							</table>
+					</section>
+
+
+					<section class="stack">
+							<br/> <p>Presentation options</p>
+								<table  class="options">
+									<thead>
+										<tr>
+											<th>Option</th>
+											<th>Possible Values</th>
+											</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>brand_name  </td>
+											<td><i>27 single-byte alphanumeric characters.</i> A label that overrides the business name in the PayPal account on the PayPal pages </td>
+										</tr>
+		
+										<tr>
+											<td>logo_image   </td>
+											<td> <i>A URL to the logo image.</i> A valid media type is .gif, .jpg, or .png. The image's maximum width is 190 pixels and maximum height is 60 pixels
+											</td>
+										</tr>
+	
+										<tr>
+											<td>locale_code    </td>
+											<td> The locale of pages that the PayPal payment experience displays. Example : <i>AU,AT,BE,US </i>	</td>
+										</tr>
+	
+		
+									</tbody>
+								</table>
+						</section>
+
+				
                 <section>
                     <img height="400" data-src="../../images/experience-client.gif" alt="Experience Client working flow">
                         
@@ -440,6 +563,29 @@
 
 
 
+			<section> <!-- confirmation client -->
+					<h3> Confirmation flow Client Integration </h3>
+					<section>
+						<ul class="smallfont" style="line-height:1.5em;">
+							<li> Merchant will be shown a confirmation before executing the payment.</li>
+							<li> User will be shown the paypal checkout button.</li>
+							<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+							<li> Call <mark>actions.payment.create()</mark> in the payment() method passing the payment information <i>(amount and currency are required fields) </i> and other fields as applicable to create a payment.
+							<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called.    
+							</ul>
+						</section>
+					
+						<section>
+							<ul class="smallfont" style="line-height:1.5em;">
+								<li> Call <mark> actions.payment.get()</mark> in onAuthorize() to get the payment details and show the <i>confirmation</i> block with complete the payment button </li>	
+								<li> On clicking complete the payment button , call <mark>actions.payment.execute()</mark> in onAuthorize() to execute the payment.</li>
+								<li> Final payment object is returned in the execute() call and the result can be shown to the user.
+							</ul>    
+					   </section>
+					<section>
+							<img height="400" data-src="../../images/basic-client.gif" alt="Basic Client working flow">
+					</section>       
+			</section>    <!-- end of confirmation client -->
 
 
                 <section>
@@ -753,8 +899,9 @@ Reveal.addEventListener( 'customevent', function() {
 				progress: true,
 				history: true,
 				center: true,
+				autoSlide:4000,
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				transition: 'page', // none/fade/slide/convex/concave/zoom
 
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [

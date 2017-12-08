@@ -37,6 +37,10 @@
                             <br/>
                         </div>
 
+                        <div id="loading" style="display:none">
+                                Loading...
+                            </div>
+
                         <div id="thanks" style="display:none">
                             Thanks,
                             <span id="thanksname"></span>! <br/>
@@ -112,7 +116,9 @@
 
                             // Disable the button and show a loading message
 
-                            document.querySelector('#confirm').innerText = 'Loading...';
+                            document.querySelector('#confirm').style.display = 'none'; 
+                            document.querySelector('#loading').style.display = 'block'; 
+                            
 
                             // call server to execute payment
                             return paypal.request.post(EXECUTE_PAYMENT_URL, {
@@ -129,8 +135,8 @@
                                 document.querySelector('#pid').innerText =
                                     payment.id;
                                 
-                                    document.querySelector('#confirm').style.display =
-                                    'none';
+                                    document.querySelector('#confirm').style.display = 'none';
+                                    document.querySelector('#loading').style.display = 'none';
                                 document.querySelector('#thanks').style.display =
                                     'block';
                                 setTimeout(() => {
