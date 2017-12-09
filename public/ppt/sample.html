@@ -5,7 +5,8 @@
 		<meta charset="utf-8">
 
 		<title>Express Checkout Rest Integration Presentation</title>
-
+		<link rel="icon" sizes="32x32" href="https://www.paypalobjects.com/webstatic/developer/favicons/pp32.png">
+		
 		<meta name="description" content="Express Checkout Rest Integration Presentation">
 		<meta name="author" content="Arvindan TA">
 
@@ -96,9 +97,41 @@
 			}
 	</style>
 
+	<style type="text/css">
+		/* 1. Style header/footer <div> so they are positioned as desired. */
+		#header-left {
+			position: absolute;
+			top: 0%;
+			left: 0%;
+		}
+		#header-right {
+			position: absolute;
+			top: 0%;
+			right: 0%;
+		}
+		#footer-left {
+			position: absolute;
+			bottom: 0%;
+			left: 0%;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	
 	</head>
 
 	<body>
+
+			<div id="hidden" style="display:none;">
+					<div id="header">
+						<div id="header-left"><span class="dx-roundel dx-bg-grad-radial-blue">EC</span></div>
+						<div id="header-right">
+							<img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png" border="0" alt="PayPal Logo">
+						</div>
+						<div id="footer-left">
+							<a href="/">Demo Portal</a>
+						</div>	
+					</div>
+				</div>
 
 		<div class="reveal">
 
@@ -106,15 +139,15 @@
 			<div class="slides">
 				<section>
 					<h1>Express Checkout</h1>
-					<center><span class="dx-roundel dx-bg-grad-radial-blue">EC</span>	</center> <br/>		
-					<h3>Rest Integration Demo Portal - <a href="/">Link</a></h3>
+							<center><span class="dx-roundel dx-bg-grad-radial-blue">EC</span></center></br>
+					<h3>Rest Integration Demo Portal - <a href="/">Here</a></h3>
 					<p>
 						<small>Created by <a href="#">Arvindan</a></small>
 					</p>
 				</section>
 
 				<section>
-					<h2>Hello There</h2>
+					<h3>Hello There :)</h3>
 					<p>
 						This portal contains various types of Express Checkout JsV4 Rest Integration methods 
 					</p>
@@ -1682,6 +1715,15 @@ client: {
 					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
+				var header = $('#header').html();
+	if ( window.location.search.match( /print-pdf/gi ) ) {
+		Reveal.addEventListener( 'ready', function( event ) {
+			$('.slide-background').append(header);
+		});
+	}
+	else {
+		$('div.reveal').append(header);
+	}
 
 		</script>
 
