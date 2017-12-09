@@ -149,7 +149,8 @@
                              setTimeout(()=>{
                                  document.querySelector('#paypal-button-container').style.display = 'block';
                                  document.querySelector('#thanks').style.display = 'none';
-                             },2000);
+                                 window.location.reload();
+                             },4000);
                         });
                     });
                 });

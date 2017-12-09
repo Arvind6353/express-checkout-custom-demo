@@ -19,6 +19,9 @@ router.get("/error", function(req, res, next) {
 
 // get client token and send to the client 
 router.get("/clienttoken",function(req,res,next){
+  var gateway = braintree.connect({
+    accessToken: "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
+  });
   gateway.clientToken.generate({}, function (err, response) {
     if(err){
       console.log("error in creating client token")
@@ -30,6 +33,9 @@ router.get("/clienttoken",function(req,res,next){
 
 // execute payment
 router.post("/payment", function(req,res,next){
+  var gateway = braintree.connect({
+    accessToken: "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
+  });
   console.log("inside noonce")
   var saleRequest = {
     amount: "1.00",
@@ -52,6 +58,9 @@ router.post("/payment", function(req,res,next){
 
 // get payment details and render result
 router.get('/getTrxDetails',function(req,res,next){
+  var gateway = braintree.connect({
+    accessToken: "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
+  });
   var paymentId = req.query.id;
   var stream = gateway.transaction.search(function (search) {
     search.id().is(paymentId);

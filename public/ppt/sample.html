@@ -337,7 +337,7 @@
                 <ol>
                     <li> Shortcut</li>
                     <li> Redirection </li>
-                    <li> Experience </li>
+                    <li> Customise Experience </li>
                     <li> Confirmation </li>
                     <li> Mark Flow (Can be used with other types)</li>
                 </ol>
@@ -411,7 +411,7 @@
 
         
         <section> <!-- experience client -->
-                <h3> Custom Experience flow Client Integration </h3>
+                <h3> Customise Experience flow Client Integration </h3>
                 <section>
                     <ul class="smallfont" style="line-height:1.5em;">
                         <li> We can customize the experience by passing extra options in <mark> actions.payment.create()</mark>.
@@ -654,10 +654,10 @@
 				<ol>
 					<li> Shortcut</li>
 					<li> Redirection </li>
-					<li> Experience </li>
+					<li> Customise Experience </li>
 					<li> Confirmation </li>
-					<li> Full Page Redirection </li>
 					<li> Mark Flow (Can be used with other types)</li>
+					<li> Full Page Redirection </li>
 				</ol>
 			</section>    
 	</section>  
@@ -666,7 +666,7 @@
 		<h3> Shortcut flow Server Integration </h3>
 		<section>
 			<ul class="smallfont" style="line-height:1.5em;">
-				<li> Server App used <i>paypal-rest-sdk node js</i> module.</li>
+				<li> Server App uses <i>paypal-rest-sdk node js</i> module.</li>
 				<li> User will be shown the paypal checkout button.</li>
 				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
 				<li> Call <mark>paypal.request.post(CREATE_PAYMENT_URL)</mark>,passing the payment payload <i>(intent and payer are required fields) </i> which invokes the method on the server to create payment</li>
@@ -765,11 +765,11 @@
     </section>    <!-- end of shortcut server  -->
 
 
-	<section>
+	<section> <!-- redirection flow server -->
 		<h3> Redirection flow Server Integration </h3>
 		<section>
 			<ul class="smallfont" style="line-height:1.5em;">
-				<li> Server App used <i>paypal-rest-sdk node js</i> module.</li>
+				<li> Server App uses <i>paypal-rest-sdk node js</i> module.</li>
 				<li> We can redirect the user to a different page on cancelling the checkout flow or on success execution of the payment to show the payment details.</li>
 				<li> User will be shown the paypal checkout button.</li>
 				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
@@ -803,77 +803,10 @@
 		</section>       
 	</section>    <!-- end of redirection server -->
 
-	<section> <!-- confirmation server -->
-		<h3> Confirmation flow Server Integration </h3>
-		<section>
-			<ul class="smallfont" style="line-height:1.5em;">
-				<li> Server App used <i>paypal-rest-sdk node js</i> module.</li>
-				<li> Merchant will be shown a confirmation block before executing the payment.</li>
-				<li> User will be shown the paypal checkout button.</li>
-				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
-				<li> Call <mark>paypal.request.post(CREATE_PAYMENT_URL)</mark>,passing the payment payload <i>(intent and payer are required fields) </i> which invokes the method on the server to create payment</li>
-				
-			</ul>
-			</section>
-		
-			<section>
-				<ul class="smallfont" style="line-height:1.5em;">
-					<li> The server api returns back the <mark>id</mark> to the client which returns the same in the payment() method</li>
-					<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called. </li>
-					<li> Call <mark> paypal.request.get(GET_PAYMENT_URL+"?paymentId="+data.paymentID).</mark> in onAuthorize() to get the payment details and show the <i>confirmation</i> block with complete the payment button </li>	
-				</ul>
-			</section>
 
-			<section>
-				<ul class="smallfont" style="line-height:1.5em;">
-					<li> On clicking complete the payment button , call  <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.paymentID and data.payerID </i> in onAuthorize() to execute the payment.</li>
-					<li> The server calls the payment api and execute the payment.</li>
-					<li> Final payment object is returned in the callback and the result can be shown to the user.
-				</ul>    
-		   </section>
-		<section>
-				<img height="400" data-src="../../images/confirmation-server.gif" alt="Confirmation Server working flow">
-		</section>       
-	</section>    <!-- end of confirmation server -->
-
-	<section> <!-- Mark Flow server -->
-		<h3> Mark flow Server Integration </h3>
-		<section>
-			<ul class="smallfont" style="line-height:1.5em;">
-				<li> This flow is longer when compared to Shortcut flow</li>
-				<li> Server App used <i>paypal-rest-sdk node js</i> module.</li>
-				<li> Merchant selects the product and clicks on proceed to checkout button.</li>
-				<li> Merchant will be shown a shipping address form and merchant can enter them.</li> 
-				<li> User will be shown the <i>paypal checkout button and other payment options</i>.</li>
-			</ul>
-		</section>
-		
-		<section>
-			<ul class="smallfont" style="line-height:1.5em;">
-				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
-				<li> Call <mark>paypal.request.post(CREATE_PAYMENT_URL)</mark>,passing the payment payload <i>(intent and payer are required fields) </i> which invokes the method on the server to create payment</li>
-				<li> The server api returns back the <mark>id</mark> to the client which returns the same in the payment() method</li>
-				<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called. </li>
-				
-			</ul>
-		</section>
-		
-		<section>
-			<ul class="smallfont" style="line-height:1.5em;">
-				<li> In the onAuthorize() method, call <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.paymentID and data.payerID </i> </li>
-				<li> The server calls the payment api and execute the payment.</li>
-				<li> Final payment object is returned from the server and the result can be shown to the user.
-			</ul>
-		</section>	
 	
-		<section>
-				<img height="400" data-src="../../images/markflow-server.gif" alt="Mark Flow Server working">
-		</section>       
-	</section>    <!-- end of mark flow server -->
-
-
-	<section> <!-- experience server -->
-		<h3> Custom Experience flow Server Integration </h3>
+	<section> <!-- experience flow server -->
+		<h3> Customise Experience flow Server Integration </h3>
 		<section>
 			<ul class="smallfont" style="line-height:1.5em;">
 				<li> We can customize the experience by passing extra options in <mark> actions.payment.create()</mark>.
@@ -908,12 +841,81 @@
 	</section>    <!-- end of experience server -->
 
 
+	<section> <!-- confirmation server -->
+		<h3> Confirmation flow Server Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> Server App uses <i>paypal-rest-sdk node js</i> module.</li>
+				<li> Merchant will be shown a confirmation block before executing the payment.</li>
+				<li> User will be shown the paypal checkout button.</li>
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				<li> Call <mark>paypal.request.post(CREATE_PAYMENT_URL)</mark>,passing the payment payload <i>(intent and payer are required fields) </i> which invokes the method on the server to create payment</li>
+				
+			</ul>
+			</section>
+		
+			<section>
+				<ul class="smallfont" style="line-height:1.5em;">
+					<li> The server api returns back the <mark>id</mark> to the client which returns the same in the payment() method</li>
+					<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called. </li>
+					<li> Call <mark> paypal.request.get(GET_PAYMENT_URL+"?paymentId="+data.paymentID).</mark> in onAuthorize() to get the payment details and show the <i>confirmation</i> block with complete the payment button </li>	
+				</ul>
+			</section>
+
+			<section>
+				<ul class="smallfont" style="line-height:1.5em;">
+					<li> On clicking complete the payment button , call  <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.paymentID and data.payerID </i> in onAuthorize() to execute the payment.</li>
+					<li> The server calls the payment api and execute the payment.</li>
+					<li> Final payment object is returned in the callback and the result can be shown to the user.
+				</ul>    
+		   </section>
+		<section>
+				<img height="400" data-src="../../images/confirmation-server.gif" alt="Confirmation Server working flow">
+		</section>       
+	</section>    <!-- end of confirmation server -->
+
+	<section> <!-- Mark Flow server -->
+		<h3> Mark flow Server Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> This flow is longer when compared to Shortcut flow</li>
+				<li> Server App uses <i>paypal-rest-sdk node js</i> module.</li>
+				<li> Merchant selects the product and clicks on proceed to checkout button.</li>
+				<li> Merchant will be shown a shipping address form and merchant can enter them.</li> 
+				<li> User will be shown the <i>paypal checkout button and other payment options</i>.</li>
+			</ul>
+		</section>
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				<li> Call <mark>paypal.request.post(CREATE_PAYMENT_URL)</mark>,passing the payment payload <i>(intent and payer are required fields) </i> which invokes the method on the server to create payment</li>
+				<li> The server api returns back the <mark>id</mark> to the client which returns the same in the payment() method</li>
+				<li> User will be shown the paypal login screen and once after successful auth , <mark>onAuthorize()</mark> method gets called. </li>
+				
+			</ul>
+		</section>
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> In the onAuthorize() method, call <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.paymentID and data.payerID </i> </li>
+				<li> The server calls the payment api and execute the payment.</li>
+				<li> Final payment object is returned from the server and the result can be shown to the user.
+			</ul>
+		</section>	
+	
+		<section>
+				<img height="400" data-src="../../images/markflow-server.gif" alt="Mark Flow Server working">
+		</section>       
+	</section>    <!-- end of mark flow server -->
+
+
 	<section> <!-- Full Page redirect Flow server -->
 		<h3> Full Page redirect flow Server Integration </h3>
 		<section>
 			<ul class="smallfont" style="line-height:1.5em;">
 				<li> This flow doesnot use the incontext experience</li>
-				<li> Server App used <i>paypal-rest-sdk node js</i> module.</li>
+				<li> Server App uses <i>paypal-rest-sdk node js</i> module.</li>
 				<li> Merchant is shown the paypal checkout button </li>
 				<li> On clicking the paypal button, <mark>onClick()</mark> method gets invoked.</li>
 				<li> <i>Redirect the merchant to the server</i> to create the payment by using <mark> window.location = "CREATE_PAYMENT_URL"</mark></li>
@@ -971,7 +973,7 @@
 		 </section>
 		 
 		 <section>
-			 <h3>Steps</h3>
+			 <h3>EC BT Steps</h3>
 			<ol class="smallfont" style="line-height:1.5em;list-style-type:decimal">
 				<li>Your app or web front-end requests a client token from your server in order to initialize the client SDK.</li>
 				<br/><li>Your server generates and sends a client token back to your client with the server SDK.</li>
@@ -980,7 +982,7 @@
 		 </section>
 
 		 <section>
-			<h3>Steps</h3>
+			<h3>EC BT Steps</h3>
 		   <ol start="4" class="smallfont" style="line-height:1.5em;list-style-type:decimal">
 			   <li>You then send the payment method nonce to your server.</li>
 			 <br/>   <li>Your server code receives the payment method nonce from your client and then uses the server SDK to create a transaction or perform other functions.</li>
@@ -996,29 +998,521 @@
 		<section>
 			<p style="float:left;margin-left:4%"> Characteristics</p>
 			<ul>
-				<li> Requires both Client and Server application </li>
-				<li> Use this integration for advanced apps that require more flexibility to manage payments.</li>
-				<li> The PayPal button calls your server, and your server calls the PayPal REST API to set up the payment.</li>
-				<li> Requires accesstoken from the paypal dashboard </li>
+				<li> Requires both Client and Server sdks </li>
+				<li> Use this integration for advanced apps that require both web &amp; mobile support and support multiple payment options.</li>
+				<li> Requires sandbox/live <i>access token</i> from the paypal dashboard </li>
+			</ul>
+		</section>
+
+		<section>
+			<p> EC BT client node SDK methods</p>
+			<ul class="smallfont">
+				<li>
+					Include the JS files from braintree on the top of the page
+<pre>
+<code data-trim>
+&lt;script src="https://js.braintreegateway.com/web/3.25.0/js/client.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://js.braintreegateway.com/web/3.25.0/js/paypal-checkout.min.js"&gt;&lt;/script&gt;
+</code>
+</pre>
+				</li>
+				<li>	 In the paypal button render method, pass braintree as one of the property 
+<pre>
+<code data-trim>
+paypal.Button.render({
+	braintree: braintree,
+	// Other configuration
+}, '#id-of-element-where-paypal-button-will-render');
+</code>
+</pre>
+</li>
+			</ul>	
+
+		</section>
+
+
+		<section>
+				<p> EC BT client node SDK methods (contd...)</p>
+				<ul class="smallfont">
+					<li>
+						Call the server to get the <i>client token</i> and assign it to the client property of the paypal button render method.
+<pre>
+<code data-trim>
+client: { sandbox: paypal.request.get('/api/braintree/client-token') }
+</code>
+</pre>				
+					</li>
+					<li>
+						Use <i>actions.payment.create()</i>to create the payment .
+						Below are the params that are passed to this method with sample data:
+<pre style="height:200px">
+<code data-trim style="height:100% !important">
+payment: {
+	transactions: [
+		{
+			amount: { total: '1.00', currency: 'USD' }
+		}
+	],
+
+	payer : {
+		shipping_address: {
+			recipient_name: 'XYA ABC',
+			line1: '1234 Main St.',
+			line2: 'Unit 1',
+			city: 'Little India',
+			country_code: 'SG',
+			postal_code: '351234',
+			state: 'Singapore',
+			phone: '65 123213213'
+		}
+	},
+
+	application_context: {
+		brand_name: "branding",
+		shipping_preference: "GET_FROM_FILE",
+		landing_page: "billing"
+	}
+
+}	
+</code>
+</pre>							
+					
+					</li>
+
+				</ul>	
+	
+			</section>
+		
+
+
+			<section>
+					<p> EC BT client node SDK methods (contd...)</p>
+					<ul class="smallfont">
+						<li>
+							After successful authentication in the paypal page , data.nonce is returned back to the client .
+							Call the server sdk to execute the payment passing <i>nonce</i>.
+<pre>
+<code data-trim>
+var EXECUTE_PAYMENT_URL = "/api/braintree/payment"	
+onAuthorize: function(data, actions) {
+	// Call your server with data.nonce to finalize the payment
+	console.log('Braintree nonce:', data.nonce);
+	return paypal.request.post(EXECUTE_PAYMENT_URL, {
+		nonce: data.nonce
+	}).then(function(payment) {
+		if (payment.error) {
+			alert(payment.error);
+			return;
+		}
+		// display the payment result details to the user
+	})
+}
+</code>
+</pre>
+						</li>
+		
+					</ul>	
+		
+				</section>			
+
+
+
+		<section>
+			<p> EC BT server node SDK methods</p>
+			<ul class="smallfont">
+				<li>Create the gateway object with the access token obtained from the paypal page. This is the first step to be performed <br/>
+<pre>
+<code data-trim>
+var gateway = braintree.connect({
+	accessToken: useYourAccessToken
+});
+</code>
+</pre>
+				</li>
+<li>
+	To Generate client token use the following code <br/>
+<pre>
+<code data-trim>
+gateway.clientToken.generate({}, function (err, response) {
+	res.send(response.clientToken);
+});
+</code>	
+</pre>
+
+				</li>
+
+			</ul>
+		</section>
+			
+		<section>
+				<p> EC BT server node SDK methods (contd..)</p>
+				<ul class="smallfont">
+					
+	<li>
+		You can create a transaction using <i>nonce</i> that will be sent from the client as a post request .<br/>
+		 Below are the various PayPal params you can use : 
+<pre>
+<code data-trim style="height:300;width:100%">
+var saleRequest = {
+	amount: 4.00,
+	merchantAccountId: "USD",
+	paymentMethodNonce: req.body.nonce,
+	orderId: "Mapped to PayPal Invoice Number",
+	descriptor: {
+		name: "Descriptor displayed in customer CC statements. 22 char max"
+	},
+	options: {
+		paypal: {
+		customField: "PayPal custom field",
+		description: "Description for PayPal email receipt"
+		},
+		submitForSettlement: true
+	}
+	};
+	
+	gateway.transaction.sale(saleRequest, function (err, result) {
+	if (err) {
+		res.send("<h1>Error:  " + err + "</h1>");
+	} else if (result.success) {
+		res.send("<h1>Success! Transaction ID: " + result.transaction.id + "</h1>");
+	} else {
+		res.send("<h1>Error:  " + result.message + "</h1>");
+	}
+	});
+</code>	
+</pre>
+				</li>
+				</ul>
+		</section>
+
+
+		<section>
+				<p> EC BT server node SDK methods (contd..)</p>
+				<ul class="smallfont">
+					
+	<li>
+		You can view the details of the transaction by using the <i>transaction id</i> as follows.<br/>
+<pre>
+<code data-trim style="height:300px;width:100%">
+var stream = gateway.transaction.search(function (search) {
+	search.id().is(paymentId);
+	}, function (err, response) {
+	if(err){
+		console.log("errr",err);
+		res.send("<h1>Error:  " + err + "</h1>");
+	}
+	response.each(function (err, transaction) {
+		res.render("result",{res:transaction})
+	});
+});
+</code>	
+</pre>
+				</li>
+				</ul>
+		</section>
+
+
+	</section> <!-- end of types of ec bt sdks -->
+	
+	<section>
+		<h3> Some of the most common types of Braintree integration:</h3>
+		<ol>
+			<li> Shortcut</li>
+			<li> Redirection </li>
+			<li> Customise Experience </li>
+			<li> Confirmation </li>
+			<li> Mark Flow (Can be used with other types)</li>
+		</ol>
+	</section>    
+
+	
+	<section> <!-- ecbt shortcut flow -->
+		<h3> Shortcut flow Braintree Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> Server App uses <i>braintree</i> node module.</li>
+				<li> User will be shown the paypal checkout button.</li>
+				<li> Make an async request to the server to get the client token and assign it to the client option<br/>
+<pre>
+<code data-trim>
+client: {
+	sandbox: paypal.request.get('/api/braintree/clienttoken')
+}
+</code>
+</pre>
+				</li>
+			</ul>    
+		</section>
+
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				<li> Call <mark> actions.payment.create() </mark>passing the payment payload <i>(amount and currency are required)</i></li>
+				<li> User will be shown the paypal login screen .</li>
+				<li> Client sdk request the braintree server and <i>nonce</i> is returned and and once after successful auth,<mark>onAuthorize()</mark> method gets called.
+			</ul>	
+		</section>
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> In the onAuthorize() method, call <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.nonce </i> </li>
+				<li> In the server, create the sale request object using the nonce passed from the client and call <mark>  gateway.transaction.sale(saleRequestObj) </mark> to execute the payment</li>
+				<li> Final payment object is returned from the server and the result can be shown to the user.
+			</ul>
+		</section>
+
+		<section>
+				<img height="400" data-src="../../images/basic-braintree.gif" alt="Shortcut Braintree working flow">
+				
+		</section>       
+    </section>    <!-- end of shortcut ecbt  -->
+
+
+
+	<section> <!-- ecbt redirection flow -->
+		<h3> Redirection flow Braintree Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> Server App uses <i>braintree</i> node module.</li>
+				<li> We can redirect the user to a different page on cancelling the checkout flow or on success execution of the payment to show the payment details.</li>
+				<li> User will be shown the paypal checkout button.</li>
+				<li> Make an async request to the server to get the client token and assign it to the client option<br/>
+<pre>
+<code data-trim>
+client: {
+	sandbox: paypal.request.get('/api/braintree/clienttoken')
+}
+</code>
+</pre>
+				</li>
+			</ul>    
+		</section>
+
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				<li> Call <mark> actions.payment.create() </mark>passing the payment payload <i>(amount and currency are required)</i></li>
+				<li> User will be shown the paypal login screen .</li>
+				<li> Client sdk request the braintree server and <i>nonce</i> is returned and and once after successful auth,<mark>onAuthorize()</mark> method gets called.
+			</ul>	
+		</section>
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> In the onAuthorize() method, call <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.nonce </i> </li>
+				<li> In the server, create the sale request object using the nonce passed from the client and call <mark>  gateway.transaction.sale(saleRequestObj) </mark> to execute the payment</li>
+				<li> Final payment object is returned from the server and <i>redirect the merchant</i> to <mark>window.location.href=RESULT_URL+"?id="+payment.transaction.id </mark>. 
+					 This inturn will call the <mark>gateway.transaction.search(id)</mark> to get the payment result and show the result in a new page</li>
+				<li> If the user cancels the checkout flow , use <mark> window.location.href = CANCEL_URL </mark> in the <i>onCancel()</i> option to redirect the user to the cancel page</li>    
+			</ul>
+		</section>
+
+		<section>
+				<img height="400" data-src="../../images/redirection-braintree.gif" alt="Redirection Flow Braintree working">
+				
+		</section>       
+    </section>    <!-- end of redirection ecbt  -->
+
+	
+
+	<section> <!-- ecbt experience flow -->
+		<h3> Customise Experience flow Braintree Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> Server App uses <i>braintree</i> node module.</li>
+				<li> We can customize the experience by passing extra options in <mark> actions.payment.create()</mark>.
+				<li> User will be shown the paypal checkout button.</li>
+				<li> Make an async request to the server to get the client token and assign it to the client option<br/>
+<pre>
+<code data-trim>
+client: {
+	sandbox: paypal.request.get('/api/braintree/clienttoken')
+}
+</code>
+</pre>
+				</li>
+			</ul>    
+		</section>
+
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				<li> Call <mark> actions.payment.create() </mark>passing the payment payload <i>(amount and currency are required)</i></li>
+				<li> For customized experience , pass in few more parameters to the payment payload
+<pre style="height:250px">
+<code data-trim style="height:100% !important">
+payer : {
+	shipping_address: {
+		recipient_name: 'XYA ABC',
+		line1: '1234 Main St.',
+		line2: 'Unit 1',
+		city: 'Little India',
+		country_code: 'SG',
+		postal_code: '351234',
+		state: 'Singapore',
+		phone: '65 123213213'
+	}
+},
+application_context: {
+	brand_name: "custom brand name", // custom brand name
+	shipping_preference: "SET_PROVIDED_ADDRESS", // NO_SHIPPING , GET_FROM_FILE
+	landing_page: "billing" //login
+}	
+</code>
+</pre>
+				
+			</ul>	
+		</section>
+		
+		<section>
+			<p> Application Context Options </p>
+			<table class="options">
+					<thead>
+						<tr>
+							<th>Option</th>
+							<th>Possible Values</th>
+							</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>brand_name </td>
+							<td> Provie Custom Brand name 
+							</td>
+						</tr>
+
+						<tr>
+							<td>shipping_preference </td>
+							<td> <i> No_SHIPPING</i> Shipping information will not be shown <br/>
+									<i> GET_FROM_FILE</i> (default) Shipping information stored in the paypal will be shown <br/>
+									<i> SET_SPECIFIED_ADDRESS</i> Shipping information passed along with the payload will be shown 
+							</td>
+						</tr>
+						<tr>
+							<td>landing_page</td>
+							<td> <i>billing</i> - For non-PayPal account landing page <br/>
+								<i>login</i> - For PayPal account login landing page
+						   </td>
+						</tr>
+					</tbody>
+				</table>			
+		</section>
+
+
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> User will be shown the paypal login screen .</li>
+				<li> Client sdk request the braintree server and <i>nonce</i> is returned and and once after successful auth,<mark>onAuthorize()</mark> method gets called.
+				<li> In the onAuthorize() method, call <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.nonce </i> </li>
+				<li> In the server, create the sale request object using the nonce passed from the client and call <mark>  gateway.transaction.sale(saleRequestObj) </mark> to execute the payment</li>
+				<li> Final payment object is returned from the server and the result can be shown to the user.
+			</ul>
+		</section>
+
+		<section>
+				<img height="400" data-src="../../images/experience-braintree.gif" alt="Experience Flow Braintree working">
+		</section>       
+   
+	</section>    <!-- end of experience ecbt  -->
+
+
+	
+	<section> <!-- ecbt confirmation flow -->
+		<h3> Confirmation flow Braintree Integration </h3>
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> Server App uses <i>braintree</i> node module.</li>
+				<li> User will be shown the paypal checkout button.</li>
+				<li> Make an async request to the server to get the client token and assign it to the client option<br/>
+<pre>
+<code data-trim>
+client: {
+	sandbox: paypal.request.get('/api/braintree/clienttoken')
+}
+</code>
+</pre>
+				</li>
+			</ul>    
+		</section>
+
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				<li> Call <mark> actions.payment.create() </mark>passing the payment payload <i>(amount and currency are required)</i></li>
+				<li> User will be shown the paypal login screen .</li>
+				<li> Client sdk request the braintree server and <i>nonce</i> is returned and and once after successful auth,<mark>onAuthorize()</mark> method gets called.
+			</ul>	
+		</section>
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> Call <mark> actions.payment.get()</mark> in onAuthorize() to get the payment details and show the <i>confirmation</i> block with complete the payment button </li>	
+				<li> On clicking complete the payment button , call <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.nonce </i> </li>
+				<li> In the server, create the sale request object using the nonce passed from the client and call <mark>  gateway.transaction.sale(saleRequestObj) </mark> to execute the payment</li>
+				<li> Final payment object is returned from the server and the result can be shown to the user.
+			</ul>
+		</section>
+
+		<section>
+				<img height="400" data-src="../../images/confirmation-braintree.gif" alt="Confirmation Flow Braintree working">
+				
+		</section>       
+    </section>    <!-- end of confirmation ecbt  -->
+
+
+
+	
+	
+	<section> <!-- ecbt mark flow -->
+		<h3> Mark flow Braintree Integration </h3>
+
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> This flow is longer when compared to Shortcut flow</li>
+				<li> Merchant selects the product and clicks on proceed to checkout button.</li>
+				<li> Merchant will be shown a shipping address form and merchant can enter them.</li> 
 			</ul>
 		</section>
 		<section>
-			<p> Some of the most common types of Braintree integration:</p>
-			<ol>
-				<li> Shortcut</li>
-				<li> Redirection </li>
-				<li> Experience </li>
-				<li> Confirmation </li>
-				<li> Mark Flow (Can be used with other types)</li>
-			</ol>
-		</section>    
-	</section>  
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> Server App uses <i>braintree</i> node module.</li>
+				<li> User will be shown the paypal checkout button.</li>
+				<li> Make an async request to the server to get the client token and assign it to the client option<br/>
+<pre>
+<code data-trim>
+client: {
+	sandbox: paypal.request.get('/api/braintree/clienttoken')
+}
+</code>
+</pre>
+				</li>
+			</ul>    
+		</section>
 
-	
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> On clicking the paypal button, <mark>payment()</mark> method gets invoked.</li>
+				<li> Call <mark> actions.payment.create() </mark>passing the payment payload <i>(amount and currency are required)</i></li>
+				<li> User will be shown the paypal login screen .</li>
+				<li> Client sdk request the braintree server and <i>nonce</i> is returned and and once after successful auth,<mark>onAuthorize()</mark> method gets called.
+			</ul>	
+		</section>
+		
+		<section>
+			<ul class="smallfont" style="line-height:1.5em;">
+				<li> In onAuthorize() method, call <mark>paypal.request.post(EXECUTE_PAYMENT_URL)</mark>to the server passing <i> data.nonce </i> </li>
+				<li> In the server, create the sale request object using the nonce passed from the client and call <mark>  gateway.transaction.sale(saleRequestObj) </mark> to execute the payment</li>
+				<li> Final payment object is returned from the server and the result can be shown to the user.
+			</ul>
+		</section>
+
+		<section>
+				<img height="400" data-src="../../images/markflow-braintree.gif" alt="Mark Flow Braintree working">
+				
+		</section>       
+    </section>    <!-- end of markflow ecbt  -->
 
 
 
-	
 
                 <section>
 					<h2>Slides</h2>
