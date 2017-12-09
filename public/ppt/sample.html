@@ -37,7 +37,7 @@
                     font-weight : 800 !important;
                     text-decoration: underline;
 				}
-				.reveal .slides > section.present, .reveal .slides > section > section.present {
+			/*	.reveal .slides > section.present, .reveal .slides > section > section.present {
 					min-height: 100% !important;
 					display: flex !important;
 					flex-direction: column !important;
@@ -45,7 +45,7 @@
 					position: absolute !important;
 					top: 0 !important;
 				  }
-				  section > h1,h3 {
+				  section > h3 {
 					position: absolute !important;
 					top: 0 !important;
 					margin-left: auto !important;
@@ -58,10 +58,44 @@
 					min-height: 770px !important;
 					position: relative !important;
 				  }
+				  */
         </style>
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
+	<style>
+			.dx-bg-grad-radial-blue {
+				background: radial-gradient(circle at 0 0,#009cde,#003087);
+			}
+			.dx-roundel {
+				-webkit-align-items: center;
+				-ms-flex-align: center;
+				align-items: center;
+				border: 1px solid #1e2021;
+				border-radius: 50%;
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-flex-grow: initial;
+				-ms-flex-positive: initial;
+				flex-grow: initial;
+				font-size: 1.375rem;
+				font-weight: 400;
+				height: 3.5rem;
+				-webkit-justify-content: center;
+				-ms-flex-pack: center;
+				justify-content: center;
+				margin-bottom: 1.25rem;
+				text-transform: uppercase;
+				width: 3.5rem;
+			}
+
+			.dx-bg-grad-radial-blue, .dx-bg-grad-radial-gray, .dx-bg-grad-radial-green, .dx-bg-grad-radial-orange, .dx-bg-grad-radial-pink, .dx-bg-grad-radial-purple {
+				border-color: transparent;
+				color: #fff;
+			}
+	</style>
+
 	</head>
 
 	<body>
@@ -72,6 +106,7 @@
 			<div class="slides">
 				<section>
 					<h1>Express Checkout</h1>
+					<center><span class="dx-roundel dx-bg-grad-radial-blue">EC</span>	</center> <br/>		
 					<h3>Rest Integration Demo Portal - <a href="/">Link</a></h3>
 					<p>
 						<small>Created by <a href="#">Arvindan</a></small>
@@ -123,7 +158,60 @@
                 </section>
 
 
-                <section >
+				<section>
+
+					<h3> Express checkout flows </h3>
+					<p> There are two flows in the express checkout</p>
+					<ol style="float:left;margin-left:15% !important;">
+						<li> Shortcut flow</li>
+						<li> Mark flow</li>
+					</ol>
+
+				</section>
+
+
+				<section>
+					<h3> Shortcut Flow</h3>
+					<section>
+						<ul class="smallfont">
+							<li> Add a PayPal checkout button on your shopping cart page. A buyer clicks the button to initiate the Express Checkout flow.</li>
+						<br/><li> This payment flow is the fastest because buyers skip the pages on your website that gather shipping and payment details.</li>
+						<br/><li> Instead, the buyer is redirected to PayPal from the shopping cart page.</li>
+						<br/><li> There is no need to collect the buyer's shipping information. PayPal can supply you with the buyer's shipping information, so there is no need to collect it.</li>
+						</ul>		
+					</section>
+					
+					<section>
+					
+						<img style="height:10em !important"  data-src="../../images/shortcut-flow.png" alt="Shortcut flow">
+							
+					</section>
+				
+				</section>
+
+
+				<section>
+					<h3> Mark Flow</h3>
+					<section>
+						<ul class="smallfont">
+							<li> On your payment methods page, add the PayPal mark as one of the payment options, and set PayPal as the default option.</li>
+						<br/><li>In this flow, buyers initiate the Express Checkout flow from your payment methods page.</li>
+						<br/><li> Here buyer is shown the shipping and billing details page before proceeding to payment methods page.</li>
+				        <br/> <li> After entering those details , the buyer is taken to payment methods page and once the paypal is selected the checkout process begin</li>			
+						</ul>		
+					</section>
+					
+					<section>
+					
+						<img style="height:10em !important"  data-src="../../images/mark-flow.png" alt="Mark flow">
+							
+					</section>
+					
+				</section>
+	
+
+
+                <section>
                     
                     <h3> Steps to integrate Express checkout</h3>
                     <ol>
@@ -342,13 +430,13 @@
         <section >
              <section>
 				<h3> Client Integration</h3>
-		       <p style="float:left;margin-left:4%"> Characteristics</p>
+				<p style="float:left;margin-left:4%;"><i> Characteristics </i></p>
                 <ul>
                     <li> Simple to implement </li>
-                    <li>
+                   <br/> <li>
                         With this integration, the PayPal button calls the PayPal REST API directly to set up the payment
                     </li>
-                    <li>       
+                    <br/><li>       
                         No server setup required.
                     </li>
                 </ul>
@@ -667,7 +755,7 @@ redirect_urls: {
 	<section>
 			<h3> Server Integration</h3>
 			<section>
-				<p style="float:left;margin-left:4%"> Characteristics</p>
+					<p style="float:left;margin-left:4%"><i> Characteristics </i></p>
 				<ul>
 					<li> Requires Server application </li>
 					<li> Use this integration for advanced apps that require more flexibility to manage payments.</li>
@@ -1008,7 +1096,7 @@ redirect_urls: {
 		 </section>
 
 		 <section>
-			<h3>EC BT Steps</h3>
+			<h3>EC BT Steps (contd...)</h3>
 		   <ol start="4" class="smallfont" style="line-height:1.5em;list-style-type:decimal">
 			   <li>You then send the payment method nonce to your server.</li>
 			 <br/>   <li>Your server code receives the payment method nonce from your client and then uses the server SDK to create a transaction or perform other functions.</li>
@@ -1022,7 +1110,7 @@ redirect_urls: {
 	<section>
 		<h3> Braintree Integration</h3>
 		<section>
-			<p style="float:left;margin-left:4%"> Characteristics</p>
+			<p style="float:left;margin-left:4%"> <i>Characteristics</i></p>
 			<ul>
 				<li> Requires both Client and Server sdks </li>
 				<li> Use this integration for advanced apps that require both web &amp; mobile support and support multiple payment options.</li>
@@ -1558,9 +1646,10 @@ client: {
 				<section style="text-align: left;">
 					<h1>THE END</h1>
 					<p>
-						- <a href="https://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
+						- <a href="https://developer.paypal.com/docs/integration/direct/express-checkout/integration-jsv4/">Paypal Developer Portal </a> <br>
+						- <a href="/">Demo Portal</a>
 					</p>
+					
 				</section>
 
 			</div>
@@ -1577,7 +1666,7 @@ client: {
 				controls: true,
 				progress: true,
 				history: true,
-				center: false,
+				center: true,
 				//autoSlide:4000,
 
 				transition: 'page', // none/fade/slide/convex/concave/zoom
