@@ -36,7 +36,28 @@
                 i {
                     font-weight : 800 !important;
                     text-decoration: underline;
-                }
+				}
+				.reveal .slides > section.present, .reveal .slides > section > section.present {
+					min-height: 100% !important;
+					display: flex !important;
+					flex-direction: column !important;
+					justify-content: center !important;
+					position: absolute !important;
+					top: 0 !important;
+				  }
+				  section > h1,h3 {
+					position: absolute !important;
+					top: 0 !important;
+					margin-left: auto !important;
+					margin-right: auto !important;
+					left: 0 !important;
+					right: 0 !important;
+				  }
+				  
+				  .print-pdf .reveal .slides > section.present, .print-pdf .reveal .slides > section > section.present {
+					min-height: 770px !important;
+					position: relative !important;
+				  }
         </style>
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -1556,7 +1577,7 @@ client: {
 				controls: true,
 				progress: true,
 				history: true,
-				center: true,
+				center: false,
 				//autoSlide:4000,
 
 				transition: 'page', // none/fade/slide/convex/concave/zoom
