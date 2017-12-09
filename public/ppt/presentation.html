@@ -1724,15 +1724,22 @@ client: {
 					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
-				var header = $('#header').html();
-	if ( window.location.search.match( /print-pdf/gi ) ) {
-		Reveal.addEventListener( 'ready', function( event ) {
-			$('.slide-background').append(header);
-		});
+	
+	function loadHeader() {
+		var header = $('#header').html();
+		if ( window.location.search.match( /print-pdf/gi ) ) {
+			Reveal.addEventListener( 'ready', function( event ) {
+				$('.slide-background').append(header);
+			});
+		}
+		else {
+			$('div.reveal').append(header);
+		}
 	}
-	else {
-		$('div.reveal').append(header);
-	}
+	loadHeader();	
+
+	Reveal.addEventListener( 'overviewshown', function( event ) { /* ... */  loadHeader();} );
+	Reveal.addEventListener( 'overviewhidden', function( event ) { /* ... */ loadHeader();} );
 
 		</script>
 
