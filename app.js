@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var serverCheckout = require('./routes/server-checkout');
 var braintreeCheckout = require('./routes/braintree-checkout');
-
+var flavourCheckout = require('./routes/flavours-checkout');
 var app = express();
 
 // view engine setup
@@ -126,6 +126,7 @@ app.use('/api/server', serverCheckout);
 
 app.use('/api/braintree', braintreeCheckout);
 
+app.use('/api/flavours',flavourCheckout);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
