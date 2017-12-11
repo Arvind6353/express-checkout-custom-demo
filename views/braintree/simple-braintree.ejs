@@ -56,7 +56,7 @@
             payment: function(data, actions) {
                 document.getElementById("paypal-button-container-err").innerHTML='';
                 // Make a call to create the payment
-                return actions.payment.create({
+              /*  return actions.payment.create({
                     payment: {
                         transactions: [
                             {
@@ -76,7 +76,7 @@
                                 phone: '65 123213213'
                             }
                         },
-                    */
+                    
                         application_context: {
                             brand_name: "branding",
                             shipping_preference: "GET_FROM_FILE",
@@ -84,7 +84,30 @@
                         }
                     
                     }
-                });
+                });*/
+
+
+                return actions.braintree.create({
+                    flow: 'checkout', // Required
+                    amount: 10.00, // Required
+                    currency: 'USD', // Required
+                    enableShippingAddress: true,
+                    shippingAddressEditable: false,
+                    shippingAddressOverride: {
+                      recipientName: 'Scruff McGruff',
+                      line1: '1234 Main St.',
+                      line2: 'Unit 1',
+                      city: 'Chicago',
+                      countryCode: 'US',
+                      postalCode: '60652',
+                      state: 'IL',
+                      phone: '123.456.7890'
+                    }
+                  });
+
+
+
+
             },
             // Wait for the payment to be authorized by the customer
             onAuthorize: function(data, actions) {
