@@ -105,6 +105,8 @@
                     document.getElementById("paypal-button-container-err").innerHTML = "";
                     // call server to create payment
 
+//https://github.com/paypal/PayPal-node-SDK/blob/master/samples/payment_experience/web_profile/create_payment_with_customized_experience.js
+
                     return paypal.request({
                         method: 'post',
                         url: CREATE_PAYMENT_URL,
