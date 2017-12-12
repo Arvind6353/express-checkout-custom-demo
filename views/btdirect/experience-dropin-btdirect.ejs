@@ -1,0 +1,118 @@
+
+<% include partials/header.ejs %>
+
+ 
+<div class="container-fluid ">
+  
+  <div class="row">
+      <div class="col-lg-6 col-md-4 col-sm-12 portfolio-item c1 text-center" 
+          id="customFormElem" style="display:none">
+      <% include partials/customizeform.ejs %>
+    </div>
+
+    <div class="col-lg-6 col-md-3 col-sm-12 portfolio-item c1 text-center">
+      <div id="column-middle1" style="margin-top:14.5%;height:100%">
+          <legend>View the checkout experience</legend>
+          
+          <div class="alert alert-info">
+                  <strong>Custom Experience DropIn BT Direct Checkout Flow</strong>
+          </div>
+        <div id="checkout-message"></div>
+              
+          <div id="dropin-container"></div>
+          <button id="submit-button" style="display:none" class="btn btn-primary">Purchase</button>
+
+    <script>
+   
+   function createCheckoutExp(chkobj){
+    $("#dropin-container").empty();
+    
+    var button = document.querySelector('#submit-button');
+
+    braintree.dropin.create({
+        authorization:  "sandbox_h42jk7dg_cy72x4r2x9qmwy2b",
+        container: '#dropin-container',
+        card: {
+          cardholderName: true
+        },
+        paypal: {
+          flow: 'checkout', // Required
+          intent:'sale',
+          amount: 4.00, // Required
+          currency: 'USD', // Required
+          buttonStyle: chkobj.style,
+          displayName : "custom brand name",
+          enableShippingAddress: false,
+          shippingAddressEditable: false
+          /*shippingAddressOverride: {
+            recipientName: 'Scruff McGruff',
+            line1: '1234 Main St.',
+            line2: 'Unit 1',
+            city: 'Chicago',
+            countryCode: 'US',
+            postalCode: '60652',
+            state: 'IL',
+            phone: '123.456.7890'
+          }*/
+        }
+      }, function (createErr, instance) {
+
+        $("#submit-button").show();
+
+        setTimeout(()=>{
+          $($("[data-braintree-id='payment-options-container'] > div")[1]).trigger("click")
+         },1000)
+         
+
+        $("[data-braintree-id='payment-options-container'] > div").on("click",function(evt){
+          if(evt.currentTarget.className.indexOf("paypal") !=-1) {
+            $("#customFormElem").show();
+            $("#submit-button").hide();
+          } else {
+            $("#customFormElem").hide();
+            $("#submit-button").show();
+          }
+         });
+
+        button.addEventListener('click', function () {
+          instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+            // When the user clicks on the 'Submit payment' button this code will send the
+            // encrypted payment information in a variable called a payment method nonce
+            $.ajax({
+              type: 'POST',
+              url: '/api/btdirect/payment',
+              data: {'paymentMethodNonce': payload.nonce}
+            }).done(function(result) {
+              // Tear down the Drop-in UI
+              instance.teardown(function (teardownErr) {
+                if (teardownErr) {
+                  console.error('Could not tear down Drop-in UI!');
+                } else {
+                  console.info('Drop-in UI has been torn down!');
+                  // Remove the 'Submit payment' button
+                  $('#submit-button').remove();
+                }
+              });
+    
+              if (result.success) {
+                $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+              } else {
+                console.log(result);
+                $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+              }
+            });
+          });
+        });
+      });
+    }
+
+    $("#clientIdElem").hide();
+    $("#envElem").hide();
+   
+    </script>
+  </div>
+</div>
+</div>
+</div>  
+
+<script src="/javascripts/formhandling.js"></script>

@@ -1,35 +1,35 @@
 
 <% include partials/header.ejs %>
-<br/><br/><br/>
-
-  <body>
-    
-   
-   <div class="row">
-     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 portfolio-item c1 text-center">
-        <% include partials/customizeform.ejs %>
-     </div>
   
-     <div class="col-lg-5 col-md-3 col-sm-12 ">
+   
+<div class="container-fluid ">
+    
+    <div class="row">
+        <div class="col-lg-6 col-md-4 col-sm-12 portfolio-item c1 text-center" 
+            id="customFormElem" style="display:none">
+        <% include partials/customizeform.ejs %>
+      </div>
+  
+      <div class="col-lg-6 col-md-3 col-sm-12 portfolio-item c1 text-center">
         <div id="column-middle1" style="margin-top:14.5%;height:100%">
             <legend>View the checkout experience</legend>
             
             <div class="alert alert-info">
-                    <strong>Shortcut Braintree Checkout Flow</strong>
+                    <strong>Shortcut Flow DropIn BT Direct Checkout</strong>
             </div>
           <div id="checkout-message"></div>
                 
             <div id="dropin-container"></div>
-            <button id="submit-button" style="display:none" class="btn btn-primary">Request payment method</button>
+            <button id="submit-button" style="display:none" class="btn btn-primary">Purchase</button>
 
       <script>
      
      function createCheckoutExp(chkobj){
-      $("#dropin-container").empty();;
-
-      var button = document.querySelector('#submit-button');
+      $("#dropin-container").empty();
       
-        braintree.dropin.create({
+      var button = document.querySelector('#submit-button');
+
+      braintree.dropin.create({
           authorization:  "sandbox_h42jk7dg_cy72x4r2x9qmwy2b",
           container: '#dropin-container',
           card: {
@@ -38,13 +38,41 @@
           paypal: {
             flow: 'checkout', // Required
             intent:'sale',
-            amount: 10.00, // Required
+            amount: 4.00, // Required
             currency: 'USD', // Required
-            buttonStyle: chkobj.style
+            buttonStyle: chkobj.style,
+            enableShippingAddress: true,
+            shippingAddressEditable: false
+            /*shippingAddressOverride: {
+              recipientName: 'Scruff McGruff',
+              line1: '1234 Main St.',
+              line2: 'Unit 1',
+              city: 'Chicago',
+              countryCode: 'US',
+              postalCode: '60652',
+              state: 'IL',
+              phone: '123.456.7890'
+            }*/
           }
         }, function (createErr, instance) {
 
           $("#submit-button").show();
+
+          setTimeout(()=>{
+            $($("[data-braintree-id='payment-options-container'] > div")[1]).trigger("click")
+           },1000)
+           
+
+          $("[data-braintree-id='payment-options-container'] > div").on("click",function(evt){
+            if(evt.currentTarget.className.indexOf("paypal") !=-1) {
+              $("#customFormElem").show();
+              $("#submit-button").hide();
+            } else {
+              $("#customFormElem").hide();
+              $("#submit-button").show();
+            }
+           });
+
           button.addEventListener('click', function () {
             instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
               // When the user clicks on the 'Submit payment' button this code will send the
@@ -76,6 +104,10 @@
           });
         });
       }
+
+      $("#clientIdElem").hide();
+      $("#envElem").hide();
+     
       </script>
     </div>
 </div>

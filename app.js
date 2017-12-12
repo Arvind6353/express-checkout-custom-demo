@@ -127,19 +127,25 @@ app.get("/error", function(req, res, next) {
 
 
 // btdirect routes
-app.get('/simpleBtdirect', function(req,res){
-  res.render("simple-btdirect");
-})
 
 app.get('/paypalBtdirect', function(req,res){
   res.render("paypal-btdirect");
 })
 
 
-
 app.get('/simpleDropinBtdirect', function(req,res){
   res.render("simple-dropin-btdirect");
 })
+
+app.get('/experienceDropinBtdirect', function(req,res){
+  res.render("experience-dropin-btdirect");
+})
+
+
+app.get('/markflowDropinBtdirect', function(req,res){
+  res.render("markflow-dropin-btdirect");
+})
+
 
 
 
