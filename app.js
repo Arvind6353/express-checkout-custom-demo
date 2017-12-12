@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var serverCheckout = require('./routes/server-checkout');
 var braintreeCheckout = require('./routes/braintree-checkout');
 var flavourCheckout = require('./routes/flavours-checkout');
+var btdirectCheckout = require('./routes/btdirect');
+
 var app = express();
 
 // view engine setup
@@ -15,7 +17,8 @@ app.set('views',
 [path.join(__dirname, 'views'),
 path.join(__dirname, 'views/client/'),
 path.join(__dirname, 'views/server/'),
-path.join(__dirname, 'views/braintree/')]);
+path.join(__dirname, 'views/braintree/'),
+path.join(__dirname, 'views/btdirect/')]);
 
 app.set('view engine', 'ejs');
 
@@ -122,11 +125,34 @@ app.get("/error", function(req, res, next) {
   res.render("error",{message:""});
 });
 
+
+// btdirect routes
+app.get('/simpleBtdirect', function(req,res){
+  res.render("simple-btdirect");
+})
+
+app.get('/paypalBtdirect', function(req,res){
+  res.render("paypal-btdirect");
+})
+
+
+
+app.get('/simpleDropinBtdirect', function(req,res){
+  res.render("simple-dropin-btdirect");
+})
+
+
+
 app.use('/api/server', serverCheckout);
 
 app.use('/api/braintree', braintreeCheckout);
 
+app.use('/api/btdirect',btdirectCheckout);
+
 app.use('/api/flavours',flavourCheckout);
+
+app.use('/api/btdirect',btdirectCheckout);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

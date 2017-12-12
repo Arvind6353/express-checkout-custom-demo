@@ -1,0 +1,96 @@
+
+<% include partials/header.ejs %>
+<br/><br/><br/>
+
+<div id="paypal-button"></div>
+
+<script>
+// Create a client
+braintree.client.create({
+    authorization:  "sandbox_h42jk7dg_cy72x4r2x9qmwy2b",
+}, function (clientErr, clientInstance) {
+
+  // Stop if there was a problem creating the client.
+  // This could happen if there is a network error or if the authorization
+  // is invalid.
+  if (clientErr) {
+    console.error('Error creating client:', clientErr);
+    return;
+  }
+
+  // Create a PayPal Checkout component.
+  braintree.paypalCheckout.create({
+    client: clientInstance
+  }, function (paypalCheckoutErr, paypalCheckoutInstance) {
+
+    // Stop if there was a problem creating PayPal Checkout.
+    // This could happen if there was a network error or if it's incorrectly
+    // configured.
+    if (paypalCheckoutErr) {
+      console.error('Error creating PayPal Checkout:', paypalCheckoutErr);
+      return;
+    }
+
+    // Set up PayPal with the checkout.js library
+    paypal.Button.render({
+      env: 'sandbox', // or 'sandbox'
+
+      payment: function () {
+        return paypalCheckoutInstance.createPayment({
+          // Your PayPal options here. For available options, see
+          // http://braintree.github.io/braintree-web/current/PayPalCheckout.html#createPayment
+          flow: 'checkout', // Required
+          intent:'sale',
+          amount: 10.00, // Required
+          currency: 'USD', // Required
+          enableShippingAddress: true,
+          shippingAddressEditable: false,
+          shippingAddressOverride: {
+            recipientName: 'Scruff McGruff',
+            line1: '1234 Main St.',
+            line2: 'Unit 1',
+            city: 'Chicago',
+            countryCode: 'US',
+            postalCode: '60652',
+            state: 'IL',
+            phone: '123.456.7890'
+          }
+        });
+      },
+
+      onAuthorize: function (data, actions) {
+        return paypalCheckoutInstance.tokenizePayment(data)
+          .then(function (payload) {
+            // Submit `payload.nonce` to your server.
+            console.log("payload ",payload)
+            return paypal.request.post('/api/btdirect/payment', {
+                paymentMethodNonce: payload.nonce
+            }).then(function(payment) {
+                if (payment.error) {
+                    return;
+                } 
+                console.log(payment);
+                alert("Ss");
+            });
+
+
+          });
+      },
+
+      onCancel: function (data) {
+        console.log('checkout.js payment cancelled', JSON.stringify(data, 0, 2));
+      },
+
+      onError: function (err) {
+        console.error('checkout.js error', err);
+      }
+    }, '#paypal-button').then(function () {
+      // The PayPal button will be rendered in an html element with the id
+      // `paypal-button`. This function will be called when the PayPal button
+      // is set up and ready to be used.
+    });
+
+  });
+
+});
+</script>

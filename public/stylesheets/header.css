@@ -328,7 +328,7 @@ svg:not(:root) {
 
 @media (min-width:980px) {
 	.closer-mobile a, .main-link, .main-link:focus, .main-link:hover {
-		padding: 24px 25px;
+		padding: 30px 18px;
 		margin: 0 1px
 	}
 	.closer-mobile a.header-menu-highlight, .closer-mobile a.pypl-header__subnav-control--is-active, .closer-mobile a.pypl-header__subnav-control--is-highlighted, .closer-mobile a:focus, .closer-mobile a:hover, .main-link.header-menu-highlight, .main-link.pypl-header__subnav-control--is-active, .main-link.pypl-header__subnav-control--is-highlighted, .main-link:focus, .main-link:focus.header-menu-highlight, .main-link:focus.pypl-header__subnav-control--is-active, .main-link:focus.pypl-header__subnav-control--is-highlighted, .main-link:focus:focus, .main-link:focus:hover, .main-link:hover, .main-link:hover.header-menu-highlight, .main-link:hover.pypl-header__subnav-control--is-active, .main-link:hover.pypl-header__subnav-control--is-highlighted, .main-link:hover:focus, .main-link:hover:hover {
@@ -597,7 +597,7 @@ svg:not(:root) {
 
 @media (min-width:980px) {
 	.pp-header .main-menu-list .main-link {
-		font-size: 1rem;
+		font-size: 0.8rem;
 		text-decoration: none;
 	}
 }
