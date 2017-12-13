@@ -80,6 +80,7 @@
             instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
               // When the user clicks on the 'Submit payment' button this code will send the
               // encrypted payment information in a variable called a payment method nonce
+                 $('#checkout-message').html('<br/><h1>Loading....</h1>');
               $.ajax({
                 type: 'POST',
                 url: '/api/btdirect/payment',
@@ -97,10 +98,10 @@
                 });
       
                 if (result.success) {
-                  $('#checkout-message').html('<h1>Success.<br/>Your Drop-in UI is working!. Your payment Id is '+ result.transaction.paypal.paymentId +'</br>Refresh to try another transaction.</h1>');
+                  $('#checkout-message').html('<br/><h1>Success.<br/>Your payment Id is '+ result.transaction.paypal.paymentId +'</br>Refresh to try another transaction.</h1><br/>');
                 } else {
                   console.log(result);
-                  $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+                  $('#checkout-message').html('<br/><h1>Error <br/> Check your console.<br/>Refresh to try again.</h1><br/>');
                 }
               });
             });

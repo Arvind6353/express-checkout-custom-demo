@@ -1,0 +1,275 @@
+
+<% include partials/header.ejs %>
+<link rel="stylesheet" href="/stylesheets/hosted-fields.css">
+
+<script src="https://js.braintreegateway.com/web/3.25.0/js/hosted-fields.min.js"></script>
+ 
+<div class="container-fluid ">
+  
+  <div class="row">
+      <div class="col-lg-6 col-md-4 col-sm-12 text-center" 
+          id="customFormElem">
+          <% include partials/customizeform.ejs %>
+          
+  </div>
+
+    <div class="col-lg-6 col-md-3 col-sm-12  text-center">
+      <div id="column-middle1" style="margin-top:10%;height:100%">
+          <legend>View the checkout experience</legend>
+          
+          <div class="alert alert-info">
+                  <strong>Shortcut Flow Hosted Fields BT Direct Checkout</strong>
+          </div>
+       
+          <% include partials/product.ejs %>
+          <br/>
+          <div id="checkout-message"></div>
+        
+          <% include partials/hostedfields-form.ejs %>
+          
+          <div style="position:relative;margin-top:2%">
+              <div id="paypal-button"></div>
+          </div>
+  
+  <script>
+
+    var form = document.querySelector('#my-sample-form');
+    var submit = document.querySelector('#button-pay');
+    
+    function createCheckoutExp(chkobj){
+  
+        $("#paypal-button").empty();
+
+        // Create a client
+        braintree.client.create({
+          authorization:  "sandbox_h42jk7dg_cy72x4r2x9qmwy2b",
+      }, function (clientErr, clientInstance) {
+      
+        // Stop if there was a problem creating the client.
+        // This could happen if there is a network error or if the authorization
+        // is invalid.
+        if (clientErr) {
+          console.error('Error creating client:', clientErr);
+          return;
+        }
+
+        createHostedFields(clientInstance);
+
+      createPaypalButton(clientInstance,chkobj);
+      });
+
+
+    }
+      $("#clientIdElem").hide();
+      $("#envElem").hide();
+
+      
+  function createHostedFields(clientInstance) {
+     // Create input fields and add text styles  
+      braintree.hostedFields.create({
+        client: clientInstance,
+        styles: {
+          'input': {
+            'color': '#282c37',
+            'font-size': '16px',
+            'transition': 'color 0.1s',
+            'line-height': '3'
+          },
+          // Style the text of an invalid input
+          'input.invalid': {
+            'color': '#E53A40'
+          },
+          // placeholder styles need to be individually adjusted
+          '::-webkit-input-placeholder': {
+            'color': 'rgba(0,0,0,0.6)'
+          },
+          ':-moz-placeholder': {
+            'color': 'rgba(0,0,0,0.6)'
+          },
+          '::-moz-placeholder': {
+            'color': 'rgba(0,0,0,0.6)'
+          },
+          ':-ms-input-placeholder': {
+            'color': 'rgba(0,0,0,0.6)'
+          }
+
+        },
+        // Add information for individual fields
+        fields: {
+          number: {
+            selector: '#card-number',
+            placeholder: '1111 1111 1111 1111'
+          },
+          cvv: {
+            selector: '#cvv',
+            placeholder: '123'
+          },
+          expirationDate: {
+            selector: '#expiration-date',
+            placeholder: '10 / 2019'
+          }
+        }
+      }, function (err, hostedFieldsInstance) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+
+        hostedFieldsInstance.on('validityChange', function (event) {
+          // Check if all fields are valid, then show submit button
+          var formValid = Object.keys(event.fields).every(function (key) {
+            return event.fields[key].isValid;
+          });
+
+          if (formValid) {
+            $('#button-pay').addClass('show-button');
+          } else {
+            $('#button-pay').removeClass('show-button');
+          }
+        });
+
+        hostedFieldsInstance.on('empty', function (event) {
+          $('header').removeClass('header-slide');
+          $('#card-image').removeClass();
+          $(form).removeClass();
+        });
+
+        hostedFieldsInstance.on('cardTypeChange', function (event) {
+          // Change card bg depending on card type
+          if (event.cards.length === 1) {
+            $(form).removeClass().addClass(event.cards[0].type);
+            $('#card-image').removeClass().addClass(event.cards[0].type);
+            $('header').addClass('header-slide');
+            
+            // Change the CVV length for AmericanExpress cards
+            if (event.cards[0].code.size === 4) {
+              hostedFieldsInstance.setAttribute({
+                field: 'cvv',
+                attribute: 'placeholder',
+                value: '1234'
+              });
+            } 
+          } else {
+            hostedFieldsInstance.setAttribute({
+              field: 'cvv',
+              attribute: 'placeholder',
+              value: '123'
+            });
+          }
+        });
+
+        submit.addEventListener('click', function (event) {
+          event.preventDefault();
+          $('#checkout-message').html('<br/><h1>Loading...</h1>')
+
+          hostedFieldsInstance.tokenize(function (err, payload) {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            console.log("payload ",payload)
+            // This is where you would submit payload.nonce to your server
+            return paypal.request.post('/api/btdirect/payment', {
+                paymentMethodNonce: payload.nonce
+            }).then(function(payment) {
+                if (payment.error) {
+                  $('#checkout-message').html('<br/><h1>Error <br/> Check your console.<br/>Refresh to try again.</h1><br/>');
+                    return;
+                } 
+                console.log('final transaction details',payment);
+                $('#checkout-message').html('<br/><h1>Success.<br/>Your transaction Id is '+ payment.transaction.id +'</br>Refresh to try another transaction.</h1><br/>');
+            });
+          });
+        }, false);
+      });    
+    }
+
+    function createPaypalButton(clientInstance,chkobj) {
+      
+          // Create a PayPal Checkout component.
+          braintree.paypalCheckout.create({
+            client: clientInstance
+          }, function (paypalCheckoutErr, paypalCheckoutInstance) {
+        
+            // Stop if there was a problem creating PayPal Checkout.
+            // This could happen if there was a network error or if it's incorrectly
+            // configured.
+            if (paypalCheckoutErr) {
+              console.error('Error creating PayPal Checkout:', paypalCheckoutErr);
+              $('#checkout-message').html('<br/><h1>Error <br/> Check your console.<br/>Refresh to try again.</h1><br/>');
+              return;
+            }
+        
+            // Set up PayPal with the checkout.js library
+            paypal.Button.render({
+              env: 'sandbox', // or 'sandbox'
+              style: chkobj.style,
+              payment: function () {
+                return paypalCheckoutInstance.createPayment({
+                  // Your PayPal options here. For available options, see
+                  // http://braintree.github.io/braintree-web/current/PayPalCheckout.html#createPayment
+                  flow: 'checkout', // Required
+                  intent:'sale',
+                  amount: 4.00, // Required
+                  currency: 'USD', // Required
+                  enableShippingAddress: true,
+                  shippingAddressEditable: false,
+                  shippingAddressOverride: {
+                    recipientName: 'Scruff McGruff',
+                    line1: '1234 Main St.',
+                    line2: 'Unit 1',
+                    city: 'Chicago',
+                    countryCode: 'US',
+                    postalCode: '60652',
+                    state: 'IL',
+                    phone: '123.456.7890'
+                  }
+                });
+              },
+        
+              onAuthorize: function (data, actions) {
+                return paypalCheckoutInstance.tokenizePayment(data)
+                  .then(function (payload) {
+                    $('#checkout-message').html('<h1>Loading...</h1>');
+                    // Submit `payload.nonce` to your server.
+                    console.log("payload ",payload)
+                    return paypal.request.post('/api/btdirect/payment', {
+                        paymentMethodNonce: payload.nonce
+                    }).then(function(payment) {
+                      if (payment.error) {
+                        $('#checkout-message').html('<br/><h1>Error <br/> Check your console.<br/>Refresh to try again.</h1><br/>');
+                          return;
+                      } 
+                      console.log('final transaction details',payment);
+                      $('#checkout-message').html('<br/><h1>Success.<br/>Your payment Id is '+ payment.transaction.paypal.paymentId +'</br>Refresh to try another transaction.</h1><br/>');
+                  });
+        
+                  });
+              },
+        
+              onCancel: function (data) {
+                console.log('checkout.js payment cancelled', JSON.stringify(data, 0, 2));
+              },
+        
+              onError: function (err) {
+                console.error('checkout.js error', err);
+                $('#checkout-message').html('<br/><h1>Error <br/> Check your console.<br/>Refresh to try again.</h1><br/>');
+                
+              }
+            }, '#paypal-button').then(function () {
+              // The PayPal button will be rendered in an html element with the id
+              // `paypal-button`. This function will be called when the PayPal button
+              // is set up and ready to be used.
+            });
+        
+          });
+        
+    }
+
+    </script>
+  </div>
+</div>
+</div>
+</div>  
+
+<script src="/javascripts/formhandling.js"></script>
