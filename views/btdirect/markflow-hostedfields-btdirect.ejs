@@ -18,11 +18,16 @@
           <legend>View the checkout experience</legend>
           
           <div class="alert alert-info">
-                  <strong>Shortcut Flow Hosted Fields BT Direct Checkout</strong>
+                  <strong>Mark Flow Hosted Fields BT Direct Checkout</strong>
           </div>
        
           <% include partials/product.ejs %>
           <br/>
+
+          <button class="btn btn-sm btn-warning" onclick="changeFlow()">Proceed to Checkout</button>
+<br/>
+          <% include partials/markflow-form-dropin-btdirect.ejs %>
+          
           <div id="checkout-message"></div>
         
           <% include partials/hostedfields-form.ejs %>
@@ -32,9 +37,18 @@
           </div>
   
   <script>
+    function changeFlow(){
+      $("#addressFormElem").show();
+      $("#addressFormCon").show();
+      $("#updatedShipping").show();
+      $('#checkout-message').html('<br/>');
+      window.scrollTo(0,0);
+    }
+
 
     var form = document.querySelector('#my-sample-form');
     var submit = document.querySelector('#button-pay');
+    var cardCreated = false;
     
     function createCheckoutExp(chkobj){
   
@@ -52,7 +66,7 @@
           console.error('Error creating client:', clientErr);
           return;
         }
-
+      if(!cardCreated)
         createHostedFields(clientInstance);
 
       createPaypalButton(clientInstance,chkobj);
@@ -114,6 +128,7 @@
           console.error(err);
           return;
         }
+        cardCreated = true;
 
         hostedFieldsInstance.on('validityChange', function (event) {
           // Check if all fields are valid, then show submit button
@@ -203,8 +218,9 @@
             // Set up PayPal with the checkout.js library
             paypal.Button.render({
               env: 'sandbox', // or 'sandbox'
-              style: chkobj.style,
+              style: checkoutObj.style,
               payment: function () {
+                $('#checkout-message').html('<br/>');
                 return paypalCheckoutInstance.createPayment({
                   // Your PayPal options here. For available options, see
                   // http://braintree.github.io/braintree-web/current/PayPalCheckout.html#createPayment
@@ -215,15 +231,15 @@
                   enableShippingAddress: true,
                   shippingAddressEditable: false,
                   shippingAddressOverride: {
-                    recipientName: 'Scruff McGruff',
-                    line1: '1234 Main St.',
-                    line2: 'Unit 1',
-                    city: 'Chicago',
-                    countryCode: 'US',
-                    postalCode: '60652',
-                    state: 'IL',
-                    phone: '123.456.7890'
-                  }
+                    recipient_name: $("#firstname").val() + " " + $("#lastname")
+                        .val(),
+                    line1: $("#address").val(),
+                    line2: $("#address1").val(),
+                    city: $("#city").val(),
+                    country_code: $("#country").val(),
+                    postal_code: $("#postalcode").val(),
+                    state: $("#state").val()
+                }  
                 });
               },
         
