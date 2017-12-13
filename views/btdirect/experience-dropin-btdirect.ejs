@@ -17,6 +17,9 @@
           <div class="alert alert-info">
                   <strong>Custom Experience DropIn BT Direct Checkout Flow</strong>
           </div>
+          
+          <% include partials/product.ejs %>
+          
         <div id="checkout-message"></div>
               
           <div id="dropin-container"></div>
@@ -95,7 +98,7 @@
               });
     
               if (result.success) {
-                $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+                $('#checkout-message').html('<h1>Success.<br/>Your Drop-in UI is working!. Your payment Id is '+ result.transaction.paypal.paymentId +'</br>Refresh to try another transaction.</h1>');
               } else {
                 console.log(result);
                 $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');

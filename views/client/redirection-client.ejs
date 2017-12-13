@@ -15,6 +15,9 @@
                             <strong>Redirection Client Checkout Flow</strong>
                     </div>
                     
+                    
+                   <% include partials/product.ejs %>
+         
                     <div class="row" style="margin-top:10%">
                         <div id="paypal-button-container"></div>
                         <br/>
@@ -49,7 +52,7 @@
                     payment: {
                         transactions: [{
                             amount: {
-                                total: '0.01',
+                                total: '4.00',
                                 currency: 'USD'
                             }
                         }],
