@@ -146,6 +146,20 @@ app.get('/markflowDropinBtdirect', function(req,res){
   res.render("markflow-dropin-btdirect");
 })
 
+app.get('/simpleHostedFieldsBtdirect', function(req,res){
+  res.render("simple-hostedfields-btdirect");
+})
+
+app.get('/experienceHostedFieldsBtdirect', function(req,res){
+  res.render("experience-hostedfields-btdirect");
+})
+
+
+app.get('/markflowHostedFieldsBtdirect', function(req,res){
+  res.render("markflow-hostedfields-btdirect");
+})
+
+
 
 
 
