@@ -28,27 +28,46 @@
           
         
             <div id="checkout-message"></div>
+          
             <div id="dropin-container"></div>
             <button id="submit-button" style="display:none" class="btn btn-primary">Purchase</button>
 
+          
     <script>
    
   function changeFlow(){
     $("#addressFormElem").show();
+    $("#addressFormCon").show();
+    $("#updatedShipping").show();
     $($("[data-braintree-id='payment-options-container'] > div")[1]).trigger("click");
     window.scrollTo(0,0);
   }
-   function createCheckoutExp(chkobj){
+  
+   function createCheckoutExp(){
     $("#dropin-container").empty();
-    
     var button = document.querySelector('#submit-button');
-
+   
     braintree.dropin.create({
         authorization:  "sandbox_h42jk7dg_cy72x4r2x9qmwy2b",
         container: '#dropin-container',
         paypal: {
-          flow: 'vault',
-          intent:'sale'
+          flow: 'checkout', // Required
+          intent:'sale',
+          amount: 4.00, // Required
+          currency: 'USD', // Required
+          buttonStyle: checkoutObj.style,
+          enableShippingAddress: true,
+          shippingAddressEditable: false,
+          shippingAddressOverride: {
+              recipient_name: $("#firstname").val() + " " + $("#lastname")
+                  .val(),
+              line1: $("#address").val(),
+              line2: $("#address1").val(),
+              city: $("#city").val(),
+              country_code: $("#country").val(),
+              postal_code: $("#postalcode").val(),
+              state: $("#state").val()
+          }  
         }
       }, function (createErr, instance) {
         if (createErr) {
@@ -72,18 +91,29 @@
             $("#addressFormElem").hide();
           }
          });
-
         button.addEventListener('click', function () {
           instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
             // When the user clicks on the 'Submit payment' button this code will send the
             // encrypted payment information in a variable called a payment method nonce
-         debugger;
-            console.log('payload ',payload)
+          
+            if(requestPaymentMethodErr){
+             console.log(requestPaymentMethodErr)
+             return;
+           }
+           
+           $('#checkout-message').html("<h1>Loading ....</h1>");
             $.ajax({
               type: 'POST',
               url: '/api/btdirect/payment',
-              data: {'paymentMethodNonce': payload.nonce}
+              data: { 'paymentMethodNonce': payload.nonce }
             }).done(function(result) {
+              if (result.success) {
+                $('#checkout-message').html('<h1>Success.<br/>Your Drop-in UI is working!. Your payment Id is '+ result.transaction.paypal.paymentId +'</br>Refresh to try another transaction.</h1>');
+              } else {
+                console.log(result);
+                $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+              }
+
               // Tear down the Drop-in UI
               instance.teardown(function (teardownErr) {
                 if (teardownErr) {
@@ -94,13 +124,7 @@
                   $('#submit-button').remove();
                 }
               });
-    
-              if (result.success) {
-                $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-              } else {
-                console.log(result);
-                $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
-              }
+
             });
           });
         });

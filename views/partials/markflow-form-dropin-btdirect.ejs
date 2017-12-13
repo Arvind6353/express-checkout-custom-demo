@@ -1,7 +1,7 @@
 <div class="container-fluid row" style="margin-top:2%;display:none;" id="addressFormElem">
         <div id="code">
     
-            <form class="form-horizontal" method="post">
+            <form class="form-horizontal" method="post" id="addressFormCon">
                 <fieldset>
     
                     <!-- Form Name -->
@@ -320,8 +320,12 @@
                             </select>
                         </div>
                     </div>
-    
+                    
+               
                 </fieldset>
             </form>
+            <button class="btn btn-success btn-sm" id="updatedShipping" onClick="createCheckoutExp();
+            document.getElementById('addressFormCon').style.display='none';
+            document.getElementById('updatedShipping').style.display='none';">Update Shipping Address</button>
      </div>
      </div>      
