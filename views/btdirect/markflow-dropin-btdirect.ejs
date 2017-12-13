@@ -114,6 +114,10 @@
                 $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
               }
 
+              window.setTimeout(()=>{
+                window.location.reload();
+              },5000)
+              
               // Tear down the Drop-in UI
               instance.teardown(function (teardownErr) {
                 if (teardownErr) {
