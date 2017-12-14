@@ -167,8 +167,6 @@ app.use('/api/server', serverCheckout);
 
 app.use('/api/braintree', braintreeCheckout);
 
-app.use('/api/btdirect',btdirectCheckout);
-
 app.use('/api/flavours',flavourCheckout);
 
 app.use('/api/btdirect',btdirectCheckout);
