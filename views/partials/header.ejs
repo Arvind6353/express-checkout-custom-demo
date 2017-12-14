@@ -30,17 +30,44 @@
 
 <!-- Piwik -->
 <script type="text/javascript">
+ var urlAppMapping = {
+  "/simpleClient" : "Shortcut Flow Client ",
+  "/confirmationClient" : "Confirmation Flow Client",
+  "/markflowClient" : "Mark Flow Client",
+  "/experienceClient" : "Customise Experience Flow Client",
+  "/redirectionClient" : "Redirection Flow Client",
+  "/simpleServer" :" Shortcut Flow Server",
+  "/confirmationServer" : "Confirmation Flow Server",
+  "/markflowServer" : "Mark Flow Server",
+  "/experienceServer" : "Customise Experience Flow Server",
+  "/redirectionServer" : "Redirection Flow Server",
+  "/fullredirectionServer" : "Full Page Redirection Flow Server",
+  "/simpleBraintree" : "Shortcut Flow Braintree ",
+  "/confirmationBraintree" : "Confirmation Flow Braintree",
+  "/markflowBraintree" : "Mark Flow Braintree",
+  "/experienceBraintree" : "Customise Experience Flow Braintree",
+  "/redirectionBraintree" : "Redirection Flow Braintree",
+  "/simpleDropinBtdirect" : "Shortcut Flow DropIn BT Direct ",
+  "/markflowDropinBtdirect" : "Mark Flow DropIn BT Direct",
+  "/experienceDropinBtdirect" : "Customise Experience Flow DropIn BT Direct",
+  "/simpleHostedFieldsBtdirect" :"Shortcut Flow Hosted Fields BT Direct",
+  "/experienceHostedFieldsBtdirect":"Customise Experience Flow Hosted Fields BT Direct",
+  "/markflowHostedFieldsBtdirect":"Mark Flow Hosted Fields BT Direct"
+  
+ };
+
+
   var _paq = _paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  _paq.push(['trackPageView']);
+ 
   _paq.push(['enableLinkTracking']);
   (function() {
     var u="//checkoutdemo.innocraft.cloud/";
     _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setDocumentTitle', location.pathname]);
+    _paq.push(['setDocumentTitle', urlAppMapping[location.pathname]]);
     _paq.push(['setSiteId', '1']);
     _paq.push(['enableHeartBeatTimer', 30]);
-    _paq.push(['trackPageView', location.pathname]);
+    _paq.push(['trackPageView', urlAppMapping[location.pathname]]);
     
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
@@ -159,7 +186,6 @@
                           <li><a href="/simpleHostedFieldsBtdirect">Shortcut Hosted Fields</a></li>    
                           <li><a href="/experienceHostedfieldsBtdirect">Custom Experience Hosted Fields</a></li>
                           <li><a href="/markflowHostedFieldsBtdirect">Mark Flow Hosted Fields</a></li>
-                          <!--<li><a href="/markintegrationBrainTree">Mark Integration</a></li>-->
                       </ul>
                     </div>
                     <span class="closer-desktop"><a href="#" role="button" title="Close">Close</a></span></div>
