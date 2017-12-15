@@ -7,10 +7,26 @@ var bodyParser = require('body-parser');
 
 var serverCheckout = require('./routes/server-checkout');
 var braintreeCheckout = require('./routes/braintree-checkout');
-var flavourCheckout = require('./routes/flavours-checkout');
 var btdirectCheckout = require('./routes/btdirect');
+var cors = require("cors");
 
 var app = express();
+
+var allowCrossDomain = function(req, res, next) {
+  //res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+
+  next();
+}
+
+
+app.use(cors());
+app.options('*', cors())
+//app.use(allowCrossDomain)
+
+
 
 // view engine setup
 app.set('views', 
@@ -18,7 +34,8 @@ app.set('views',
 path.join(__dirname, 'views/client/'),
 path.join(__dirname, 'views/server/'),
 path.join(__dirname, 'views/braintree/'),
-path.join(__dirname, 'views/btdirect/')]);
+path.join(__dirname, 'views/btdirect/')
+]);
 
 app.set('view engine', 'ejs');
 
@@ -52,14 +69,10 @@ app.get('/redirectionClient', function(req,res){
   res.render("redirection-client");
 })
 
-app.get('/markintegrationClient', function(req,res){
-  res.render("markintegration-client");
-})
-
-
 app.get('/markflowClient', function(req,res){
   res.render("markflow-client");
 })
+
 
 // server routes
 
@@ -79,10 +92,6 @@ app.get('/redirectionServer', function(req,res){
   res.render("redirection-server");
 })
 
-app.get('/markintegrationServer', function(req,res){
-  res.render("markintegration-server");
-})
-
 app.get('/fullredirectionServer', function(req,res){
   res.render("fullredirection-server");
 })
@@ -91,6 +100,8 @@ app.get('/fullredirectionServer', function(req,res){
 app.get('/markflowServer', function(req,res){
   res.render("markflow-server");
 });
+
+
 
 // braintree routes
 app.get('/simpleBrainTree', function(req,res){
@@ -117,13 +128,6 @@ app.get('/markflowBrainTree', function(req,res){
   res.render("markflow-braintree");
 })
 
-app.get("/cancel", function(req, res, next) {
-  res.render("cancel");
-});
-
-app.get("/error", function(req, res, next) {
-  res.render("error",{message:""});
-});
 
 
 // btdirect routes
@@ -162,13 +166,17 @@ app.get('/markflowHostedFieldsBtdirect', function(req,res){
 
 
 
+app.get("/cancel", function(req, res, next) {
+  res.render("cancel");
+});
+
+app.get("/error", function(req, res, next) {
+  res.render("error",{message:""});
+});
+
 
 app.use('/api/server', serverCheckout);
-
 app.use('/api/braintree', braintreeCheckout);
-
-app.use('/api/flavours',flavourCheckout);
-
 app.use('/api/btdirect',btdirectCheckout);
 
 

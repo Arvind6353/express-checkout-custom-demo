@@ -1,0 +1,230 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "This is the Api Try out feature. Right now , you can try out payments api integrated via paypal sdk",
+      "version": "1.0.0",
+      "title": "Payments Api",
+      "contact": {
+        "email": "arvta@paypal.com"
+      }
+    },
+    "host": "expresscheckout-demo.herokuapp.com",
+    "basePath": "/api/server",
+    "schemes": [
+      "https"
+    ],
+    "paths": {
+      "/payment": {
+        "post": {
+          "tags": [
+            "payment"
+          ],
+          "summary": "Create a new payment",
+          "description": "",
+          "operationId": "createPayment",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "payment",
+              "description": "Payment object required to be created",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Payment"
+              }
+            }
+          ],
+          "responses": {
+            "400": {
+              "description": "Bad Request"
+            },
+            "405": {
+              "description": "Invalid input"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "payment"
+          ],
+          "summary": "Get Details of a existing payment",
+          "description": "",
+          "operationId": "getPayment",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "paymentId",
+              "type": "string",
+              "description": "The number of items to skip before starting to collect the result set"
+            }
+          ],
+          "responses": {
+            "400": {
+              "description": "Bad Request"
+            },
+            "405": {
+              "description": "Invalid input"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/payment-execute": {
+        "post": {
+          "tags": [
+            "payment"
+          ],
+          "summary": "Execute the given payment",
+          "description": "",
+          "operationId": "executePayment",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "payment",
+              "description": "Payment object required to be created",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/PayerBody"
+              }
+            }
+          ],
+          "responses": {
+            "400": {
+              "description": "Bad Request"
+            },
+            "405": {
+              "description": "Invalid input"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "intent": {
+            "type": "string",
+            "example": "sale"
+          },
+          "payer": {
+            "$ref": "#/definitions/Payer"
+          },
+          "redirect_urls": {
+            "$ref": "#/definitions/Redirecturl"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Transaction"
+            }
+          }
+        }
+      },
+      "Redirecturl": {
+        "type": "object",
+        "properties": {
+          "return_url": {
+            "type": "string",
+            "example": "https://expresscheckout-demo.herokuapp.com/api/server/success"
+          },
+          "cancel_url": {
+            "type": "string",
+            "example": "https://expresscheckout-demo.herokuapp.com/api/server/cancel"
+          }
+        }
+      },
+      "Payer": {
+        "type": "object",
+        "properties": {
+          "payment_method": {
+            "type": "string",
+            "example": "paypal"
+          }
+        }
+      },
+      "PayerBody": {
+        "type": "object",
+        "properties": {
+          "paymentID": {
+            "type": "string",
+            "example": "PAY-04D01323Y8962641PLIZNJ6A"
+          },
+          "payerID": {
+            "type": "string",
+            "example": "8KLLSH5GLTYVQ"
+          }
+        }
+      },
+      "Transaction": {
+        "properties": {
+          "amount": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "string",
+                "example": "4.00"
+              },
+              "currency": {
+                "type": "string",
+                "example": "USD"
+              }
+            }
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "example": "sale"
+          },
+          "payer": {
+            "$ref": "#/definitions/Payer"
+          },
+          "redirect_urls": {
+            "$ref": "#/definitions/Redirecturl"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Transaction"
+            }
+          }
+        }
+      }
+    },
+    "externalDocs": {
+      "description": "Find out more about Payments Api",
+      "url": "https://developer.paypal.com/docs/api/payments/#definition-payment"
+    }
+  }

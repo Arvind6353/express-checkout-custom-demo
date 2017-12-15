@@ -72,7 +72,7 @@ router.post("/payment", function(req, res, next) {
     result
   ) {
     if (err) {
-      console.log('error in creating ',err);
+      console.log('error in creating ',err.response);
       res.json({"error": err});
       return;      
     } else {

@@ -1,0 +1,29 @@
+
+<link href="/stylesheets/swagger.css" rel="stylesheet">
+<script src="http://petstore.swagger.io/swagger-ui-bundle.js"></script>
+<script src="http://petstore.swagger.io/swagger-ui-standalone-preset.js"></script>
+
+<div id="swagger-ui"></div>
+
+<script>
+window.onload = function() {
+  
+  // Build a system
+  const ui = SwaggerUIBundle({
+    url: "./payments.json",
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  })
+
+  window.ui = ui
+}
+</script>
+
