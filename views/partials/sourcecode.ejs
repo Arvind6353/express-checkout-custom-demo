@@ -20,7 +20,12 @@
       </div>
 <script>
   $(document).ready(function(){
+
+    handleClick('view source code',urlAppMapping[location.pathname]);
+    
   $('#csc').on('click', function() {
+    handleClick('copy to clipboard',urlAppMapping[location.pathname]);
+    
     var sel = editor.selection.toJSON(); // save selection
     editor.selectAll();
     editor.focus();
