@@ -51,6 +51,8 @@
             var EXECUTE_PAYMENT_URL = "/api/server/payment-execute"
 
             var paymentPayload = {
+                clientId: $("#clientId").val(),
+                clientSecret:  $("#clientSecret").val(),
                 intent: "sale",
                 payer: {
                     payment_method: "paypal"
@@ -140,13 +142,6 @@
 
             paypal.Button.render(Object.assign({}, obj, chkObj), '#paypal-button-container');
 
-            console.error = function () {
-             /*  $("#viewSC").hide();
-                document.getElementById("paypal-button-container").innerHTML += "<p style='color:red'>" +
-                    arguments[1].stack + "</p>";
-                return false;
-            */
-            }
         }
     </script>
     <script src="/javascripts/formhandling.js"></script>

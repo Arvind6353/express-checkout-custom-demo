@@ -360,6 +360,8 @@
                         method: 'post',
                         url: CREATE_PAYMENT_URL,
                         json: {
+                            clientId: $("#clientId").val(),
+                            clientSecret:  $("#clientSecret").val(),
                             intent: "sale",
                             payer: {
                                 payment_method: "paypal"

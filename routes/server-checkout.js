@@ -13,16 +13,15 @@ var router = express.Router();
 var serverUrl = 'https://expresscheckout-demo.herokuapp.com'
 
 
-router.use('/', function (req,res,next){
-  console.log("creating paypal config");
+function setPaypalConfig(req,res,next){
+  console.log("set paypal config");
     paypal.configure({
       mode: req.body.mode || "sandbox", //sandbox or live
       client_id: req.body.clientId || "AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v",
       client_secret: req.body.clientSecret || "EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM"
      });
      next();
-    
-  })
+  }
 
 var create_payment_json = {
   intent: "sale",
@@ -74,7 +73,7 @@ var create_payment_json = {
 };
 
 // create payment and return id
-router.post("/payment", function(req, res, next) {
+router.post("/payment", setPaypalConfig,function(req, res, next) {
   var payload = create_payment_json; 
   
   if(req.body && req.body.intent =='sale'){

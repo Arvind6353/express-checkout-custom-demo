@@ -54,6 +54,8 @@
             var EXECUTE_PAYMENT_URL = "/api/server/payment-execute"
 
             var paymentPayload = {
+                clientId: $("#clientId").val(),
+                clientSecret:  $("#clientSecret").val(),
                 intent: "sale",
                 payer: {
                     payment_method: "paypal"

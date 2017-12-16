@@ -51,7 +51,12 @@
             payment: function (data, actions) {
                 document.getElementById("paypal-button-container-err").innerHTML = "";
                 // call server to create payment
-                return paypal.request.post(CREATE_PAYMENT_URL).then(function(data) {
+                return paypal.request.post(CREATE_PAYMENT_URL
+                , {
+                    clientId: $("#clientId").val(),
+                    clientSecret:  $("#clientSecret").val()
+                }
+                ).then(function(data) {
                     if (data.error) {
                         document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>"+JSON.stringify(data.error)+"</p>";
                         return;
@@ -84,14 +89,7 @@
         };
     
         paypal.Button.render(Object.assign({}, obj, chkObj), '#paypal-button-container');
-    
-        console.error = function () {
-          /*  $("#viewSC").hide();
-            document.getElementById("paypal-button-container").innerHTML += "<p style='color:red'>" +
-                arguments[1].stack + "</p>";
-            return false;
-         */
-        }
+      
     }
 </script>
 <script src="/javascripts/formhandling.js"></script>
