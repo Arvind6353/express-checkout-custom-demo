@@ -1,9 +1,6 @@
 var express = require("express");
 var router = express.Router();
 var braintree = require("braintree");
-var gateway = braintree.connect({
-  accessToken: "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
-});
 
 //var serverUrl = 'http://localhost:3000'
 var serverUrl = 'https://expresscheckout-demo.herokuapp.com'
@@ -18,14 +15,15 @@ router.get("/error", function(req, res, next) {
 });
 
 // get client token and send to the client 
-router.get("/clienttoken",function(req,res,next){
+router.get("/clienttoken", function(req,res,next){
   var gateway = braintree.connect({
-    accessToken: "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
+    accessToken: req.query.btAccessToken || "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
   });
   gateway.clientToken.generate({}, function (err, response) {
     if(err){
       console.log("error in creating client token")
       res.render("error",{message:err});
+    return;
     }
     res.send(response.clientToken);
   });
@@ -34,7 +32,7 @@ router.get("/clienttoken",function(req,res,next){
 // execute payment
 router.post("/payment", function(req,res,next){
   var gateway = braintree.connect({
-    accessToken: "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
+    accessToken: req.body.btAccessToken || "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
   });
   console.log("inside noonce")
   var saleRequest = {
@@ -59,7 +57,7 @@ router.post("/payment", function(req,res,next){
 // get payment details and render result
 router.get('/getTrxDetails',function(req,res,next){
   var gateway = braintree.connect({
-    accessToken: "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
+    accessToken: req.query.btAccessToken || "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
   });
   var paymentId = req.query.id;
   var stream = gateway.transaction.search(function (search) {

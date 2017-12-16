@@ -32,7 +32,9 @@
 
          <script>
                 $(document).ready(function(){
-                    $("#clientIdElem").hide();    
+                    $("#clientIdElem").hide();   
+                    $("#clientSecretElem").hide();   
+                    $("#btAccessTokenElem").show();   
                     $('.openBtn').on('click',function(){
                         $('.modal-body').load('braintree/editor/experience.html',function(){
                             $('#myModal').modal({show:true});
@@ -54,7 +56,7 @@
             braintree: braintree,
 
             client: {
-                sandbox: paypal.request.get('/api/braintree/clienttoken'),
+                sandbox: paypal.request.get('/api/braintree/clienttoken?btAccessToken='+$("#accessToken").val()),
                 production: '<insert production auth key>'
             },
         
@@ -93,7 +95,8 @@
                 // Call your server with data.nonce to finalize the payment
                 console.log('Braintree nonce:', data.nonce);
                 return paypal.request.post(EXECUTE_PAYMENT_URL, {
-                    nonce: data.nonce
+                    nonce: data.nonce,
+                    btAccessToken: $("#accessToken").val(),
                 }).then(function(payment) {
                     if (payment.error) {
                         document.getElementById("paypal-button-container-err").innerHTML = "<p style='color:red'>"+JSON.stringify(payment.error)+"</p>";
