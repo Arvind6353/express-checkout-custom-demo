@@ -53,6 +53,7 @@
             var paymentPayload = {
                 clientId: $("#clientId").val(),
                 clientSecret:  $("#clientSecret").val(),
+                mode: $("#environment").val(),
                 intent: "sale",
                 payer: {
                     payment_method: "paypal"
