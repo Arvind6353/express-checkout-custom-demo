@@ -142,7 +142,7 @@
                     console.log('Braintree nonce:', data.nonce);
                     return paypal.request.post(EXECUTE_PAYMENT_URL, {
                         nonce: data.nonce,
-                        btAccessToken: $("#accessToken").val(),
+                        btAccessToken: $("#accessToken").val()
                     }).then(function (payment) {
                         if (payment.error) {
                             document.getElementById("paypal-button-container-err").innerHTML =
