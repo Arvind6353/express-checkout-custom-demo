@@ -43,6 +43,12 @@ router.get('/clienttoken', function (req, res) {
     privateKey: '7f34de1549528c62a5acd6c20cdd23a3'
   });
   gateway.clientToken.generate({}, function (err, response) {
+    if(err) {
+      console.error(err);
+      res.send(err);
+    return;
+    }
+    console.log(" sending btdirect token");
     res.send(response.clientToken);
   });
 });

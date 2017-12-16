@@ -39,11 +39,12 @@
 
     function createCheckoutExp(chkobj){
   
-        $("#paypal-button").empty();
-
-        // Create a client
+      $("#paypal-button").empty();
+      paypal.request.get('/api/btdirect/clienttoken')
+      .then((token)=> {
+      // Create a client
         braintree.client.create({
-          authorization:  "sandbox_h42jk7dg_cy72x4r2x9qmwy2b",
+          authorization:  token,
       }, function (clientErr, clientInstance) {
       
         // Stop if there was a problem creating the client.
@@ -58,12 +59,11 @@
 
       createPaypalButton(clientInstance,chkobj);
       });
-
-
+    });
     }
       $("#clientIdElem").hide();
-      $("#envElem").hide();
-
+      $("#clientSecretElem").hide();   
+      
       
   function createHostedFields(clientInstance) {
      // Create input fields and add text styles  
