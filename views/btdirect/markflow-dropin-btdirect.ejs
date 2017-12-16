@@ -46,7 +46,9 @@
    function createCheckoutExp(){
     $("#dropin-container").empty();
     var button = document.querySelector('#submit-button');
-    paypal.request.get('/api/btdirect/clienttoken')
+    var queryParams = '?merchantId='+$("#merchantId").val()+'&publicKey='+$("#publicKey").val()
+    +'&privateKey='+$("#privateKey").val();
+    paypal.request.get('/api/btdirect/clienttoken'+queryParams)
     .then((token)=> {
       braintree.dropin.create({
           authorization: token,
@@ -73,6 +75,7 @@
         }, function (createErr, instance) {
           if (createErr) {
             console.log('Create Error', createErr);
+            $('#checkout-message').html('<br/><h1>Error <br/> Check your console.<br/>Refresh to try again.'+createErr.message+'</h1><br/>');
             return;
           }
           $("#submit-button").show();
@@ -85,6 +88,11 @@
           $("[data-braintree-id='payment-options-container'] > div").on("click",function(evt){
             if(evt.currentTarget.className.indexOf("paypal") !=-1) {
               $("#customFormElem").show();
+              $("#clientIdElem").hide();
+              $("#clientSecretElem").hide();
+              $("#btAccessTokenElem").hide();
+              $("#btdirectElem").show();
+             
             //  $("#submit-button").hide();
             } else {
               $("#customFormElem").hide();
@@ -106,7 +114,12 @@
               $.ajax({
                 type: 'POST',
                 url: '/api/btdirect/payment',
-                data: { 'paymentMethodNonce': payload.nonce }
+                data: { 
+                  'paymentMethodNonce': payload.nonce,
+                  'merchantId': $("#merchantId").val(),
+                  'publicKey': $("#publicKey").val(),
+                  'privateKey': $("#privateKey").val()
+                }
               }).done(function(result) {
                 if (result.success) {
                   $('#checkout-message').html('<br/><h1>Success.<br/>Your payment Id is '+ result.transaction.paypal.paymentId +'</br>Refresh to try another transaction.</h1><br/>');

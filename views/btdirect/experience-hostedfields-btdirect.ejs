@@ -41,8 +41,10 @@
     function createCheckoutExp(chkobj){
   
       $("#paypal-button").empty();
-      paypal.request.get('/api/btdirect/clienttoken')
-      .then((token)=> {
+      var queryParams = '?merchantId='+$("#merchantId").val()+'&publicKey='+$("#publicKey").val()
+      +'&privateKey='+$("#privateKey").val();
+      paypal.request.get('/api/btdirect/clienttoken'+queryParams)
+     .then((token)=> {
       // Create a client
         braintree.client.create({
           authorization:  token,
@@ -53,6 +55,7 @@
         // is invalid.
         if (clientErr) {
           console.error('Error creating client:', clientErr);
+          $('#checkout-message').html('<br/><h1>Error <br/> Check your console.<br/>Refresh to try again.'+clientErr.message+'</h1><br/>');
           return;
         }
         if(!cardCreated)
@@ -64,9 +67,11 @@
     });
 
     }
-      $("#clientIdElem").hide();
-      $("#clientSecretElem").hide();   
-      
+    
+    $("#clientIdElem").hide();
+    $("#clientSecretElem").hide();
+    $("#btAccessTokenElem").hide();
+    $("#btdirectElem").show();
       
   function createHostedFields(clientInstance) {
      // Create input fields and add text styles  
@@ -176,7 +181,10 @@
             console.log("payload ",payload)
             // This is where you would submit payload.nonce to your server
             return paypal.request.post('/api/btdirect/payment', {
-                paymentMethodNonce: payload.nonce
+                paymentMethodNonce: payload.nonce,
+                merchantId: $("#merchantId").val(),
+                publicKey: $("#publicKey").val(),
+                privateKey: $("#privateKey").val()
             }).then(function(payment) {
                 if (payment.error) {
                   $('#checkout-message').html('<br/><h1>Error <br/> Check your console.<br/>Refresh to try again.</h1><br/>');
@@ -231,7 +239,10 @@
                     // Submit `payload.nonce` to your server.
                     console.log("payload ",payload)
                     return paypal.request.post('/api/btdirect/payment', {
-                        paymentMethodNonce: payload.nonce
+                        paymentMethodNonce: payload.nonce,
+                        merchantId: $("#merchantId").val(),
+                        publicKey: $("#publicKey").val(),
+                        privateKey: $("#privateKey").val()
                     }).then(function(payment) {
                       if (payment.error) {
                         $('#checkout-message').html('<br/><h1>Error <br/> Check your console.<br/>Refresh to try again.</h1><br/>');

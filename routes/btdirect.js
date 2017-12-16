@@ -6,9 +6,9 @@ router.post('/payment', function(req, res, next) {
   var gateway = braintree.connect({
     environment: braintree.Environment.Sandbox,
     // Use your own credentials from the sandbox Control Panel here
-    merchantId: 'cy72x4r2x9qmwy2b',
-    publicKey: 'p7v3dp77dgy3yrsh',
-    privateKey: '7f34de1549528c62a5acd6c20cdd23a3'
+    merchantId: req.body.merchantId || 'cy72x4r2x9qmwy2b',
+    publicKey: req.body.publicKey || 'p7v3dp77dgy3yrsh',
+    privateKey: req.body.privateKey || '7f34de1549528c62a5acd6c20cdd23a3'
   });
 
   // Use the payment method nonce here
@@ -38,10 +38,11 @@ router.get('/clienttoken', function (req, res) {
   var gateway = braintree.connect({
     environment: braintree.Environment.Sandbox,
     // Use your own credentials from the sandbox Control Panel here
-    merchantId: 'cy72x4r2x9qmwy2b',
-    publicKey: 'p7v3dp77dgy3yrsh',
-    privateKey: '7f34de1549528c62a5acd6c20cdd23a3'
+    merchantId: req.query.merchantId || 'cy72x4r2x9qmwy2b',
+    publicKey: req.query.publicKey || 'p7v3dp77dgy3yrsh',
+    privateKey: req.query.privateKey || '7f34de1549528c62a5acd6c20cdd23a3'
   });
+
   gateway.clientToken.generate({}, function (err, response) {
     if(err) {
       console.error(err);
