@@ -20,6 +20,7 @@ function setPaypalConfig(req,res,next){
       client_id: req.body.clientId || "AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v",
       client_secret: req.body.clientSecret || "EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM"
      });
+     req.session.paypal = paypal;
      next();
   }
 
@@ -84,6 +85,8 @@ router.post("/payment", setPaypalConfig,function(req, res, next) {
 
     payload = req.body;
   }
+  paypal.configure(req.session.paypal.configuration);
+    
   paypal.payment.create(payload, function(
     err,
     result
@@ -104,7 +107,10 @@ router.post("/payment", setPaypalConfig,function(req, res, next) {
 router.post("/payment-execute", function(req, res) {
   var paymentId = req.body.paymentID;
   var payerId = { payer_id: req.body.payerID };
-  console.log("paymentId and payerId ",paymentId," and ",payerId)
+  console.log("paymentId and payerId ",paymentId," and ",payerId);
+
+  paypal.configure(req.session.paypal.configuration);
+
   paypal.payment.execute(paymentId, payerId, function(error, payment) {
     if (error) {
       console.error('error in exectuing ',error);
@@ -125,6 +131,9 @@ router.post("/payment-execute", function(req, res) {
 // get payment details and return json
 router.get('/payment',function(req,res,next){
   var paymentId = req.query.paymentId;
+
+  paypal.configure(req.session.paypal.configuration);
+
   paypal.payment.get(paymentId, function (error, payment) {
     if (error) {
       console.error('error ',error);
@@ -145,6 +154,9 @@ router.get('/payment',function(req,res,next){
 // get payment details and render result
 router.get('/paymentDetails',function(req,res,next){
   var paymentId = req.query.paymentId;
+
+  paypal.configure(req.session.paypal.configuration);
+
   paypal.payment.get(paymentId, function (error, payment) {
     if (error) {
       console.error(error);
@@ -162,6 +174,9 @@ router.get('/paymentDetails',function(req,res,next){
 // create payment and redirect to auth (full page redirect)
 router.get("/redirectpayment", function(req, res, next) {
   var payload = create_payment_json; 
+
+  paypal.configure(req.session.paypal.configuration);
+
   paypal.payment.create(payload, function(
     err,
     result
@@ -187,6 +202,8 @@ router.get("/redirectpayment", function(req, res, next) {
 router.get("/success", function(req, res) {
   var paymentId = req.query.paymentId;
   var payerId = { payer_id: req.query.PayerID };
+
+  paypal.configure(req.session.paypal.configuration);
 
   paypal.payment.execute(paymentId, payerId, function(error, payment) {
     if (error) {

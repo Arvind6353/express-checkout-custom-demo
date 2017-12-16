@@ -8,10 +8,10 @@
         "email": "arvta@paypal.com"
       }
     },
-    "host": "expresscheckout-demo.herokuapp.com",
+    "host": "localhost:3000",
     "basePath": "/api/server",
     "schemes": [
-      "https"
+      "http"
     ],
     "paths": {
       "/payment": {
@@ -128,6 +128,14 @@
       "Payment": {
         "type": "object",
         "properties": {
+          "clientId": {
+            "type": "string",
+            "example": "AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v"
+          },
+          "clientSecret": {
+            "type": "string",
+            "example": "EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM"
+          },
           "intent": {
             "type": "string",
             "example": "sale"

@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var serverCheckout = require('./routes/server-checkout');
 var braintreeCheckout = require('./routes/braintree-checkout');
@@ -26,6 +27,15 @@ app.use(cors());
 app.options('*', cors())
 //app.use(allowCrossDomain)
 
+ app.use(session({
+   secret: 'ExpressCheckoutDemoPortal',
+   name: 'checkoutKey',
+   resave: true,
+   saveUninitialized: true,
+   cookie: {
+     httpOnly: true
+   }
+ }));
 
 
 // view engine setup
