@@ -49,7 +49,6 @@
                 "                        }\r\n" +
                 "                    ],\r\n" +
                 "                    redirect_urls: {\r\n" +
-                "                       return_url: \"http://localhost:3000/api/paymentDetails\",\r\n" +
                 "                       cancel_url: \"http://localhost:3000/cancel\"\r\n" +
                 "                    }\r\n" +
                 "                }\r\n" +
@@ -58,8 +57,8 @@
                 "        // Wait for the payment to be authorized by the customer\r\n" +
                 "        onAuthorize: function(data, actions) {\r\n" +
                 "            // redirect to the return url to get payment details and display them\r\n"+
-                "            return actions.payment.execute().then(function() {\r\n" +
-                "                actions.redirect()\r\n" +
+                "            return actions.payment.execute().then(function(payment) {\r\n" +
+                "               window.alert(\"Payment is Complete and Payment Id : \" +payment.id \". You can now redirect to the desired page \");\r\n" +
                 "            });\r\n" +
                 "        },\r\n" +
                 "        onClose: function(data, actions) {\r\n" +

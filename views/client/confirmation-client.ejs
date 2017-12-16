@@ -46,12 +46,13 @@
 
          <script>
                 $(document).ready(function(){
-                $('.openBtn').on('click',function(){
-                    $('.modal-body').load('client/editor/confirmation.html',function(){
-                        $('#myModal').modal({show:true});
+                    $("#clientSecretElem").hide();    
+                    $('.openBtn').on('click',function(){
+                        $('.modal-body').load('client/editor/confirmation.html',function(){
+                            $('#myModal').modal({show:true});
+                        });
                     });
-                });
-            })
+                })
         </script>   
             
         </div> <!-- end of row -->

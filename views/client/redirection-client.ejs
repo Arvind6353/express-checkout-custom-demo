@@ -30,12 +30,13 @@
 
          <script>
                 $(document).ready(function(){
-                $('.openBtn').on('click',function(){
-                    $('.modal-body').load('client/editor/redirection.html',function(){
-                        $('#myModal').modal({show:true});
+                    $("#clientSecretElem").hide();    
+                    $('.openBtn').on('click',function(){
+                        $('.modal-body').load('client/editor/redirection.html',function(){
+                            $('#myModal').modal({show:true});
+                        });
                     });
-                });
-            })
+                })
         </script>   
             
         </div> <!-- end of row -->
@@ -57,7 +58,6 @@
                             }
                         }],
                         redirect_urls: {
-                            return_url: serverUrl+"/api/server/paymentDetails",
                             cancel_url: serverUrl+"/api/server/cancel"
                             }
                     }
@@ -65,9 +65,10 @@
             },
     
             onAuthorize: function (data, actions) {
-                return actions.payment.execute().then(() =>
-                    actions.redirect() // call get payments to get the payment details and redirect 
-                )
+                return actions.payment.execute().then((payment) =>
+                 //   actions.redirect() // call get payments to get the payment details and redirect 
+                    alert('Payment executed Successfully . Your Payment Id is '+ payment.id + '. You can now redirect to the desired page')
+                 )
 
             },
             onCancel: function (data,actions) {

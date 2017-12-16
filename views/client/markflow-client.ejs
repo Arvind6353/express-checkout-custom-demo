@@ -49,6 +49,7 @@
     <script>
         // handle loading of source code inside modal body
         $(document).ready(function () {
+            $("#clientSecretElem").hide();    
             $('.openBtn').on('click', function () {
                 $('.modal-body').load('client/editor/markflow.html', function () {
                     $('#myModal').modal({
