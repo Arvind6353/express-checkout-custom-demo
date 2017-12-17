@@ -58,9 +58,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.get("/",function(req,res,next){
+app.get("/index",function(req,res,next){
   res.render("index");
 })
+
+app.get("/",function(req,res,next){
+  res.render("portlets");
+})
+
 
 // client routes
 app.get('/simpleClient', function(req,res){
