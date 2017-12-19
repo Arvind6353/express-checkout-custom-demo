@@ -26,9 +26,9 @@
                   Hi , How can I help you ?. <br/> Please answer the following question by selecting one option from the below
                   <label> Which country are you from ?</label>  
                   <div class="btn btn-group">
-                        <a class="btn btn-primary" onClick="handlePostBack('India')">India</a> 
-                        <a class="btn btn-danger" onClick="handlePostBack('China')">China</a>       
-                        <a class="btn btn-warning" onClick="handlePostBack('Australia')">Australia</a>       
+                        <a class="btn btn-primary" onClick="handlePostBack('A1.1')">India</a> 
+                        <a class="btn btn-danger" onClick="handlePostBack('A1.2')">China</a>       
+                        <a class="btn btn-warning" onClick="handlePostBack('A1.3')">Australia</a>       
                     </div>   
                 </div>
               </li>
@@ -52,7 +52,7 @@
       <li class="clearfix">
         <div class="message-data align-right">
           <span class="message-data-time" >{{time}}, Today</span> &nbsp; &nbsp;
-          <span class="message-data-name" >Olia</span> <i class="fa fa-circle me"></i>
+          <span class="message-data-name" >You</span> <i class="fa fa-circle me"></i>
         </div>
         <div class="message other-message float-right">
           {{messageOutput}}
@@ -86,6 +86,39 @@
     </script>
 
 
-    <script src="/socket.io/socket.io.js"></script>
+
+    <script id="message-option-question-template" type="text/x-handlebars-template">
+      <li>
+          <div class="message-data">
+            <span class="message-data-name"><i class="fa fa-circle online"></i> I BOT</span>
+            <span class="message-data-time">{{time}}, Today</span>
+          </div>
+          <div class="message my-message">
+            <label>{{questionText}}</label>  
+
+            <div class="btn btn-group">
+                {{#each options}}
+                <a class="btn btn-primary" onClick="handlePostBack('{{payload}}')">{{title}}</a> 
+                {{/each}}
+            </div>   
+          </div>
+        </li>
+    </script>
+
+
+    <script id="message-end-response-template" type="text/x-handlebars-template">
+      <li>
+          <div class="message-data">
+            <span class="message-data-name"><i class="fa fa-circle online"></i> I BOT</span>
+            <span class="message-data-time">{{time}}, Today</span>
+          </div>
+          <div class="message my-message">
+            <label>{{finalText}}</label>  
+          </div>
+        </li>
+    </script>
+
+
+
     <script src="/livechat/livechat.js"></script>
   </body>

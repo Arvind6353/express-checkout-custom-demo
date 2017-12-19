@@ -5,24 +5,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var request = require('request');
 
 var serverCheckout = require('./routes/server-checkout');
 var braintreeCheckout = require('./routes/braintree-checkout');
 var btdirectCheckout = require('./routes/btdirect');
 var cors = require("cors");
-var socket_io    = require( "socket.io" );
+
 
 var app = express();
 
-var io  = socket_io();
-app.io  = io;
-
-io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message','You selected '+ msg);
-  });
-});
-    
+//var socketImpl = require('./socketimpl')(app);
 
 var allowCrossDomain = function(req, res, next) {
   //res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
@@ -204,6 +197,19 @@ app.get("/error", function(req, res, next) {
 app.use('/api/server', serverCheckout);
 app.use('/api/braintree', braintreeCheckout);
 app.use('/api/btdirect',btdirectCheckout);
+
+// live chat bot api 
+app.post('/webhook', function (req, res) {
+  var data = req.body;
+  if(req.body.object=='web') {
+      request('http://localhost:9000/postback?data='+req.body.data, function (error, response, body) {
+        console.log('error:', error); // Print the error if one occurred
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        console.log('body:', body); // Print the HTML for the Google homepage.
+        res.json(body);
+      });
+  }
+});
 
 
 // catch 404 and forward to error handler
