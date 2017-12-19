@@ -10,8 +10,19 @@ var serverCheckout = require('./routes/server-checkout');
 var braintreeCheckout = require('./routes/braintree-checkout');
 var btdirectCheckout = require('./routes/btdirect');
 var cors = require("cors");
+var socket_io    = require( "socket.io" );
 
 var app = express();
+
+var io  = socket_io();
+app.io  = io;
+
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    io.emit('chat message','You selected '+ msg);
+  });
+});
+    
 
 var allowCrossDomain = function(req, res, next) {
   //res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
