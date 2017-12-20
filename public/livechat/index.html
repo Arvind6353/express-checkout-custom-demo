@@ -26,9 +26,9 @@
                   Hi , How can I help you ?. <br/> Please answer the following question by selecting one option from the below
                   <label> Which country are you from ?</label>  
                   <div class="btn btn-group">
-                        <a class="btn btn-primary" onClick="handlePostBack('A1.1')">India</a> 
-                        <a class="btn btn-danger" onClick="handlePostBack('A1.2')">China</a>       
-                        <a class="btn btn-warning" onClick="handlePostBack('A1.3')">Australia</a>       
+                        <a class="btn btn-primary" onClick="handlePostBack('A1.1', 'India')">India</a> 
+                        <a class="btn btn-danger" onClick="handlePostBack('A1.2', 'China')">China</a>       
+                        <a class="btn btn-warning" onClick="handlePostBack('A1.3', 'Australia')">Australia</a>       
                     </div>   
                 </div>
               </li>
@@ -98,7 +98,7 @@
 
             <div class="btn btn-group">
                 {{#each options}}
-                <a class="btn btn-primary" onClick="handlePostBack('{{payload}}')">{{title}}</a> 
+                <a class="btn btn-primary" onClick="handlePostBack('{{payload}}', '{{title}}')">{{title}}</a> 
                 {{/each}}
             </div>   
           </div>

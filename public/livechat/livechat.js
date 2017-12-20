@@ -74,22 +74,18 @@
     
     searchFilter.init();
     
-    function handlePostBack(data) {
-      // alert(data);
-     //  socket.emit('chatpostback', data);
-     //  $('#m').val('');
-
-
-     handleInput(data, true);
-
-   }
+    function handlePostBack(payload , titleText) {
+      
+      handleInput(payload, titleText, true);
+    
+    } 
    
-function handleInput(data, isPostBack) {
+function handleInput(data, titleText, isPostBack) {
 
  if(isPostBack){
   var templateResponse = Handlebars.compile( $("#message-option-response-template").html());
   var contextResponse = { 
-   selectedOption : data,
+   selectedOption : titleText,
    time: chat.getCurrentTime()
   };
   this.$chatHistory = $('.chat-history');
@@ -118,8 +114,11 @@ function handleInput(data, isPostBack) {
         finalText: msg.message,
        time: chat.getCurrentTime()
       };
-      this.$chatHistoryList.append(templateResponse(contextResponse));
-
+      window.setTimeout(()=>{
+        this.$chatHistoryList.append(templateResponse(contextResponse));
+        chat.scrollToBottom();
+      },1000)
+      
     } else {
       var templateResponse = Handlebars.compile( $("#message-option-question-template").html());
       var contextResponse = { 
@@ -127,10 +126,11 @@ function handleInput(data, isPostBack) {
        options : msg.options,
        time: chat.getCurrentTime()
       };
-      this.$chatHistoryList.append(templateResponse(contextResponse));
+      window.setTimeout(()=>{
+        this.$chatHistoryList.append(templateResponse(contextResponse));
+        chat.scrollToBottom();
+      },1000)
     }
-   
-     chat.scrollToBottom();
    
   });
 
