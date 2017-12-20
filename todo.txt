@@ -1,0 +1,6 @@
+1. Classic APi
+2. Jsv3.x
+3. EcBt
+4. JSv4 / Smart payment buttons
+5. BT direct
+

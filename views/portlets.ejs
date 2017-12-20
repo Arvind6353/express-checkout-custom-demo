@@ -29,8 +29,45 @@
     }
 
     .lobipanel > .panel-heading .dropdown {
-        margin-top:3%;
+        margin-top:1%;
     }
+    
+    .lobipanel > .panel-heading {
+        padding-bottom: 2%;
+    }
+
+    @-webkit-keyframes glowing {
+        0% { background-color: #B20000; -webkit-box-shadow: 0 0 3px #B20000; }
+        50% { background-color: #FF0000; -webkit-box-shadow: 0 0 40px #FF0000; }
+        100% { background-color: #B20000; -webkit-box-shadow: 0 0 3px #B20000; }
+      }
+      
+      @-moz-keyframes glowing {
+        0% { background-color: #B20000; -moz-box-shadow: 0 0 3px #B20000; }
+        50% { background-color: #FF0000; -moz-box-shadow: 0 0 40px #FF0000; }
+        100% { background-color: #B20000; -moz-box-shadow: 0 0 3px #B20000; }
+      }
+      
+      @-o-keyframes glowing {
+        0% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+        50% { background-color: #FF0000; box-shadow: 0 0 40px #FF0000; }
+        100% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+      }
+      
+      @keyframes glowing {
+        0% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+        50% { background-color: #FF0000; box-shadow: 0 0 40px #FF0000; }
+        100% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+      }
+      
+      .livechatBtn {
+        -webkit-animation: glowing 1500ms infinite;
+        -moz-animation: glowing 1500ms infinite;
+        -o-animation: glowing 1500ms infinite;
+        animation: glowing 1500ms infinite;
+      }
+
+    
   </style>
   </head>
   <body>
@@ -43,8 +80,10 @@
           <nav id="main-menu" class="main-menu" role="navigation" style="">
             <ul class="main-menu-list">
                 <h1 style="margin:0 !important; color:black !important;">Express Checkout Demo</h1>
-              </ul>
+            </ul>
           </nav>
+          <button type="button" class= "pull-right btn btn-danger btn-lg livechatBtn" data-toggle="modal" data-target="#myModal">Live Support</button>
+          
         </div>
       </div>
     </header>
@@ -80,29 +119,31 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <div class="panel-title" style="margin-top:3%">
+                        <div class="panel-title" style="margin-top:1%">
                             <h1>Classic Method</h1>
-                            <br/>
+                           
                         </div>
                     </div>
                     <div class="panel-body">
-                        <h2 style="line-height:1.5em;color:black">This method uses classic way to integrate with Paypal. <br/>
+                        <h2 style="line-height:1em;color:black">This method uses classic way to integrate with Paypal. <br/>
                        <br/> NVP/SOAP SDK is used.
                         <br/><br/>
                         Click <a href="/index">here</a> to view this integration     <br/>
                     </h2>
                     </div>
                 </div>
-            </div>        
+            </div>   
+            
+            
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <div class="panel-title" style="margin-top:3%">
-                                <h1>Rest Method</h1> <br/>
+                            <div class="panel-title" style="margin-top:1%">
+                                <h1>Rest Method JSV3.x</h1> 
                             </div>
                         </div>
                         <div class="panel-body">
-                            <h2  style="line-height:1.5em;color:black">  This method uses Rest to integrate with Paypal. <br/>
+                            <h2  style="line-height:1em;color:black">  This method uses Rest to integrate with Paypal using Checkout JSV3.x  <br/>
                             <br/>Rest SDK is used.
                             <br/><br/>
                             Click <a href="/index">here</a> to view this integration  <br/>
@@ -110,6 +151,25 @@
                         </div>
                 </div>
             </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title" style="margin-top:1%">
+                                <h1>Rest Method JSV4</h1>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <h2  style="line-height:1em;color:black">  This method uses Rest to integrate with Paypal using Checkout JSV4. <br/>
+                            <br/>Rest SDK is used.
+                            <br/><br/>
+                            Click <a href="/index">here</a> to view this integration  <br/>
+                        </h2>   
+                        </div>
+                </div>
+            </div>
+
+           
         </div>   
         
     
@@ -128,8 +188,6 @@
                     });
                 </script>
     </div>
-    <button type="button" class="btn btn-info btn-lg livechatBtn" data-toggle="modal" data-target="#myModal">Open Modal</button>
-    
     <script>
         $(document).ready(function(){
             $('.livechatBtn').on('click',function(){

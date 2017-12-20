@@ -175,7 +175,15 @@ router.get('/paymentDetails',function(req,res,next){
 router.get("/redirectpayment", function(req, res, next) {
   var payload = create_payment_json; 
 
-  paypal.configure(req.session.paypal.configuration);
+  paypal.configure({
+    mode: req.body.mode || "sandbox", //sandbox or live
+    client_id: req.body.clientId || "AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v",
+    client_secret: req.body.clientSecret || "EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM"
+   });
+
+   req.session.paypal = paypal;
+
+//  paypal.configure(req.session.paypal.configuration);
 
   paypal.payment.create(payload, function(
     err,
@@ -228,5 +236,39 @@ router.get("/error", function(req, res, next) {
   res.render("error",{message:""});
 });
   
+
+
+// create payment and redirect to auth (full page redirect)
+router.post("/redirectpayment", function(req, res, next) {
+  var payload = create_payment_json; 
+
+  paypal.configure({
+    mode: req.body.mode || "sandbox", //sandbox or live
+    client_id: req.body.clientId || "AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v",
+    client_secret: req.body.clientSecret || "EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM"
+   });
+
+   req.session.paypal = paypal;
+   
+  paypal.payment.create(payload, function(
+    err,
+    result
+  ) {
+    if (err) {
+      res.render("error",{message : err});
+    } else {
+      console.log("Create Payment Response");
+      //you forgot to redirect your response to paypal sandbox
+      var redirectUrl;
+      for (var i = 0; i < result.links.length; i++) {
+        var link = result.links[i];
+        if (link.method === "REDIRECT") {
+          redirectUrl = link.href;
+        }
+      }
+      res.redirect(redirectUrl);
+    }
+  });
+});
 
 module.exports = router;

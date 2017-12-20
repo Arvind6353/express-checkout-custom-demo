@@ -48,7 +48,8 @@ app.set('views',
 path.join(__dirname, 'views/client/'),
 path.join(__dirname, 'views/server/'),
 path.join(__dirname, 'views/braintree/'),
-path.join(__dirname, 'views/btdirect/')
+path.join(__dirname, 'views/btdirect/'),
+path.join(__dirname, 'views/jsv3/')
 ]);
 
 app.set('view engine', 'ejs');
@@ -191,6 +192,10 @@ app.get("/cancel", function(req, res, next) {
 
 app.get("/error", function(req, res, next) {
   res.render("error",{message:""});
+});
+
+app.get("/clientjsv3", function(req, res, next) {
+  res.render("client-jsv3");
 });
 
 
