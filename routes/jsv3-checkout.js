@@ -129,7 +129,7 @@ router.get("/success", function(req, res) {
 
   paypal.payment.execute(paymentId, payerId, function(error, payment) {
     if (error) {
-      console.error(error);
+      console.log('error',error);
       res.render("error",{message:error ,type:'jsv3'});
     } else {
       if (payment.state === "approved") {
