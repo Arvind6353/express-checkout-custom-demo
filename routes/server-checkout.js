@@ -163,9 +163,9 @@ router.get('/paymentDetails',function(req,res,next){
       res.render("error",{message:error});
     } else {
       if (payment.state === "approved") {
-        res.render("result", {res:payment})
+        res.render("result", {res:payment, type:'jsv4'})
       } else {
-        res.render("error",{message:"payment error"});
+        res.render("error",{message:"payment error", type:'jsv4'});
       }
     }
   });
@@ -190,7 +190,7 @@ router.get("/redirectpayment", function(req, res, next) {
     result
   ) {
     if (err) {
-      res.render("error",{message : err});
+      res.render("error",{message : err,type:'jsv4'});
     } else {
       console.log("Create Payment Response");
       //you forgot to redirect your response to paypal sandbox
@@ -216,12 +216,12 @@ router.get("/success", function(req, res) {
   paypal.payment.execute(paymentId, payerId, function(error, payment) {
     if (error) {
       console.error(error);
-      res.render("error",{message:error});
+      res.render("error",{message:error,type:'jsv4'});
     } else {
       if (payment.state === "approved") {
-        res.render("result", {res:payment})
+        res.render("result", {res:payment, type:'jsv4'})
       } else {
-        res.render("error",{message:"payment error"});      
+        res.render("error",{message:"payment error",type:'jsv4'});      
       }
     }
   });
@@ -229,11 +229,11 @@ router.get("/success", function(req, res) {
 
 // cancel redirect
 router.get("/cancel", function(req, res, next) {
-    res.render("cancel");
+    res.render("cancel", {type:'jsv4'});
 });
   
 router.get("/error", function(req, res, next) {
-  res.render("error",{message:""});
+  res.render("error",{message:"", type:'jsv4'});
 });
   
 
@@ -255,7 +255,7 @@ router.post("/redirectpayment", function(req, res, next) {
     result
   ) {
     if (err) {
-      res.render("error",{message : err});
+      res.render("error",{message : err, type:'jsv4'});
     } else {
       console.log("Create Payment Response");
       //you forgot to redirect your response to paypal sandbox

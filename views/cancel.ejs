@@ -1,5 +1,12 @@
-<% include partials/header.ejs %>
 
+<% if (type=='jsv3') { %>
+    <% include partials/headers/header-jsv3.ejs %>
+    
+<% } else if(type=='jsv4') { %>
+      <% include partials/headers/header-jsv4.ejs %>
+<% } else {%>
+    <% include partials/headers/header-ecbt.ejs %>
+<% } %>
     <div class="container-fluid" style="margin-top:10%">
         <div class="row">
             <div class="alert alert-danger text-center" style="height:50%">

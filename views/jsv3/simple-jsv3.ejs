@@ -1,0 +1,33 @@
+<% include partials/headers/header-jsv3.ejs %>
+
+    <div class="container-fluid" >
+        
+        <div class="row">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 portfolio-item c1">
+                        <div id="column-middle1" style="margin-top:4%;">
+                            <legend class="text-center">View the checkout experience</legend>
+                            
+                            <div class="alert alert-info text-center">
+                                    <strong>Shortcut Checkout Flow</strong>
+                            </div>
+                            
+                            <span class="text-center"><% include partials/product.ejs %>
+                            </span>
+                            <div class="row text-center" style="margin-top:3%">
+                                            
+                            <form id="myContainer" style="padding-left:5%" method="post" action="/api/jsv3/payment"></form>
+                            <script>
+                                window.paypalCheckoutReady = function() {
+                                    paypal.checkout.setup('8KLLSH5GLTYVQ', {
+                                        environment: 'sandbox',
+                                        container: 'myContainer'
+                                    });
+                                };
+                                </script>
+                                <script src="//www.paypalobjects.com/api/checkout.js" async></script>
+
+                        </div>
+                </div>
+            </div>
+        </div>    

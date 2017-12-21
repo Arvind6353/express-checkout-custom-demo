@@ -7,11 +7,11 @@ var serverUrl = 'https://expresscheckout-demo.herokuapp.com'
 
 // cancel redirect
 router.get("/cancel", function(req, res, next) {
-    res.render("cancel");
+    res.render("cancel",{type:'ecbt'});
 });
   
 router.get("/error", function(req, res, next) {
-  res.render("error",{message:""});
+  res.render("error",{message:"",type:'ecbt'});
 });
 
 // get client token and send to the client 
@@ -22,7 +22,7 @@ router.get("/clienttoken", function(req,res,next){
   gateway.clientToken.generate({}, function (err, response) {
     if(err){
       console.log("error in creating client token")
-      res.render("error",{message:err});
+      res.render("error",{message:err,type:'ecbt'});
     return;
     }
     res.send(response.clientToken);
@@ -47,7 +47,7 @@ router.post("/payment", function(req,res,next){
     } else if (result.success) {
       res.json(result);
     } else {
-      res.json({"error": result.message});
+      res.json({"error": result.message, type:'ecbt'});
     }
   });
 
@@ -65,7 +65,7 @@ router.get('/getTrxDetails',function(req,res,next){
   }, function (err, response) {
     if(err){
       console.log("errr",err);
-      res.render("error",{message:err});
+      res.render("error",{message:err, type:'ecbt'});
     }
     response.each(function (err, transaction) {
       res.render("result_braintree",{res:transaction})

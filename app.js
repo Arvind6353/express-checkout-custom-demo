@@ -10,6 +10,9 @@ var request = require('request');
 var serverCheckout = require('./routes/server-checkout');
 var braintreeCheckout = require('./routes/braintree-checkout');
 var btdirectCheckout = require('./routes/btdirect');
+var jsv3Checkout = require('./routes/jsv3-checkout');
+
+
 var cors = require("cors");
 
 
@@ -63,12 +66,31 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.get("/index",function(req,res,next){
-  res.render("index");
-})
+
 
 app.get("/",function(req,res,next){
   res.render("portlets");
+})
+
+app.get("/indexjsv4",function(req,res,next){
+  res.render("index-jsv4");
+})
+
+
+app.get("/indexjsv3",function(req,res,next){
+  res.render("index-jsv3");
+})
+
+app.get("/indexecbt",function(req,res,next){
+  res.render("index-ecbt");
+})
+
+app.get("/indexbtdirect",function(req,res,next){
+  res.render("index-btdirect");
+})
+
+app.get("/indexclassic",function(req,res,next){
+  res.render("index-classic");
 })
 
 
@@ -183,25 +205,39 @@ app.get('/markflowHostedFieldsBtdirect', function(req,res){
   res.render("markflow-hostedfields-btdirect");
 })
 
+// jsv3 routes
 
+app.get("/simplejsv3", function(req, res, next) {
+  res.render("simple-jsv3");
+});
+
+app.get("/experiencejsv3", function(req, res, next) {
+  res.render("experience-jsv3");
+});
+
+app.get("/confirmationjsv3", function(req, res, next) {
+  res.render("confirmation-jsv3");
+});
+
+app.get("/markflowjsv3", function(req, res, next) {
+  res.render("markflow-jsv3");
+});
 
 
 app.get("/cancel", function(req, res, next) {
-  res.render("cancel");
+  res.render("cancel", {type:'jsv4'});
 });
 
 app.get("/error", function(req, res, next) {
-  res.render("error",{message:""});
+  res.render("error",{message:"", type:'jsv4'});
 });
 
-app.get("/clientjsv3", function(req, res, next) {
-  res.render("client-jsv3");
-});
 
 
 app.use('/api/server', serverCheckout);
 app.use('/api/braintree', braintreeCheckout);
-app.use('/api/btdirect',btdirectCheckout);
+app.use('/api/btdirect', btdirectCheckout);
+app.use('/api/jsv3', jsv3Checkout);
 
 // live chat bot api 
 app.post('/webhook', function (req, res) {
@@ -232,7 +268,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {type:'jsv4',message:'File not found'});
 });
 
 module.exports = app;

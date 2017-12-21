@@ -1,4 +1,11 @@
-<% include partials/header.ejs %>
+
+<% if (type=='jsv3') { %>
+<% include partials/headers/header-jsv3.ejs %>
+
+<% } else { %>
+  <% include partials/headers/header-jsv4.ejs %>
+<% } %>
+  
 
 <div class="container-fluid text-center">    
   <div class="row content">
