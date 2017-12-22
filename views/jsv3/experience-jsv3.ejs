@@ -4,19 +4,29 @@
         
         <div class="row">
 
-                <div class="col-lg-12 col-md-12 col-sm-12 portfolio-item c1">
-                        <div id="column-middle1" style="margin-top:4%;">
-                            <legend class="text-center">View the checkout experience</legend>
+                <div class="col-lg-6 col-md-6 col-sm-12 portfolio-item c1 text-center">
+                        <% include partials/customizeform-jsv3.ejs %>
+                </div>
+    
+                <div class="col-lg-6 col-md-6 col-sm-12 portfolio-item c1 text-center">
+                        <div id="column-middle1" style="margin-top:14.5%;">
+                            <legend >View the checkout experience</legend>
                             
                             <div class="alert alert-info text-center">
                                     <strong>Customise Experience Checkout Flow</strong>
-                            </div>
+                                    <p> Here an example customisation is done on paypal checkout flow by disabling shipping address and adding a custom brand name</p>
+                                </div>
                             
-                            <span class="text-center"><% include partials/product.ejs %>
+                            <span ><% include partials/product.ejs %>
                             </span>
-                            <div class="row text-center" style="margin-top:3%">
+                            <div class="row" style="margin-top:3%">
                                             
-                            <form id="myContainer" style="padding-left:5%" method="post" action="/api/jsv3/experience-jsv3"></form>
+                            <div id="containerElem">    
+                            <form id="myContainer" method="post" action="/api/jsv3/experience-jsv3">
+                                <input type="hidden" id="clientId" name="clientId" value="AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v">
+                                <input type="hidden" id="clientSecret" name="clientSecret" value="EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM">
+                            </form>
+                        </div>
                             <script>
                                 window.paypalCheckoutReady = function() {
                                     paypal.checkout.setup('8KLLSH5GLTYVQ', {
@@ -25,9 +35,44 @@
                                     });
                                 };
                                 </script>
-                                <script src="//www.paypalobjects.com/api/checkout.js" async></script>
+                            <script src="//www.paypalobjects.com/api/checkout.js" async></script>
 
                         </div>
                 </div>
             </div>
         </div>    
+
+        <script>
+
+            function customizeCheckoutJSV3() {
+
+                $("#myContainer").remove();
+                 $("#containerElem").empty();
+                
+              setTimeout(()=>{
+
+                var con = $("#containerElem");
+                con.html(`
+                <form id="myContainer" method="post" action="/api/jsv3/payment">
+                    <input type="hidden" id="clientId" name="clientId" value="AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v">
+                    <input type="hidden" id="clientSecret" name="clientSecret" value="EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM">
+                </form>
+                `);
+                
+            var merchantId = $("#merchantId").val();
+                
+                var clientId = $("#clientIdEl").val();
+                
+                var clientSecret = $("#clientSecretEl").val();
+                  
+                $("#clientId").val(clientId);
+                
+                $("#clientSecret").val(clientSecret); 
+
+                paypal.checkout.setup('merchantId', {
+                    environment: 'sandbox',
+                    container: 'myContainer'
+                });
+              },1000)
+            }
+        </script>
