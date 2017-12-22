@@ -1,0 +1,55 @@
+
+<% include partials/headers/header-jsv3.ejs %>
+
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+    </div>
+    <div class="col-sm-8 text-left" style="margin-top:50px" id="confirmElem"> 
+      <h3> Confirm Payment Details : </h3><br/>
+      <ul class="list-group">
+          <li class="list-group-item">Payer Name : <%=  res.payer.payer_info.first_name%>  <%= res.payer.payer_info.last_name %></li>
+          <li class="list-group-item">Payer Email : <%=  res.payer.payer_info.email %></li>
+          <li class="list-group-item">Amount Paid : <%=  res.transactions[0].amount.total %> <%=res.transactions[0].amount.currency %></li>
+          <li class="list-group-item">Shipping Address : 
+              Address Line : <%= res.payer.payer_info.shipping_address.line1 %> <br/>
+            City :  <%= res.payer.payer_info.shipping_address.city %> <br/>
+          State :    <%= res.payer.payer_info.shipping_address.state %> <br/>
+              Postal Code : <%= res.payer.payer_info.shipping_address.postal_code %><br/>
+              
+            Country Code :  <%= res.payer.payer_info.shipping_address.country_code %> <br/>
+              
+          </li>
+      </ul>
+      <button class="btn btn-md btn-success text-center" onclick="confirmPayment()"> Confirm Payment</button>
+      
+    </div>
+
+    <div class="col-sm-8 text-center" style="margin-top:50px;display:none;" id="successElem">
+      <h3>Payment is successful!</h3> <br/> <br/>
+      Name : <span id="name"></span> <br/>
+      Id : <span id="pid"></span> <br/>
+      Amount : <span id="amt"></span> <br/>
+    </div>        
+  </div>
+</div>
+<script>
+function confirmPayment() {
+
+    paypal.request.post('/api/jsv3/confirmation-execute', {
+      paymentId: '<%= paymentId %>',
+      payerId: '<%= payerId %>'
+  }).then(function (payment) {
+      if (payment.type =='error') {
+      alert('error in payment '+ JSON.stringify(payment));
+        return;
+      } 
+      $("#confirmElem").hide();
+      $("#successElem").show();
+      $("#pid").text(payment.result.id);
+      $("#name").text(payment.result.payer.payer_info.shipping_address.recipient_name);
+      $("#amt").text(payment.result.transactions[0].amount.total+ ' '+payment.result.transactions[0].amount.currency)
+     
+  });
+}
+</script>
