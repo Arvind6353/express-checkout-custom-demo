@@ -4,19 +4,27 @@
         
         <div class="row">
 
-                <div class="col-lg-12 col-md-12 col-sm-12 portfolio-item c1">
+                <div class="col-lg-7 col-md-7 col-sm-12 portfolio-item c1 text-center">
+                        <% include partials/customizeform-jsv3.ejs %>
+                </div>
+    
+                <div class="col-lg-5 col-md-5 col-sm-12 portfolio-item c1 text-center">
                         <div id="column-middle1" style="margin-top:4%;">
-                            <legend class="text-center">View the checkout experience</legend>
+                            <legend >View the checkout experience</legend>
                             
                             <div class="alert alert-info text-center">
                                     <strong>Shortcut Checkout Flow</strong>
                             </div>
                             
-                            <span class="text-center"><% include partials/product.ejs %>
+                            <span ><% include partials/product.ejs %>
                             </span>
-                            <div class="row text-center" style="margin-top:3%">
+                            <div class="row" style="margin-top:3%">
                                             
-                            <form id="myContainer" style="padding-left:5%" method="post" action="/api/jsv3/payment"></form>
+                            <form id="myContainer" method="post" action="/api/jsv3/payment">
+                                <input type="hidden" id="clientId" name="clientId" value="AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v">
+                                <input type="hidden" id="clientSecret" name="clientSecret" value="EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM">
+                            </form>
+                            
                             <script>
                                 window.paypalCheckoutReady = function() {
                                     paypal.checkout.setup('8KLLSH5GLTYVQ', {
@@ -25,9 +33,31 @@
                                     });
                                 };
                                 </script>
-                                <script src="//www.paypalobjects.com/api/checkout.js" async></script>
+                            <script src="//www.paypalobjects.com/api/checkout.js" async></script>
 
                         </div>
                 </div>
             </div>
         </div>    
+
+        <script>
+
+            function customizeCheckoutJSV3() {
+                
+                    var merchantId = $("#merchantId").val();
+                    
+                    var clientId = $("#clientIdEl").val();
+                    
+                    var clientSecret = $("#clientSecretEl").val();
+                      
+                    $("#clientId").val(clientId);
+                    
+                    $("#clientSecret").val(clientSecret); 
+
+
+                    paypal.checkout.setup('merchantId', {
+                        environment: 'sandbox',
+                        container: 'myContainer'
+                    });
+            }
+        </script>

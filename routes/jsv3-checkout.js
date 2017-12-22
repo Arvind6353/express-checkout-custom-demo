@@ -64,7 +64,7 @@ var create_payment_json = {
 router.post("/payment", function(req, res, next) {
   var payload = create_payment_json; 
 
-  console.log(req.body);
+  console.log('request body ' ,req.body);
 
   paypal.configure({
     mode: req.body.mode || "sandbox", //sandbox or live
