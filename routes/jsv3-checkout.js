@@ -2,7 +2,9 @@ var express = require("express");
 var paypal = require("paypal-rest-sdk");
 var router = express.Router();
 
-var serverUrl = 'http://localhost:3000'
+//var serverUrl = 'http://localhost:3000'
+var serverUrl = 'https://expresscheckout-demo.herokuapp.com'
+
 
 // paypal.configure({
 //   mode:  "sandbox", //sandbox or live

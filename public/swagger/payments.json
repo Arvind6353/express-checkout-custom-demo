@@ -8,10 +8,10 @@
         "email": "arvta@paypal.com"
       }
     },
-    "host": "localhost:3000",
+    "host": "xpresscheckout-demo.herokuapp.com",
     "basePath": "/api/server",
     "schemes": [
-      "http"
+      "https"
     ],
     "paths": {
       "/payment": {
