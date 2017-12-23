@@ -1,0 +1,119 @@
+<% include partials/headers/header-jsv3.ejs %>
+
+    <div class="container-fluid" >
+        
+        <div class="row">
+
+                <div class="col-lg-6 col-md-6 col-sm-12 portfolio-item c1 text-center">
+                        <% include partials/customizeform-jsv3.ejs %>
+                </div>
+    
+                <div class="col-lg-6 col-md-6 col-sm-12 portfolio-item c1 text-center">
+                        <div id="column-middle1" style="margin-top:14.5%;">
+                            <legend >View the checkout experience</legend>
+                            
+                            <div class="alert alert-info text-center">
+                                    <strong>Mark Flow JSv3 Checkout</strong>
+                            </div>
+                            
+                            <span ><% include partials/product.ejs %>
+                            </span>
+
+
+                            <br/>
+          <button class="btn btn-sm btn-warning" onclick="changeFlow()">Proceed to Checkout</button>
+          <br/>
+                    <% include partials/markflow-form-jsv3.ejs %>
+          
+
+                    
+                    <div class="row" style="margin-top:3%">
+                                            
+                            <div id="containerElem">    
+                            <form id="myContainer" method="post" action="/api/jsv3/markflow-payment">
+                                <input type="hidden" id="clientId" name="clientId" value="AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v">
+                                <input type="hidden" id="clientSecret" name="clientSecret" value="EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM">
+                                <input type="hidden" id="recipient_name" name="recipient_name" value="Arvindan TA">
+                                <input type="hidden" id="line1" name="line1" value="1 Main St">
+                                <input type="hidden" id="line2" name="line2" value="">
+                                <input type="hidden" id="city" name="city" value="Little India">
+                                <input type="hidden" id="country_code" name="country_code" value="SG">
+                                <input type="hidden" id="postal_code" name="postal_code" value="351234">
+                                <input type="hidden" id="state" name="state" value="Singapore">
+                                
+                            </form>
+                        </div>
+                            <script>
+                                window.paypalCheckoutReady = function() {
+                                    paypal.checkout.setup('8KLLSH5GLTYVQ', {
+                                        environment: 'sandbox',
+                                        container: 'myContainer'
+                                    });
+                                };
+                                </script>
+                            <script src="//www.paypalobjects.com/api/checkout.js" async></script>
+
+                        </div>
+                </div>
+            </div>
+        </div>    
+
+        <script>
+
+
+                function changeFlow(){
+                    $("#addressFormElem").show();
+                    $("#addressFormCon").show();
+                    $("#updatedShipping").show();
+                    window.scrollTo(0,0);
+                  }
+
+            function customizeCheckoutJSV3() {
+
+                $("#myContainer").remove();
+                 $("#containerElem").empty();
+                
+              setTimeout(()=>{
+
+                var con = $("#containerElem");
+                con.html(`
+                <form id="myContainer" method="post" action="/api/jsv3/markflow-payment">
+                    <input type="hidden" id="clientId" name="clientId" value="AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v">
+                    <input type="hidden" id="clientSecret" name="clientSecret" value="EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM">
+                    <input type="hidden" id="recipient_name" name="recipient_name" value="Arvindan TA">
+                    <input type="hidden" id="line1" name="line1" value="1 Main St">
+                    <input type="hidden" id="line2" name="line2" value="">
+                    <input type="hidden" id="city" name="city" value="Little India">
+                    <input type="hidden" id="country_code" name="country_code" value="SG">
+                    <input type="hidden" id="postal_code" name="postal_code" value="351234">
+                    <input type="hidden" id="state" name="state" value="Singapore">
+                </form>
+                `);
+                
+            var merchantId = $("#merchantId").val();
+                
+                var clientId = $("#clientIdEl").val();
+                
+                var clientSecret = $("#clientSecretEl").val();
+                  
+                $("#clientId").val(clientId);
+                
+                $("#clientSecret").val(clientSecret); 
+
+                $("#recipient_name").val( $("#firstname").val() + " " + $("#lastname")
+                .val());
+
+                $("#line1").val($("#address").val())
+                $("#line2").val($("#address1").val())
+                $("#city").val($("#cityVal").val())
+                $("#country_code").val($("#country").val())
+                $("#postal_code").val($("#postalcode").val())
+                $("#state").val($("#stateVal").val())
+
+                paypal.checkout.setup('merchantId', {
+                    environment: 'sandbox',
+                    container: 'myContainer'
+                });
+              },1000)
+            }
+        </script>
