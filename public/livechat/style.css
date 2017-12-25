@@ -125,7 +125,8 @@ body.livechat {
   margin-left: -10px;
 }
 .chat .chat-history .my-message {
-  background: #86bb71;
+  /*background: #86bb71; */
+  background: #86BCAB;
 }
 .chat .chat-history .other-message {
   background: #0f97d9;
@@ -193,4 +194,8 @@ body.livechat {
   content: " ";
   clear: both;
   height: 0;
+}
+
+label {
+  word-wrap: break-word !important;
 }

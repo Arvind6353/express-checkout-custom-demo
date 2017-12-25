@@ -81,9 +81,8 @@
     } 
    
 function handleInput(data, titleText, isPostBack) {
-var type="";
+
  if(isPostBack){
-   type="payload";
   var templateResponse = Handlebars.compile( $("#message-option-response-template").html());
   var contextResponse = { 
    selectedOption : titleText,
@@ -96,17 +95,20 @@ var type="";
  }
 
   $.ajax({
-    type: 'GET',
-    url: 'http://localhost:3001/info?sender=s1&data='+data+'&type='+type,
+    type: 'POST',
+    url: '/webhook',
+    data: {
+      object:'web',
+      data: data
+    }
   }).done(function(msg) {
  
     this.$chatHistory = $('.chat-history');
     this.$chatHistoryList =  this.$chatHistory.find('ul');
     
-    // msg = JSON.parse(msg);
-     console.log("msg",msg);
+     msg = JSON.parse(msg);
      // responses
-    if(msg.type=='text'){
+    if(msg.type=='End'){
       var templateResponse = Handlebars.compile( $("#message-end-response-template").html());
       var contextResponse = { 
         finalText: msg.message,
@@ -118,39 +120,11 @@ var type="";
       },1000)
       
     } else {
-
-      if(msg.message) {
-
-        let templateResponse = Handlebars.compile( $("#message-end-response-template").html());
-        let contextResponse = { 
-          finalText: msg.message,
-         time: chat.getCurrentTime()
-        };
-        window.setTimeout(()=>{
-          this.$chatHistoryList.append(templateResponse(contextResponse));
-          chat.scrollToBottom();
-        },1000)
-      }
-
-      let templateResponse = Handlebars.compile( $("#message-option-question-template").html());
-
-      for(var i =0 ;i< msg.options.length;i++){
-        let className = "primary";
-        switch(i) {
-          case 0: className='primary'; break;
-          case 1: className='danger'; break;
-          case 2: className='warning'; break;
-          case 3: className='success'; break;
-          case 4: className = "info"; break;
-        }
-        msg.options[i].className = className;
-      }
-
-      let contextResponse = { 
-        questionText: msg.optionTitle,
+      var templateResponse = Handlebars.compile( $("#message-option-question-template").html());
+      var contextResponse = { 
+        questionText: msg.text,
        options : msg.options,
-       time: chat.getCurrentTime(),
-       initialText : msg.message
+       time: chat.getCurrentTime()
       };
       window.setTimeout(()=>{
         this.$chatHistoryList.append(templateResponse(contextResponse));

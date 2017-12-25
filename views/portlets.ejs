@@ -107,7 +107,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default"
-                          data-dismiss="modal">Close</button>
+                          data-dismiss="modal" onClick="closeChat()">Close</button>
                         </div>
                       </div>
                       
@@ -236,5 +236,13 @@
                 });
             });
         })
+
+        function closeChat(){
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:3001/info?sender=s1&type=end',
+            }).done(function(msg) {
+            });
+        }
 </script>
     
