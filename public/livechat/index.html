@@ -20,7 +20,7 @@
               <li>
                 <div class="message-data">
                   <span class="message-data-name"><i class="fa fa-circle online"></i> I BOT</span>
-                  <span class="message-data-time">10:12 AM, Today</span>
+                  <span class="message-data-time">Now</span>
                 </div>
                 <div class="message my-message">
                   Hi, Good day. How can I help you ?. <br/> Type help to start :) </div>
@@ -106,12 +106,20 @@
             <span class="message-data-time">{{time}}, Today</span>
           </div>
           <div class="message my-message">
-            <label>{{finalText}}</label>  
+            <label>{{{breaklines finalText}}}</label>  
           </div>
         </li>
     </script>
 
 
+  
+    
+<script>
+    Handlebars.registerHelper('breaklines', function(text) {
+      text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
+      return text;
+  });
+</script>
 
     <script src="/livechat/livechat.js"></script>
   </body>

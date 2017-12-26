@@ -95,14 +95,39 @@ var type="";
   chat.scrollToBottom();
  }
 
-  $.ajax({
-    type: 'GET',
-    url: 'http://localhost:3001/info?sender=s1&data='+data+'&type='+type,
-  }).done(function(msg) {
+ this.$chatHistory = $('.chat-history');
+ this.$chatHistoryList =  this.$chatHistory.find('ul');
  
+
+var html = `
+<li class="typings">
+<div class="message-data" style='float:left'>
+<div class="typing-indicator">
+      <span></span>
+      <span></span>
+      <span></span>
+</div> <br/>
+<div class="message-data-name" style='float:left;margin-top:10%'> I BOT</div>
+
+</div>
+</li>`
+
+ this.$chatHistoryList.append(html);
+ chat.scrollToBottom();
+ 
+ 
+ $.ajax({
+    type: 'GET',
+    url: 'https://livechat-help.herokuapp.com/info?sender=s1&data='+data+'&type='+type,
+  }).done(function(msg) {
+    
+    window.setTimeout(()=>{
+      $(".typings").hide();
+      
+    },500);
+
     this.$chatHistory = $('.chat-history');
     this.$chatHistoryList =  this.$chatHistory.find('ul');
-    
     // msg = JSON.parse(msg);
      console.log("msg",msg);
      // responses
@@ -115,7 +140,7 @@ var type="";
       window.setTimeout(()=>{
         this.$chatHistoryList.append(templateResponse(contextResponse));
         chat.scrollToBottom();
-      },1000)
+      },1100)
       
     } else {
 
@@ -126,10 +151,11 @@ var type="";
           finalText: msg.message,
          time: chat.getCurrentTime()
         };
+        
         window.setTimeout(()=>{
           this.$chatHistoryList.append(templateResponse(contextResponse));
           chat.scrollToBottom();
-        },1000)
+        },1100)
       }
 
       let templateResponse = Handlebars.compile( $("#message-option-question-template").html());
@@ -152,10 +178,11 @@ var type="";
        time: chat.getCurrentTime(),
        initialText : msg.message
       };
+      
       window.setTimeout(()=>{
         this.$chatHistoryList.append(templateResponse(contextResponse));
         chat.scrollToBottom();
-      },1000)
+      },1100)
     }
    
   });
