@@ -80,7 +80,7 @@
     
     } 
    
-function handleInput(data, titleText, isPostBack) {
+function handleInput(datum, titleText, isPostBack) {
 var type="";
  if(isPostBack){
    type="payload";
@@ -115,10 +115,15 @@ var html = `
  this.$chatHistoryList.append(html);
  chat.scrollToBottom();
  
- 
  $.ajax({
-    type: 'GET',
-    url: 'https://livechat-help.herokuapp.com/info?sender=s1&data='+data+'&type='+type,
+    type: 'POST',
+    url: 'https://livechat-help.herokuapp.com/',
+    data :{
+      sender :'s1',
+      data : datum,
+      type : type,
+      object: 'web'
+    }
   }).done(function(msg) {
     
     window.setTimeout(()=>{
