@@ -239,8 +239,12 @@
 
         function closeChat(){
             $.ajax({
-                type: 'GET',
-                url: 'http://localhost:3001/info?sender=s1&type=end',
+                type: 'POST',
+                url: 'https://livechat-help.herokuapp.com/',
+                data :{
+                    sender: 's1',
+                    type:'end'
+                }
             }).done(function(msg) {
             });
         }
