@@ -240,12 +240,13 @@
         function closeChat(){
             $.ajax({
                 type: 'POST',
-                url: 'https://livechat-help.herokuapp.com/',
+                url: 'https://livechat-help.herokuapp.com/webhook',
                 data :{
-                    sender: 's1',
+                    sender: sessionStorage.getItem('guid'),
                     type:'end'
                 }
             }).done(function(msg) {
+                sessionStorage.removeItem('guid');
             });
         }
 </script>
