@@ -11,12 +11,10 @@ body.livechat {
 .container1 {
   margin: 0 auto;
   padding-left: 0px !important;
-  width: 490px;
   background: #444753;
   border-radius: 5px;
 }
 .people-list {
-  width: 260px;
   float: left;
 }
 .people-list .search {
@@ -56,7 +54,6 @@ body.livechat {
   color: #92959e;
 }
 .chat {
-  width: 490px;
   float: left;
   background: #f2f5f8;
   border-top-right-radius: 5px;
