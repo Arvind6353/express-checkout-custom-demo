@@ -114,7 +114,7 @@ var html = `
 
  this.$chatHistoryList.append(html);
  chat.scrollToBottom();
- $.getJSON("http://jsonip.appspot.com?callback=?",
+ $.getJSON("https://jsonip.appspot.com?callback=?",
  function(ipdata){
     alert( "Your ip: " + ipdata.ip);
  $.ajax({
