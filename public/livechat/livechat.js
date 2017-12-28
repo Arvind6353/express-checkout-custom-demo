@@ -114,12 +114,14 @@ var html = `
 
  this.$chatHistoryList.append(html);
  chat.scrollToBottom();
- 
+ $.getJSON("http://jsonip.appspot.com?callback=?",
+ function(ipdata){
+    alert( "Your ip: " + ipdata.ip);
  $.ajax({
     type: 'POST',
-    url: 'https://livechat-help.herokuapp.com/',
+    url: 'https://livechat-help.herokuapp.com/webhook',
     data :{
-      sender :'s1',
+      sender :ipdata.ip,
       data : datum,
       type : type,
       object: 'web'
@@ -191,7 +193,7 @@ var html = `
     }
    
   });
-
+});
 }
 
   
