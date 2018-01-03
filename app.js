@@ -238,21 +238,7 @@ app.use('/api/server', serverCheckout);
 app.use('/api/braintree', braintreeCheckout);
 app.use('/api/btdirect', btdirectCheckout);
 app.use('/api/jsv3', jsv3Checkout);
-app.use('/api/notification', notification)
-
-// live chat bot api 
-app.post('/webhook', function (req, res) {
-  var data = req.body;
-  if(req.body.object=='web') {
-      request('http://localhost:9000/postback?data='+req.body.data, function (error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        console.log('body:', body); // Print the HTML for the Google homepage.
-        res.json(body);
-      });
-  }
-});
-
+app.use('/api/notification', notification);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
