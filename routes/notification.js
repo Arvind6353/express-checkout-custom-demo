@@ -7,9 +7,9 @@ var router = express.Router();
 paypal.configure({
   mode: "sandbox", //sandbox or live
   client_id:
-    "AV2UJ4rXMH6vaJcJTUTJR4doweN1og37fTV6xTKIhEPqqmEU7ZuI_Kl86PeTm1EXf6CjdNEixjXmYM7v",
+    "AT1xNSxWsMQ6ppJOBjtPu3plaHf3b55omrjDFAZOMPFHv_OUtFYI8k6hOT9QhE7Jnkz97KbnaiUf0hDx",
   client_secret:
-    "EM1PKF6OWi3lonGwnuCeK8LAfqFr6Rpqbbo-98Ed9hMzNNWOJAvtEMb46m9jVvHjNHKc7kcribk31NrM"
+    "EFaMlJ0-s-lZT9UGa7eoHWSFZwiN6ZdtUlTtHb_-32fE1fjOnFgXMscquhCxrOrbrPEVoQDP9mZ7Pdfl"
 });
 
 
@@ -40,7 +40,8 @@ router.get('/',function(req,res,next){
 
 router.post('/',function(req,res,next){
   
-  console.log('req is ', req.body)
+  console.log('req is ', req.body);
+  res.end();
 })
 
 module.exports = router;
