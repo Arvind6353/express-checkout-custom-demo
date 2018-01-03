@@ -11,7 +11,7 @@ var serverCheckout = require('./routes/server-checkout');
 var braintreeCheckout = require('./routes/braintree-checkout');
 var btdirectCheckout = require('./routes/btdirect');
 var jsv3Checkout = require('./routes/jsv3-checkout');
-
+var notification = require('./routes/notification');
 
 var cors = require("cors");
 
@@ -238,6 +238,7 @@ app.use('/api/server', serverCheckout);
 app.use('/api/braintree', braintreeCheckout);
 app.use('/api/btdirect', btdirectCheckout);
 app.use('/api/jsv3', jsv3Checkout);
+app.use('/api/notification', notification)
 
 // live chat bot api 
 app.post('/webhook', function (req, res) {

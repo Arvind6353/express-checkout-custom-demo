@@ -51,12 +51,43 @@
                 document.getElementById("paypal-button-container-err").innerHTML = "";
                 return actions.payment.create({
                     payment: {
-                        transactions: [{
-                            amount: {
-                                total: '4.00',
-                                currency: 'USD'
-                            }
-                        }]
+                        transactions: [
+                            {
+                              amount:
+                              {
+                                total: "4.00",
+                                currency: "USD",
+                                details:
+                                {
+                                  subtotal: "2.00",
+                                  shipping: "1.00",
+                                  tax: "2.00",
+                                  shipping_discount: "-1.00"
+                                }
+                              },
+                              item_list:
+                              {
+                                items: [
+                                {
+                                  quantity: "1",
+                                  name: "item 1",
+                                  price: "1",
+                                  currency: "USD",
+                                  description: "item 1 description",
+                                  tax: "1"
+                                },
+                                {
+                                  quantity: "1",
+                                  name: "item 2",
+                                  price: "1",
+                                  currency: "USD",
+                                  description: "item 2 description",
+                                  tax: "1"
+                                }]
+                              },
+                              description: "The payment transaction description.",
+                              custom: "merchant custom data"
+                            }]
                     }
                 });
             },
