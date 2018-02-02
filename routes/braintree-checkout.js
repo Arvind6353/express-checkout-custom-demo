@@ -17,7 +17,7 @@ router.get("/error", function(req, res, next) {
 // get client token and send to the client 
 router.get("/clienttoken", function(req,res,next){
   var gateway = braintree.connect({
-    accessToken: req.query.btAccessToken || "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
+    accessToken: req.query.btAccessToken || "access_token$sandbox$crbpxyv535v9r7z3$7d221657d8de0946cf08dedf124021a9"
   });
   gateway.clientToken.generate({}, function (err, response) {
     if(err){
@@ -32,7 +32,7 @@ router.get("/clienttoken", function(req,res,next){
 // execute payment
 router.post("/payment", function(req,res,next){
   var gateway = braintree.connect({
-    accessToken: req.body.btAccessToken || "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
+    accessToken: req.body.btAccessToken || "access_token$sandbox$crbpxyv535v9r7z3$7d221657d8de0946cf08dedf124021a9"
   });
   console.log("inside noonce")
   var saleRequest = {
@@ -57,7 +57,7 @@ router.post("/payment", function(req,res,next){
 // get payment details and render result
 router.get('/getTrxDetails',function(req,res,next){
   var gateway = braintree.connect({
-    accessToken: req.query.btAccessToken || "access_token$sandbox$jznnhy98qsk6t6sq$7f9895c1c7067cf9936d020f17585e6b"
+    accessToken: req.query.btAccessToken || "access_token$sandbox$crbpxyv535v9r7z3$7d221657d8de0946cf08dedf124021a9"
   });
   var paymentId = req.query.id;
   var stream = gateway.transaction.search(function (search) {
