@@ -27,15 +27,19 @@ var create_webhook_json = {
 };
 
 router.get('/',function(req,res,next){
-  paypal.notification.webhook.create(create_webhook_json, function (error, webhook) {
-  if (error) {
-      console.log(error.response);
-      throw error;
-  } else {
-      console.log("Create webhook Response");
-      console.log(webhook);
-  }
-});
+
+console.log('requst froom oauth ',req);
+res.end();
+
+    //   paypal.notification.webhook.create(create_webhook_json, function (error, webhook) {
+//   if (error) {
+//       console.log(error.response);
+//       throw error;
+//   } else {
+//       console.log("Create webhook Response");
+//       console.log(webhook);
+//   }
+// });
 });
 
 router.post('/',function(req,res,next){
