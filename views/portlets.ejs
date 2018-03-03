@@ -12,15 +12,15 @@
       <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css"/>
       <link href="/stylesheets/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
       <link href="/stylesheets/jquery-ui.css" type="text/css" rel="stylesheet">
-       <link href="/stylesheets/header.css" rel="stylesheet"> 
+      <link href="/stylesheets/header.css" rel="stylesheet"> 
       <link href="/stylesheets/lobipanel.css" rel="stylesheet">
 
       <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  <script src="/javascripts/jquery-ui.min.js" type="text/javascript"></script>
-  <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
-  <script src="/javascripts/lobipanel.js"></script>
-  <style>
+      <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
+      <script src="/javascripts/lobipanel.js"></script>
+   <style>
     .navhigh {
       border-bottom: 2px solid #FFF;
     }
@@ -116,30 +116,66 @@
 
 
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <div class="panel-title" style="margin-top:1%">
-                            <h1>Classic Method</h1>
-                           
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <h2 style="line-height:1em;color:black">This method uses classic way to integrate with Paypal. <br/>
-                       <br/> NVP/SOAP SDK is used.
-                        <br/><br/>
-                        Click <a href="/indexclassic">here</a> to view this integration     <br/>
-                    </h2>
-                    </div>
-                </div>
-            </div>   
-            
-            
+
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="panel-title" style="margin-top:1%">
-                                <h1>Rest Method JSV3.x</h1> 
+                                <h1> JSV4 </h1>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <h2  style="line-height:1em;color:black">  This method uses Rest to integrate with Paypal using Checkout JSV4. <br/>
+                            <br/>Rest SDK is used.
+                            <br/><br/>
+                            Click <a href="/indexjsv4">here</a> to view this integration  <br/>
+                        </h2>   
+                        </div>
+                </div>
+            </div>
+            
+            
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="panel-title" style="margin-top:1%">
+                                    <h1>EC BT </h1>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <h2  style="line-height:1em;color:black">  This method uses Braintree to integrate with Paypal. <br/>
+                                <br/>Rest and Braintree SDK is used.
+                                <br/><br/>
+                                Click <a href="/indexecbt">here</a> to view this integration  <br/>
+                            </h2>   
+                            </div>
+                    </div>
+            </div>
+
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title" style="margin-top:1%">
+                                <h1>BT Direct</h1>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <h2  style="line-height:1em;color:black">  This method uses Braintree to integrate with Paypal and other payment methods. <br/>
+                            <br/>Rest and Braintree SDK is used.
+                            <br/><br/>
+                            Click <a href="/indexbtdirect">here</a> to view this integration  <br/>
+                        </h2>   
+                        </div>
+                </div>
+            </div>
+     
+                        
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title" style="margin-top:1%">
+                                <h1>JSV3.x</h1> 
                             </div>
                         </div>
                         <div class="panel-body">
@@ -154,64 +190,24 @@
 
             
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="panel-title" style="margin-top:1%">
-                                    <h1>EC BT Rest</h1>
-                                </div>
+                <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title" style="margin-top:1%">
+                                <h1>Classic Method</h1>
+                               
                             </div>
-                            <div class="panel-body">
-                                <h2  style="line-height:1em;color:black">  This method uses Braintree to integrate with Paypal. <br/>
-                                <br/>Rest and Braintree SDK is used.
-                                <br/><br/>
-                                Click <a href="/indexecbt">here</a> to view this integration  <br/>
-                            </h2>   
-                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <h2 style="line-height:1em;color:black">This method uses classic way to integrate with Paypal. <br/>
+                           <br/> NVP/SOAP SDK is used.
+                            <br/><br/>
+                            Click <a href="/indexclassic">here</a> to view this integration     <br/>
+                        </h2>
+                        </div>
                     </div>
-            </div>
-
-
-
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="panel-title" style="margin-top:1%">
-                                <h1>Rest Method JSV4</h1>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <h2  style="line-height:1em;color:black">  This method uses Rest to integrate with Paypal using Checkout JSV4. <br/>
-                            <br/>Rest SDK is used.
-                            <br/><br/>
-                            Click <a href="/indexjsv4">here</a> to view this integration  <br/>
-                        </h2>   
-                        </div>
-                </div>
-            </div>
-
-
-
-
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="panel-title" style="margin-top:1%">
-                                <h1>BT Direct Rest</h1>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <h2  style="line-height:1em;color:black">  This method uses Braintree to integrate with Paypal and other payment methods. <br/>
-                            <br/>Rest and Braintree SDK is used.
-                            <br/><br/>
-                            Click <a href="/indexbtdirect">here</a> to view this integration  <br/>
-                        </h2>   
-                        </div>
-                </div>
-            </div>
-     
+                </div>   
 
         </div>   
-        
     
                 <script>
                    $(function(){
