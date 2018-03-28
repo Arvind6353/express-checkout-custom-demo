@@ -49,12 +49,17 @@ function customizeCheckout() {
     $("#paypal-button-container").empty();
     handleClick('customise',urlAppMapping[location.pathname]);
     $("#viewSC").show();
+    var locale = $("#locale").val();
+    if(locale== '') {
+       locale = "en_"+geoplugin_countryCode();
+    } 
 
      checkoutObj = {
         env: $("#environment").val(),
         client: {
             sandbox: $("#clientId").val()
         },
+        locale : locale,
         style: {
             layout: $("#layout").val(),
             label: $("#type").val(),
