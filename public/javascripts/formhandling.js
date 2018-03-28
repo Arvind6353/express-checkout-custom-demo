@@ -1,3 +1,5 @@
+var country_code ='';
+
 $('.btn-toggle').click(function () {
     $(this).find('.btn').toggleClass('active');
     if ($(this).find('.btn-primary').length > 0) {
@@ -50,16 +52,14 @@ function customizeCheckout() {
     handleClick('customise',urlAppMapping[location.pathname]);
     $("#viewSC").show();
     var locale = $("#locale").val();
-    if(locale== '') {
-       locale = "en_"+geoplugin_countryCode();
+    if(locale == '' && country_code !='') {
+       locale = "en_"+country_code;
     } 
-
      checkoutObj = {
         env: $("#environment").val(),
         client: {
             sandbox: $("#clientId").val()
         },
-        locale : locale,
         style: {
             layout: $("#layout").val(),
             label: $("#type").val(),
@@ -71,6 +71,9 @@ function customizeCheckout() {
             branding: JSON.parse($("[name=branding]:checked").val()),
             maxbuttons: parseInt($("#maxbuttons").val())
         }
+    }
+    if(locale) {
+        checkoutObj.locale = locale;
     }
     if (checkoutObj.style.branding == false) {
         delete checkoutObj.style.branding;
@@ -100,9 +103,13 @@ function customizeCheckout() {
 }
 
 $(document).ready(function () {
-    customizeCheckout();
+    $.get('https://api.hostip.info/country.php', function(data){
+        country_code = data
+    });
+    
     setTimeout(()=>{
         window.scrollTo(0,0);
-    },100)
+        customizeCheckout();
+    },300)
     
 });
