@@ -103,8 +103,8 @@ function customizeCheckout() {
 }
 
 $(document).ready(function () {
-    $.get('https://api.hostip.info/country.php', function(data){
-        country_code = data
+    $.getJSON('https://api.ipdata.co', function(data){
+        country_code = data.country_code;
     });
     
     setTimeout(()=>{
